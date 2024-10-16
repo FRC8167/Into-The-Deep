@@ -3,25 +3,23 @@ Use this file to document any items that need to be coded, issues, questions or 
 
 To Do Items:
 
-    1. Create SubSystems - drive, rotate, extend, wrist rotate and wrist azimuth
-    2. Populate sub systems with code.
-    3. Determine gamepad layout. Assign buttons and joysticks.
-    4.
+    [ ] Create SubSystems - drive, rotate, extend, wrist rotate and wrist azimuth
+    [ ] Populate sub systems with code.
+    [ ] Determine gamepad layout. Assign buttons and joysticks.
+
 
 
 Ideas:
 
-    1. Try trapazoid motion profiling for arm extension and rotation
+    [ ] Try trapazoid motion profiling for arm extension and rotation
 
 
 
 Issues:
 
-    1. Code used last year to manually move or jog a subsytem does not hold position at
+    [ ] Code used last year to manually move or jog a subsytem does not hold position at
     the end of the manual operation.
 
 
 
 Qustions:
-
-    1.
