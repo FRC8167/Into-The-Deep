@@ -11,6 +11,7 @@ To Do Items:
 
 Ideas:
 
+    [ ] Limit Drive speed when boom is extened
     [ ] Try trapazoid motion profiling for arm extension and rotation
 
 
