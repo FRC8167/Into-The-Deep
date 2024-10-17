@@ -78,9 +78,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive  = new MecanumDrive(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         vision = new VisionPortalObject(webCam);
-        WristRotate = new Servo1D(wristPivotServo);
-        WristPivot = new Servo1D(wristRotateServo);
-        Gripper = new Servo1D(gripperServo);
+        WristRotate = new Servo1D(wristPivotServo, TeamConstants.GRIPPER_CLOSE);
+        WristPivot = new Servo1D(wristRotateServo, 0);
+        Gripper = new Servo1D(gripperServo, 0);
     }
 
 
