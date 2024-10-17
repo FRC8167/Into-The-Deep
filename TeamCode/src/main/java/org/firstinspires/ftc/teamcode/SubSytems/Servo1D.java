@@ -10,7 +10,7 @@ public class Servo1D implements TeamConstants {
     Servo servo;
     enum State{OPEN, CLOSE};
     State state;
-
+    
 
     public Servo1D(Servo servo, double initPos) {
         this.servo = servo;
@@ -19,8 +19,8 @@ public class Servo1D implements TeamConstants {
     }
 
 
-    public void setPosition(double Position) {
-        servo.setPosition(Range.clip(Position, MIN_WRIST, MAX_WRIST));
+    public void setPosition(double position) {
+        servo.setPosition(Range.clip(position, MIN_WRIST, MAX_WRIST));
     }
 
 
