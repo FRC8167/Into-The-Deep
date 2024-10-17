@@ -3,9 +3,11 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
+import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDrive;
 
@@ -38,6 +40,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*----------- Define all Module Classes (SubSystems) -----------*/
     protected MecanumDrive drive = null;
     protected VisionPortalObject vision = null;
+    protected Servo1D WristRotate;
+    protected Servo1D WristPivot;
+    protected Servo1D Gripper;
     /* keyword 'protected' is similar to 'private'. Private variables are only accessible within the
     scope of this class. Protected allows for all classes that extend or inherit from this class to
     directly access the variables, objects and methods. */
@@ -66,10 +71,16 @@ public abstract class RobotConfiguration extends LinearOpMode {
         DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "rightRear");
 
         WebcamName webCam  = hardwareMap.get(WebcamName.class, "Webcam 1");
+        Servo wristPivotServo = hardwareMap.get(Servo.class, "wristPivotServo");
+        Servo wristRotateServo = hardwareMap.get(Servo.class, "wristRotateServo");
+        Servo gripperServo = hardwareMap.get(Servo.class, "gripperServo");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive  = new MecanumDrive(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         vision = new VisionPortalObject(webCam);
+        WristRotate = new Servo1D(wristPivotServo);
+        WristPivot = new Servo1D(wristRotateServo);
+        Gripper = new Servo1D(gripperServo);
     }
 
 
