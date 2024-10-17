@@ -6,22 +6,27 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class Servo1D implements TeamConstants {
+
     Servo servo;
     enum State{OPEN, CLOSE};
     State state;
 
-    public Servo1D(Servo servo, double initpos){
+
+    public Servo1D(Servo servo, double initPos) {
         this.servo = servo;
         state = State.CLOSE;
-        setPosition(initpos);
-    };
+        setPosition(initPos);
+    }
 
-    public void setPosition(double Position){
+
+    public void setPosition(double Position) {
         servo.setPosition(Range.clip(Position, MIN_WRIST, MAX_WRIST));
     }
 
+
     public void toggleGripper(){
-        switch(state){
+
+        switch(state) {
             case OPEN:
                 state = State.CLOSE;
                 setPosition(GRIPPER_CLOSE);
@@ -31,6 +36,5 @@ public class Servo1D implements TeamConstants {
                 setPosition(GRIPPER_OPEN);
                 break;
         }
-
     }
 }
