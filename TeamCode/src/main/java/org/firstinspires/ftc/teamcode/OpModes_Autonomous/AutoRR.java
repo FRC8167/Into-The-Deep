@@ -40,8 +40,6 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
 
         while (opModeIsActive()) {
 
-            gripper.setPosition(0.87);
-            gripper.toggleGripper();
         }
     }
 }
