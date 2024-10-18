@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -18,9 +20,6 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
 
         initializeRobot();
-        /* First line of code after initializing the robot should be to set the alliance color.
-           This is needed for April Tags, TFOD object files or any other game element that is unique
-           to the Red or Blue Alliance. */
         setAlliance(AllianceColor.RED); /* OR */ setAlliance(AllianceColor.BLUE);
 
         Pose2d initialPose = new Pose2d(0,0, Math.toRadians(90));
@@ -38,8 +37,7 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        Actions.runBlocking(letsDriveToKnowWhere);
 
-        }
     }
 }

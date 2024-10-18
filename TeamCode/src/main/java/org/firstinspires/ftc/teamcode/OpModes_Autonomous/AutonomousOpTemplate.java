@@ -21,8 +21,6 @@ public class AutonomousOpTemplate extends RobotConfiguration implements TeamCons
 
         waitForStart();
 
-        while (opModeIsActive()) {
 
-        }
     }
 }
