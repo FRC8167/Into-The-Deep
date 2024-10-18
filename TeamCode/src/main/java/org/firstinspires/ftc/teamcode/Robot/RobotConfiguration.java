@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +41,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
     /*----------- Define all Module Classes (SubSystems) -----------*/
     protected MecanumDriveBasic drive = null;
+    protected MecanumDrive autoDrive = null;
     protected VisionPortalObject vision = null;
     protected Servo1D WristRotate;
     protected Servo1D WristPivot;
@@ -76,11 +79,12 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo gripperServo = hardwareMap.get(Servo.class, "gripperServo");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
-        drive  = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-        vision = new VisionPortalObject(webCam);
+        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+        autoDrive   = new MecanumDrive(this.hardwareMap, new Pose2d(0,0,0));
+        vision      = new VisionPortalObject(webCam);
         WristRotate = new Servo1D(wristPivotServo, TeamConstants.GRIPPER_CLOSE);
-        WristPivot = new Servo1D(wristRotateServo, 0);
-        Gripper = new Servo1D(gripperServo, 0);
+        WristPivot  = new Servo1D(wristRotateServo, 0);
+        Gripper     = new Servo1D(gripperServo, 0);
     }
 
 
