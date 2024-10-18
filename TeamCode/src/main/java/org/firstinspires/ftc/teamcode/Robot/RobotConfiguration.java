@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
-import org.firstinspires.ftc.teamcode.SubSytems.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 
 import java.util.List;
 import java.util.Locale;
@@ -38,7 +38,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
 
     /*----------- Define all Module Classes (SubSystems) -----------*/
-    protected MecanumDrive drive = null;
+    protected MecanumDriveBasic drive = null;
     protected VisionPortalObject vision = null;
     protected Servo1D WristRotate;
     protected Servo1D WristPivot;
@@ -76,7 +76,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo gripperServo = hardwareMap.get(Servo.class, "gripperServo");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
-        drive  = new MecanumDrive(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+        drive  = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         vision = new VisionPortalObject(webCam);
         WristRotate = new Servo1D(wristPivotServo, TeamConstants.GRIPPER_CLOSE);
         WristPivot = new Servo1D(wristRotateServo, 0);

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
-public class MecanumDrive implements TeamConstants {
+public class MecanumDriveBasic implements TeamConstants {
 
     private final DcMotorEx leftFront, leftRear, rightFront, rightRear;
     private double drive, strafe, turn;
@@ -16,7 +16,7 @@ public class MecanumDrive implements TeamConstants {
      * @param rightFront    Right front motor name from the hardware map
      * @param rightRear     Right rear motor name from the hardware map
      */
-    public MecanumDrive(DcMotorEx leftFront, DcMotorEx leftRear, DcMotorEx rightFront, DcMotorEx rightRear) {
+    public MecanumDriveBasic(DcMotorEx leftFront, DcMotorEx leftRear, DcMotorEx rightFront, DcMotorEx rightRear) {
 
         this.leftFront  = leftFront;
         this.leftRear   = leftRear;
