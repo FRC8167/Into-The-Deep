@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
-@Disabled
+//@Disabled
 @Autonomous(name="AutoTeamColorDescriptor", group="Autonomous", preselectTeleOp = "TeleOp")
 public class AutoRR extends RobotConfiguration implements TeamConstants {
 
