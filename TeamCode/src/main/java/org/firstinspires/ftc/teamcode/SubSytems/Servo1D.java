@@ -10,7 +10,7 @@ public class Servo1D implements TeamConstants {
     Servo servo;
     enum State{OPEN, CLOSE};
     State state;
-    
+
 
     public Servo1D(Servo servo, double initPos) {
         this.servo = servo;

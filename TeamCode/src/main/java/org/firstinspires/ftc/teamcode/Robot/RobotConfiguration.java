@@ -40,12 +40,12 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
 
     /*----------- Define all Module Classes (SubSystems) -----------*/
-    protected MecanumDriveBasic  drive = null;
-    protected MecanumDrive       autoDrive = null;
-    protected VisionPortalObject vision = null;
-    protected Servo1D            WristRotate;
-    protected Servo1D            WristPivot;
-    protected Servo1D            Gripper;
+    protected MecanumDriveBasic  drive;
+    protected MecanumDrive       autoDrive;
+    protected VisionPortalObject vision;
+    protected Servo1D            wristRotate;
+    protected Servo1D            wristPivot;
+    protected Servo1D            gripper;
     /* keyword 'protected' is similar to 'private'. Private variables are only accessible within the
     scope of this class. Protected allows for all classes that extend or inherit from this class to
     directly access the variables, objects and methods. */
@@ -82,9 +82,10 @@ public abstract class RobotConfiguration extends LinearOpMode {
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive   = new MecanumDrive(this.hardwareMap, new Pose2d(0,0,0));
         vision      = new VisionPortalObject(webCam);
-        WristRotate = new Servo1D(wristPivotServo, TeamConstants.GRIPPER_CLOSE);
-        WristPivot  = new Servo1D(wristRotateServo, 0);
-        Gripper     = new Servo1D(gripperServo, 0);
+        wristRotate = new Servo1D(wristPivotServo, TeamConstants.GRIPPER_CLOSE);
+        wristPivot = new Servo1D(wristRotateServo, 0);
+        gripper     = new Servo1D(gripperServo, 0);
+
     }
 
 
