@@ -74,17 +74,17 @@ public abstract class RobotConfiguration extends LinearOpMode {
         DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
 
 //        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam 1");
-        Servo wristPivotServo  = hardwareMap.get(Servo.class, "servo1");
-        Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
-        Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
+//        Servo wristPivotServo  = hardwareMap.get(Servo.class, "servo1");
+//        Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
+//        Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
-//        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-//        autoDrive   = new MecanumDrive(this.hardwareMap, new Pose2d(0,0,0));
+        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+        autoDrive   = new MecanumDrive(this.hardwareMap, new Pose2d(0,0,0));
 //        vision      = new VisionPortalObject(webCam);
-        wristRotate = new Servo1D(wristPivotServo, 0.5);
-        wristPivot = new Servo1D(wristRotateServo, 0.5);
-        gripper     = new Servo1D(gripperServo, TeamConstants.GRIPPER_CLOSE);
+//        wristRotate = new Servo1D(wristPivotServo, 0.5);
+//        wristPivot  = new Servo1D(wristRotateServo, 0.5);
+//        gripper     = new Servo1D(gripperServo, TeamConstants.GRIPPER_CLOSE);
 
     }
 
