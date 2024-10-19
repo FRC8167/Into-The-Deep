@@ -68,15 +68,15 @@ public abstract class RobotConfiguration extends LinearOpMode {
         }
 
         /* ******************* Define Hardware Map Here ******************** */
-//        DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "leftFront");
-//        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "rightFront");
-//        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "leftRear");
-//        DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "rightRear");
-//
+        DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "motor0");
+        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "motor3");
+        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");
+        DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
+
 //        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam 1");
-        Servo wristPivotServo  = hardwareMap.get(Servo.class, "wristPivotServo");
-        Servo wristRotateServo = hardwareMap.get(Servo.class, "wristRotateServo");
-        Servo gripperServo     = hardwareMap.get(Servo.class, "gripperServo");
+        Servo wristPivotServo  = hardwareMap.get(Servo.class, "servo1");
+        Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
+        Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
 //        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
