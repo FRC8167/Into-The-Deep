@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 @Disabled
-@TeleOp(name="TeleOpMode", group="Competition")
+@TeleOp(name="TeleOpTemplate", group="Competition")
 public class TeleOpTemplate extends RobotConfiguration implements TeamConstants {
 
     @Override
