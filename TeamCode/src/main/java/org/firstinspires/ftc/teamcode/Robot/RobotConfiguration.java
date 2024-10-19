@@ -68,23 +68,23 @@ public abstract class RobotConfiguration extends LinearOpMode {
         }
 
         /* ******************* Define Hardware Map Here ******************** */
-        DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "leftFront");
-        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "rightFront");
-        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "leftRear");
-        DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "rightRear");
-
-        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam 1");
+//        DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "leftFront");
+//        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "rightFront");
+//        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "leftRear");
+//        DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "rightRear");
+//
+//        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam 1");
         Servo wristPivotServo  = hardwareMap.get(Servo.class, "wristPivotServo");
         Servo wristRotateServo = hardwareMap.get(Servo.class, "wristRotateServo");
         Servo gripperServo     = hardwareMap.get(Servo.class, "gripperServo");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
-        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-        autoDrive   = new MecanumDrive(this.hardwareMap, new Pose2d(0,0,0));
-        vision      = new VisionPortalObject(webCam);
-        wristRotate = new Servo1D(wristPivotServo, TeamConstants.GRIPPER_CLOSE);
-        wristPivot = new Servo1D(wristRotateServo, 0);
-        gripper     = new Servo1D(gripperServo, 0);
+//        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+//        autoDrive   = new MecanumDrive(this.hardwareMap, new Pose2d(0,0,0));
+//        vision      = new VisionPortalObject(webCam);
+        wristRotate = new Servo1D(wristPivotServo, 0.5);
+        wristPivot = new Servo1D(wristRotateServo, 0.5);
+        gripper     = new Servo1D(gripperServo, TeamConstants.GRIPPER_CLOSE);
 
     }
 

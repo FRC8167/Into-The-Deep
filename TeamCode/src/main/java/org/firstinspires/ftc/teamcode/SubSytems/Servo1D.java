@@ -37,4 +37,8 @@ public class Servo1D implements TeamConstants {
                 break;
         }
     }
+
+    public double servoPos() { return servo.getPosition(); }
+
+
 }

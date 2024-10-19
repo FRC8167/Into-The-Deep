@@ -7,8 +7,8 @@ import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
-@Disabled
-@TeleOp(name="TeleOpMode", group="Competition")
+//@Disabled
+@TeleOp(name="TeleOpMain", group="Competition")
 public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     GamepadWrapper driver;
@@ -21,11 +21,23 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
+        wristRotate.setPosition(0.5);
         waitForStart();
 
         while (opModeIsActive()) {
+
+            if(operator.a.pressed()) gripper.toggleGripper();
+            wristRotate.setPosition(operator.leftStick_X * 0.5 + 0.5);
+            wristPivot.setPosition(operator.leftStick_Y  * 0.5 + 0.5);
+
+            telemetry.addData("GripServo: ", gripper.servoPos());
+            telemetry.update();
+
+            driver.update();
+            operator.update();
 
 
         }
     }
 }
+
