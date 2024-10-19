@@ -12,15 +12,15 @@ To Do Items:
 Ideas:
 
     [x] Limit Drive speed when boom is extended
-    [ ] Try trapazoid motion profiling for arm extension and rotation
+    [ ] Try trapezoid motion profiling for arm extension and rotation
 
 
 
 Issues:
 
-    [ ] Code used last year to manually move or jog a subsytem does not hold position at
+    [ ] Code used last year to manually move or jog a subsystem does not hold position at
     the end of the manual operation.
 
 
 
-Qustions:
+Questions:
