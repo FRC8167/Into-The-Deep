@@ -8,6 +8,7 @@ public class MecanumDriveBasic implements TeamConstants {
 
     private final DcMotorEx leftFront, leftRear, rightFront, rightRear;
     private double drive, strafe, turn;
+    boolean degradedMode;
 
     /**
      * CONSTRUCTOR Create a mecanum drive object using four motors
@@ -30,6 +31,7 @@ public class MecanumDriveBasic implements TeamConstants {
         this.rightRear.setDirection(DcMotorEx.Direction.FORWARD);
 
         /* Initialize Motor Power to 0 */
+        degradedMode = false;
         setMotorPower(0,0,0,0);
         drive = strafe = turn = 0;
     }
@@ -43,9 +45,8 @@ public class MecanumDriveBasic implements TeamConstants {
      * @param driveCmd      Drive command, typically gamepad.left_stick_y (negated)
      * @param strafeCmd     Strafe command, typically gamepad.Left_stick_x
      * @param turnCmd       Turn command, typically gamepad.Right_stick_s
-     * @param degradedMode  Drive operates at reduced power when set to True
      */
-    public void mecanumDrive(double driveCmd, double strafeCmd, double turnCmd, boolean degradedMode) {
+    public void mecanumDrive(double driveCmd, double strafeCmd, double turnCmd) {
 
         drive  = (degradedMode) ? driveCmd  * DEGRADED_DRIVE_LIMIT  : driveCmd;
         strafe = (degradedMode) ? strafeCmd * DEGRADED_STRAFE_LIMIT : strafeCmd;
@@ -58,6 +59,26 @@ public class MecanumDriveBasic implements TeamConstants {
         double backRightPower  = (drive + strafe - turn) / denominator;
 
         setMotorPower(frontLeftPower, frontRightPower, backLeftPower, backRightPower);
+    }
+
+
+    /**
+     * Limit applied power to the motors.  Degraded power levels are set in TeamConstants
+     * @param snail Recommend setting using digitalInput whilepressed() method.
+     */
+    public void setDegradedDrive(boolean snail) {
+        degradedMode = snail;
+    }
+
+
+    /**
+     * Limit applied power to the drive motors while the slide is extneded or arm pivoted beyond
+     * set levels. Slide and rotation levels set in TeamConstants
+     * @param slidePosition Current slide position
+     * @param rotationLimit Current arm rotation position
+     */
+    public void periodic(double slidePosition, double rotationLimit) {
+        degradedMode = (slidePosition > DEGRADED_SLIDE_EXTENDED || rotationLimit > DEGRADED_ARM_ROTATION);
     }
 
 

@@ -20,7 +20,7 @@ public class Servo1D implements TeamConstants {
 
 
     public void setPosition(double position) {
-        servo.setPosition(Range.clip(position, MIN_WRIST, MAX_WRIST));
+        servo.setPosition(Range.clip(position, WRIST_PIVOT_MIN, WRIST_PIVOT_MAX));
     }
 
 
