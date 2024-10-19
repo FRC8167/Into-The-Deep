@@ -27,10 +27,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         while (opModeIsActive()) {
 
             if(operator.a.pressed()) gripper.toggleGripper();
-            wristRotate.setPosition(operator.leftStick_X * 0.5 + 0.5);
-            wristPivot.setPosition(operator.leftStick_Y  * 0.5 + 0.5);
+            wristRotate.setPosition(-operator.leftStick_Y * 0.5 + 0.5);
+            wristPivot.setPosition(-operator.leftStick_X  * 0.5 + 0.5);
 
             telemetry.addData("GripServo: ", gripper.servoPos());
+            telemetry.addData("WirstRotate: ", wristRotate.servoPos());
             telemetry.update();
 
             driver.update();
