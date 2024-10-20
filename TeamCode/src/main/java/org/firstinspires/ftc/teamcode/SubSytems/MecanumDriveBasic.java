@@ -64,21 +64,21 @@ public class MecanumDriveBasic implements TeamConstants {
 
     /**
      * Limit applied power to the motors.  Degraded power levels are set in TeamConstants
-     * @param snail Recommend setting using digitalInput whilepressed() method.
+     * @param condition Drive power will be degraded when true
      */
-    public void setDegradedDrive(boolean snail) {
-        degradedMode = snail;
+    public void setDegradedDrive(boolean condition) {
+        degradedMode = condition;
     }
 
 
     /**
      * Limit applied power to the drive motors while the slide is extneded or arm pivoted beyond
      * set levels. Slide and rotation levels set in TeamConstants
-     * @param slidePosition Current slide position
-     * @param rotationLimit Current arm rotation position
+     * @param slidePosition    Current slide position
+     * @param rotationPosition Current arm rotation position
      */
-    public void periodic(double slidePosition, double rotationLimit) {
-        degradedMode = (slidePosition > DEGRADED_SLIDE_EXTENDED || rotationLimit > DEGRADED_ARM_ROTATION);
+    public void periodic(double slidePosition, double rotationPosition) {
+        degradedMode = (slidePosition > DEGRADED_SLIDE_EXTENDED || rotationPosition > DEGRADED_ARM_ROTATION);
     }
 
 
