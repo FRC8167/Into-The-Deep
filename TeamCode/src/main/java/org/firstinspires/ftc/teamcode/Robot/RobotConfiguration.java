@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -44,7 +45,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected VisionPortalObject vision;
     protected Servo1D            wristRotate;
     protected Servo1D            wristPivot;
-    protected Servo1D            gripper;
+    protected ServoToggle        gripper;
     /* keyword 'protected' is similar to 'private'. Private variables are only accessible within the
     scope of this class. Protected allows for all classes that extend or inherit from this class to
     directly access the variables, objects and methods. */
@@ -82,7 +83,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         autoDrive   = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         wristRotate = new Servo1D(wristPivotServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristRotateServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
-        gripper     = new Servo1D(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
+        gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
 //        vision      = new VisionPortalObject(webCam);
 
     }

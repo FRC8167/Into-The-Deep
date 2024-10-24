@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -21,27 +25,25 @@ public class Servo1D implements TeamConstants {
         this.max = max;
     }
 
-
     public void setPosition(double position) {
         servo.setPosition(Range.clip(position, min, max));
     }
 
-
-    public void toggleGripper(){
-
-        switch(state) {
-            case OPEN:
-                state = State.CLOSE;
-                setPosition(GRIPPER_CLOSE);
-                break;
-            case CLOSE:
-                state = State.OPEN;
-                setPosition(GRIPPER_OPEN);
-                break;
-        }
-    }
-
     public double servoPos() { return servo.getPosition(); }
+    public class SetServoPosition implements Action {
+
+        double position;
 
 
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            servo.setPosition(position);
+            return false;
+        }
+
+
+    }
+    public Action setServoPosition(double position) {
+        return new SetServoPosition();
+    }
 }

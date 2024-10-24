@@ -39,5 +39,11 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
 
         Actions.runBlocking(letsDriveToKnowWhere);
 
+
+        Actions.runBlocking(wristPivot.setServoPosition(0.2));
+
+
+        }
+
     }
-}
+
