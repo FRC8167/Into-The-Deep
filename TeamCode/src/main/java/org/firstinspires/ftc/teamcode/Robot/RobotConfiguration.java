@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
@@ -81,9 +80,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive   = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
-        wristRotate = new Servo1D(wristPivotServo, TeamConstants.WRIST_PIVOT_CENTER);
-        wristPivot  = new Servo1D(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER);
-        gripper     = new Servo1D(gripperServo, TeamConstants.GRIPPER_CLOSE);
+        wristRotate = new Servo1D(wristPivotServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
+        wristPivot  = new Servo1D(wristRotateServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
+        gripper     = new Servo1D(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
 //        vision      = new VisionPortalObject(webCam);
 
     }
