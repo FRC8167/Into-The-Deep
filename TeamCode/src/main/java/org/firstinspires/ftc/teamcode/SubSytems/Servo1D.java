@@ -25,15 +25,22 @@ public class Servo1D implements TeamConstants {
         this.max = max;
     }
 
+
     public void setPosition(double position) {
         servo.setPosition(Range.clip(position, min, max));
     }
 
+
     public double servoPos() { return servo.getPosition(); }
+
+
     public class SetServoPosition implements Action {
 
         double position;
 
+        public SetServoPosition(double pos) {
+            position = pos;
+        }
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -41,9 +48,11 @@ public class Servo1D implements TeamConstants {
             return false;
         }
 
+    }
 
-    }
+
     public Action setServoPosition(double position) {
-        return new SetServoPosition();
+        return new SetServoPosition(position);
     }
+
 }

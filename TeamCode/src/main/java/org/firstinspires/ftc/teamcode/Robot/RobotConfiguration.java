@@ -33,10 +33,6 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
     static List<LynxModule> ctrlHubs;
-    /* keyword 'static' indicates that this variable exists in only one memory location. Static
-    attributes and methods belong to the class rather than the object.  In this case, all classes
-    that extend this class will have the same value for 'alliance'. This allows the value to persist
-    through autonomous and teleOp modes */
 
 
     /*----------- Define all Module Classes (SubSystems) -----------*/
@@ -46,9 +42,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected Servo1D            wristRotate;
     protected Servo1D            wristPivot;
     protected ServoToggle        gripper;
-    /* keyword 'protected' is similar to 'private'. Private variables are only accessible within the
-    scope of this class. Protected allows for all classes that extend or inherit from this class to
-    directly access the variables, objects and methods. */
+
 
     /**
      * initializeRobot:
@@ -78,13 +72,14 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
 
 //        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam 1");
+
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive   = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
         wristRotate = new Servo1D(wristPivotServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristRotateServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-//        vision      = new VisionPortalObject(webCam);
+        // vision      = new VisionPortalObject(webCam);
 
     }
 
