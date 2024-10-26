@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
+
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoToggle extends Servo1D {
@@ -23,5 +24,8 @@ public class ServoToggle extends Servo1D {
                 break;
         }
     }
+
+    //TODO: Add Action to toggle gripper
+
 
 }
