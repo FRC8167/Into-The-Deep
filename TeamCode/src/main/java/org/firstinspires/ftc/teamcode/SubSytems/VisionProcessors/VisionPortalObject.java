@@ -34,8 +34,9 @@ public class VisionPortalObject {
      * Create a Vision Portal object with the specified camera.
      * @param cameraName
      */
-    public VisionPortalObject(WebcamName cameraName) {
+    public VisionPortalObject(WebcamName cameraName) throws InterruptedException {
         camera = cameraName;
+        buildVisionPortal(aTagP);
     }
 
 
@@ -46,7 +47,7 @@ public class VisionPortalObject {
      */
     public void buildVisionPortal(AprilTagProcessor atproc) throws InterruptedException {
 
-        aTagP = atproc;
+        //aTagP = atproc;
 
         blueColorLocator = new ColorBlobLocatorProcessor.Builder()
                 .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
@@ -56,28 +57,29 @@ public class VisionPortalObject {
                 .setBlurSize(5)                               // Smooth the transitions between different colors in image
                 .build();
 
-        yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
-                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
-                .setDrawContours(true)                        // Show contours on the Stream Preview
-                .setBlurSize(5)                               // Smooth the transitions between different colors in image
-                .build();
+//        yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
+//                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
+//                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
+//                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
+//                .setDrawContours(true)                        // Show contours on the Stream Preview
+//                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+//                .build();
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
-                .addProcessors(atproc)
+//                .addProcessors(atproc)
                 .addProcessor(blueColorLocator)
-                .addProcessor(yellowColorLocator)
-
+//                .addProcessor(yellowColorLocator)
                 .setCameraResolution(new Size(640, 480))
                 .build();
+
+//        visionPortal.setProcessorEnabled(yellowColorLocator, true);
+        visionPortal.setProcessorEnabled(blueColorLocator, true);
 
         /** Pause code execution until camera state is streaming **/
         while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
         }
         setManualExposure(CAMERA_EXPOSURE, CAMERA_GAIN);
-visionPortal.saveNextFrameRaw("deleteMe");
     }
 
     /**
@@ -103,7 +105,7 @@ visionPortal.saveNextFrameRaw("deleteMe");
 
     /*************************** Processor Controls ***************************/
     public void enableAprilTagDetection()  { visionPortal.setProcessorEnabled(aTagP, true); }
-    public void disableAprilTagDetection() {visionPortal.setProcessorEnabled(aTagP, false); }
+    public void disableAprilTagDetection() { visionPortal.setProcessorEnabled(aTagP, false); }
 
 
     /**
@@ -118,17 +120,18 @@ visionPortal.saveNextFrameRaw("deleteMe");
      */
     public void periodic() { }
 
-    public List<ColorBlobLocatorProcessor.Blob> blueBlobs()
-    {
-        List<ColorBlobLocatorProcessor.Blob> blueBlobs = blueColorLocator.getBlobs();
-        return blueBlobs;
+    public List<ColorBlobLocatorProcessor.Blob> blueBlobs() {
+//        List<ColorBlobLocatorProcessor.Blob> blueBlobs = blueColorLocator.getBlobs();
+//        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, blueBlobs);
+//        return blueBlobs;
+        return blueColorLocator.getBlobs();
     }
 
-    public List<ColorBlobLocatorProcessor.Blob> yellowBlobs()
-    {
-        List<ColorBlobLocatorProcessor.Blob> yellowBlobs = yellowColorLocator.getBlobs();
-        return yellowBlobs;
-    }
+//    public List<ColorBlobLocatorProcessor.Blob> yellowBlobs() {
+//        List<ColorBlobLocatorProcessor.Blob> yellowBlobs = yellowColorLocator.getBlobs();
+//        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, yellowBlobs);
+//        return yellowBlobs;
+//    }
 
 
 

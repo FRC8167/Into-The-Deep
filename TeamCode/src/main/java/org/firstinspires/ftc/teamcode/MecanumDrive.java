@@ -63,14 +63,14 @@ public final class MecanumDrive {
                 RevHubOrientationOnRobot.UsbFacingDirection.BACKWARD;
 
         // drive model parameters
-        public double inPerTick = 0.024;
+        public double inPerTick = 0.00294622;
         public double lateralInPerTick = inPerTick;
-        public double trackWidthTicks = 16.5;  //needs retuning
+        public double trackWidthTicks = 5087;  //needs retuning
 
         // feedforward parameters (in tick units)
-        public double kS = 0.9778225;
-        public double kV = 0.0041397;
-        public double kA = 0.0005;
+        public double kS = 0.7804208884155432;
+        public double kV = 0.0005733524558705466;
+        public double kA = 0.00003;
 
         // path profile parameters (in inches)
         public double maxWheelVel = 50;
@@ -140,7 +140,7 @@ public final class MecanumDrive {
 
             // TODO: reverse encoders if needed
                leftFront.setDirection(DcMotorEx.Direction.REVERSE);
-               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+//               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
         }
 
         @Override
@@ -218,8 +218,8 @@ public final class MecanumDrive {
 
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
-        leftFront = hardwareMap.get(DcMotorEx.class, "motor0");
-        leftBack = hardwareMap.get(DcMotorEx.class, "motor1");
+        leftFront = hardwareMap.get(DcMotorEx.class, "par");
+        leftBack = hardwareMap.get(DcMotorEx.class, "perp");
         rightBack = hardwareMap.get(DcMotorEx.class, "motor2");
         rightFront = hardwareMap.get(DcMotorEx.class, "motor3");
 
@@ -240,7 +240,8 @@ public final class MecanumDrive {
 
         voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
-        localizer = new DriveLocalizer();
+//        localizer = new DriveLocalizer();
+        localizer = new TwoDeadWheelLocalizer(hardwareMap, lazyImu.get(), PARAMS.inPerTick);
 
         FlightRecorder.write("MECANUM_PARAMS", PARAMS);
     }

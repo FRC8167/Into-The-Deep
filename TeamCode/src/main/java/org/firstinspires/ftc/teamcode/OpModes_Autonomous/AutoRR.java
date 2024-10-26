@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 
+import android.annotation.SuppressLint;
+
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -14,10 +16,13 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.opencv.core.RotatedRect;
 
+import java.util.List;
+
 //@Disabled
-@Autonomous(name="AutoTeamColorDescriptor", group="Autonomous", preselectTeleOp = "TeleOp")
+@Autonomous(name="AutoRR", group="Autonomous", preselectTeleOp = "TeleOp")
 public class AutoRR extends RobotConfiguration implements TeamConstants {
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -45,12 +50,12 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
             telemetry.addLine(String.format("%5d  %4.2f   %5.2f  (%3d,%3d)",
                     b.getContourArea(), b.getDensity(), b.getAspectRatio(), (int) boxFit.center.x, (int) boxFit.center.y));
         }
-        for(ColorBlobLocatorProcessor.Blob b : vision.yellowBlobs())
-        {
-            RotatedRect boxFit = b.getBoxFit();
-            telemetry.addLine(String.format("%5d  %4.2f   %5.2f  (%3d,%3d)",
-                    b.getContourArea(), b.getDensity(), b.getAspectRatio(), (int) boxFit.center.x, (int) boxFit.center.y));
-        }
+//        for(ColorBlobLocatorProcessor.Blob b : vision.yellowBlobs())
+//        {
+//            RotatedRect boxFit = b.getBoxFit();
+//            telemetry.addLine(String.format("%5d  %4.2f   %5.2f  (%3d,%3d)",
+//                    b.getContourArea(), b.getDensity(), b.getAspectRatio(), (int) boxFit.center.x, (int) boxFit.center.y));
+//        }
 
         Actions.runBlocking(letsDriveToKnowWhere);
 
