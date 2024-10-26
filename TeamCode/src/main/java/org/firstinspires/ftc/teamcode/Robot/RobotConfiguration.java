@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
@@ -71,7 +72,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
         Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
 
-//        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam 1");
+        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam1");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
@@ -79,7 +80,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         wristRotate = new Servo1D(wristPivotServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristRotateServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        // vision      = new VisionPortalObject(webCam);
+        vision      = new VisionPortalObject(webCam);
 
     }
 

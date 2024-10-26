@@ -7,7 +7,11 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.Exposur
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
+import org.firstinspires.ftc.vision.opencv.ColorRange;
+import org.firstinspires.ftc.vision.opencv.ImageRegion;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class VisionPortalObject {
@@ -20,6 +24,10 @@ public class VisionPortalObject {
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;
     private AprilTagProcessor aTagP = null;
+
+    private ColorBlobLocatorProcessor blueColorLocator;
+    private ColorBlobLocatorProcessor yellowColorLocator;
+
 
 
     /**
@@ -40,9 +48,28 @@ public class VisionPortalObject {
 
         aTagP = atproc;
 
+        blueColorLocator = new ColorBlobLocatorProcessor.Builder()
+                .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
+                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
+                .setDrawContours(true)                        // Show contours on the Stream Preview
+                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+                .build();
+
+        yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
+                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
+                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
+                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
+                .setDrawContours(true)                        // Show contours on the Stream Preview
+                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+                .build();
+
         visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
                 .addProcessors(atproc)
+                .addProcessor(blueColorLocator)
+                .addProcessor(yellowColorLocator)
+
                 .setCameraResolution(new Size(640, 480))
                 .build();
 
@@ -90,5 +117,19 @@ visionPortal.saveNextFrameRaw("deleteMe");
      * to update anything on a periodic basis, typically once per loop in runOpMode.
      */
     public void periodic() { }
+
+    public List<ColorBlobLocatorProcessor.Blob> blueBlobs()
+    {
+        List<ColorBlobLocatorProcessor.Blob> blueBlobs = blueColorLocator.getBlobs();
+        return blueBlobs;
+    }
+
+    public List<ColorBlobLocatorProcessor.Blob> yellowBlobs()
+    {
+        List<ColorBlobLocatorProcessor.Blob> yellowBlobs = yellowColorLocator.getBlobs();
+        return yellowBlobs;
+    }
+
+
 
 }

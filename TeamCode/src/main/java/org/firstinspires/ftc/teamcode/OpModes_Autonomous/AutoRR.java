@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
+import org.opencv.core.RotatedRect;
 
 //@Disabled
 @Autonomous(name="AutoTeamColorDescriptor", group="Autonomous", preselectTeleOp = "TeleOp")
@@ -20,7 +22,7 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
 
         initializeRobot();
-        setAlliance(AllianceColor.RED); /* OR */ setAlliance(AllianceColor.BLUE);
+        setAlliance(AllianceColor.BLUE); /* OR */ //setAlliance(AllianceColor.RED);
 
         Pose2d initialPose = new Pose2d(0,0, Math.toRadians(90));
 
@@ -37,11 +39,24 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
 
         waitForStart();
 
+        for(ColorBlobLocatorProcessor.Blob b : vision.blueBlobs())
+        {
+            RotatedRect boxFit = b.getBoxFit();
+            telemetry.addLine(String.format("%5d  %4.2f   %5.2f  (%3d,%3d)",
+                    b.getContourArea(), b.getDensity(), b.getAspectRatio(), (int) boxFit.center.x, (int) boxFit.center.y));
+        }
+        for(ColorBlobLocatorProcessor.Blob b : vision.yellowBlobs())
+        {
+            RotatedRect boxFit = b.getBoxFit();
+            telemetry.addLine(String.format("%5d  %4.2f   %5.2f  (%3d,%3d)",
+                    b.getContourArea(), b.getDensity(), b.getAspectRatio(), (int) boxFit.center.x, (int) boxFit.center.y));
+        }
+
         Actions.runBlocking(letsDriveToKnowWhere);
 
 
         Actions.runBlocking(wristPivot.setServoPosition(0.2));
-
+        telemetry.update();
 
         }
 
