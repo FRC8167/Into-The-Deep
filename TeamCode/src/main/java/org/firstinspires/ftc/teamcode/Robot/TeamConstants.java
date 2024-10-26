@@ -14,7 +14,7 @@ public interface TeamConstants {
     double PIVOT_MIN = 0.0;
     double PIVOT_MAX = 1.0;
     double PIVOT_CENTER = 0.5;
-    int DEGREES_TO_COUNTS = 1;
+
     // Need preset positions
 
 
@@ -30,6 +30,8 @@ public interface TeamConstants {
     double GRIPPER_CLOSE   = 0.51;
     double GRIPPER_OPEN    = 0.45;
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~ Motor Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
-
+    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
+    double DEGREES_TO_COUNTS = 1.0; // Needs updated when Motor/Gearing is determined
+    int MIN_POSITION_COUNTS = 0;    // Needs updated when the arm install is complete
+    int MAX_POSITION_COUNTS = 0;    // Needs updated when the arm install is complete
 }

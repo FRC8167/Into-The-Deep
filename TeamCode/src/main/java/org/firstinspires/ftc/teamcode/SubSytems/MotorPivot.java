@@ -31,20 +31,18 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
  *  https://ftctechnh.github.io/ftc_app/doc/javadoc/com/qualcomm/robotcore/hardware/DcMotorEx.html
  */
 
-public class MotorPivot {
+public class MotorPivot implements TeamConstants {
 
     DcMotorEx motor;
     int tolerance = 20;
-    int maxCounts;
     int minCounts;
-    int y = 6;
-    int h = 15;
+    int y = 6;              // Distance from wrist pivot joint to the floor
+    int h = 15;             // Distance from arm pivot axis to the floor
     int minAngle;
 
-    public MotorPivot(DcMotorEx motor, int maxPosition){
+    public MotorPivot(DcMotorEx motor){
         this.motor = motor;
         motor.setTargetPositionTolerance(tolerance);
-        this.maxCounts = maxPosition;
     }
 
     public void periodic(int slideLength){
@@ -77,19 +75,22 @@ public class MotorPivot {
     }
 
 
-    public double getVelocity(){
+    public double getVelocity() {
         return(motor.getVelocity());
     }
 
-    public boolean inMotion(){
+
+    public boolean inMotion() {
         return motor.isBusy();
     }
 
-    public int degreesToCounts(double degrees){
+
+    public int degreesToCounts(double degrees) {
         return(int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
     }
 
-    public double countsToDegrees(double counts){
+
+    public double countsToDegrees(double counts) {
         return (counts * 1/TeamConstants.DEGREES_TO_COUNTS);
     }
 
