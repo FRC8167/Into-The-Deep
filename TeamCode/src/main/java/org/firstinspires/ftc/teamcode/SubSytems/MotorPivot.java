@@ -36,9 +36,10 @@ public class MotorPivot implements TeamConstants {
     DcMotorEx motor;
     int tolerance = 20;
     int minCounts;
-    int y = 6;              // Distance from wrist pivot joint to the floor
-    int h = 15;             // Distance from arm pivot axis to the floor
+    double y = 6;              // Distance from wrist pivot joint to the floor
+    double h = 15;             // Distance from arm pivot axis to the floor
     int minAngle;
+
 
     public MotorPivot(DcMotorEx motor){
         this.motor = motor;
@@ -55,20 +56,23 @@ public class MotorPivot implements TeamConstants {
         setPositionCounts(degreesToCounts(degrees));
     }
 
+
     public void setPositionCounts(int counts){
         motor.setTargetPosition(clamp(counts));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setVelocity(100);
     }
 
+
     private int clamp(int position){
-        if (position > maxCounts){
-            return maxCounts;
+        if (position > MAX_POSITION_COUNTS){
+            return MAX_POSITION_COUNTS;
         } else if (position < minCounts){
             return minCounts;
         }
         else return position;
     }
+
 
     public int getPosition(){
         return(motor.getCurrentPosition());
@@ -86,7 +90,7 @@ public class MotorPivot implements TeamConstants {
 
 
     public int degreesToCounts(double degrees) {
-        return(int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
+        return (int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
     }
 
 
