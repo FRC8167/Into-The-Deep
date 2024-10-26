@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.SubSytems;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+
 /**
  * HINT: For running a motor to a specific target position, use the following procedure:
  *      - set target position tolerance (must be in encoder counts) this could be class level
@@ -24,7 +26,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
  *  from poor tuning or damage occurred from colliding with another robot. Do you need a way to
  *  exit from run to position in this case?
  *
- * Info for motor caontrol and available motor functions can be found at the links below:
+ * Info for motor control and available motor functions can be found at the links below:
  *  https://docs.revrobotics.com/duo-control/programming/using-encoder-feedback#choosing-a-motor-mode
  *  https://ftctechnh.github.io/ftc_app/doc/javadoc/com/qualcomm/robotcore/hardware/DcMotorEx.html
  */
@@ -32,33 +34,63 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 public class MotorPivot {
 
     DcMotorEx motor;
+    int tolerance = 20;
+    int maxCounts;
+    int minCounts;
+    int y = 6;
+    int h = 15;
+    int minAngle;
 
-    public MotorPivot(DcMotorEx motor){
+    public MotorPivot(DcMotorEx motor, int maxPosition){
         this.motor = motor;
+        motor.setTargetPositionTolerance(tolerance);
+        this.maxCounts = maxPosition;
     }
 
-    public void periodic(){
-
+    public void periodic(int slideLength){
+        minCounts = (int)Math.acos((h-y)/slideLength);
     }
+
 
     public void setPosition(double degrees){
         /* Need to convert degrees to counts. You can then call setPosition(int counts) below */
+        setPositionCounts(degreesToCounts(degrees));
     }
 
-    public void setPosition(int counts){
-
+    public void setPositionCounts(int counts){
+        motor.setTargetPosition(clamp(counts));
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setVelocity(100);
     }
 
-    private void clamp(){
-
+    private int clamp(int position){
+        if (position > maxCounts){
+            return maxCounts;
+        } else if (position < minCounts){
+            return minCounts;
+        }
+        else return position;
     }
 
     public int getPosition(){
         return(motor.getCurrentPosition());
     }
 
+
     public double getVelocity(){
         return(motor.getVelocity());
+    }
+
+    public boolean inMotion(){
+        return motor.isBusy();
+    }
+
+    public int degreesToCounts(double degrees){
+        return(int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
+    }
+
+    public double countsToDegrees(double counts){
+        return (counts * 1/TeamConstants.DEGREES_TO_COUNTS);
     }
 
 

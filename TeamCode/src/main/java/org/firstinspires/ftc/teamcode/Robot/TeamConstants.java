@@ -14,6 +14,7 @@ public interface TeamConstants {
     double PIVOT_MIN = 0.0;
     double PIVOT_MAX = 1.0;
     double PIVOT_CENTER = 0.5;
+    int DEGREES_TO_COUNTS = 1;
     // Need preset positions
 
 
@@ -29,5 +30,6 @@ public interface TeamConstants {
     double GRIPPER_CLOSE   = 0.51;
     double GRIPPER_OPEN    = 0.45;
 
+    /*~~~~~~~~~~~~~~~~~~~~~~~ Motor Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
 
 }
