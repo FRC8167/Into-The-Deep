@@ -17,6 +17,7 @@ public class Servo1D implements TeamConstants {
     double min;
     double max;
 
+
     public Servo1D(Servo servo, double initPos, double min, double max) {
         this.servo = servo;
         state = State.CLOSE;
@@ -34,6 +35,7 @@ public class Servo1D implements TeamConstants {
     public double servoPos() { return servo.getPosition(); }
 
 
+    /** Action Classes **/
     public class SetServoPosition implements Action {
 
         double position;
