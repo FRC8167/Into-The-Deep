@@ -64,8 +64,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
         /* ******************* Define Hardware Map Here ******************** */
         DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "par");
-        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "motor3");
-        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "perp");
+        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "perp"); //change to perp
+        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");  //change back to motor1
         DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
 
         Servo wristPivotServo  = hardwareMap.get(Servo.class, "servo1");

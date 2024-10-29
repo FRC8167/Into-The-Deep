@@ -64,7 +64,7 @@ public final class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = 0.00294622;
-        public double lateralInPerTick = inPerTick;
+        public double lateralInPerTick = -0.0003767460028551981;
         public double trackWidthTicks = 5087;  //needs retuning
 
         // feedforward parameters (in tick units)
@@ -140,7 +140,7 @@ public final class MecanumDrive {
 
             // TODO: reverse encoders if needed
                leftFront.setDirection(DcMotorEx.Direction.REVERSE);
-//               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+//               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);//may have to reverse rightFront
         }
 
         @Override
@@ -219,9 +219,9 @@ public final class MecanumDrive {
         // TODO: make sure your config has motors with these names (or change them)
         //   see https://ftc-docs.firstinspires.org/en/latest/hardware_and_software_configuration/configuring/index.html
         leftFront = hardwareMap.get(DcMotorEx.class, "par");
-        leftBack = hardwareMap.get(DcMotorEx.class, "perp");
+        leftBack = hardwareMap.get(DcMotorEx.class, "motor1");  //change back to motor1
         rightBack = hardwareMap.get(DcMotorEx.class, "motor2");
-        rightFront = hardwareMap.get(DcMotorEx.class, "motor3");
+        rightFront = hardwareMap.get(DcMotorEx.class, "perp");  //change to perp
 
         leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
