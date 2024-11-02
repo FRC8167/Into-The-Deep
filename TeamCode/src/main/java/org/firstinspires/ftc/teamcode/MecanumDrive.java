@@ -64,12 +64,12 @@ public final class MecanumDrive {
 
         // drive model parameters
         public double inPerTick = 0.00294622;
-        public double lateralInPerTick = -0.0003767460028551981;
-        public double trackWidthTicks = 5087;  //needs retuning
+        public double lateralInPerTick = 0.002430495984298989;
+        public double trackWidthTicks = 5117.981290870322;  //needs retuning
 
         // feedforward parameters (in tick units)
-        public double kS = 0.7804208884155432;
-        public double kV = 0.0005733524558705466;
+        public double kS = 0.7132107535946544;
+        public double kV = 0.0005726735483263956;
         public double kA = 0.00003;
 
         // path profile parameters (in inches)
@@ -82,9 +82,9 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 0.0;
-        public double lateralGain = 0.0;
-        public double headingGain = 0.0; // shared with turn
+        public double axialGain = 11.0; //overshoot . . . align the circles longitudinally
+        public double lateralGain = 2.0; //left and right motion from the line
+        public double headingGain = 12.0; // shared with turn//imu direction give it a shove
 
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
@@ -139,8 +139,7 @@ public final class MecanumDrive {
             imu = lazyImu.get();
 
             // TODO: reverse encoders if needed
-               leftFront.setDirection(DcMotorEx.Direction.REVERSE);
-//               leftBack.setDirection(DcMotorSimple.Direction.REVERSE);//may have to reverse rightFront
+
         }
 
         @Override

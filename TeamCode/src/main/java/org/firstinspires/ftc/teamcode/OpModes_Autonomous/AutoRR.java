@@ -29,16 +29,24 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
         initializeRobot();
         setAlliance(AllianceColor.BLUE); /* OR */ //setAlliance(AllianceColor.RED);
 
-        Pose2d initialPose = new Pose2d(0,0, Math.toRadians(90));
+        Pose2d initialPose = new Pose2d(10,60, Math.toRadians(-90));
 
         TrajectoryActionBuilder driveToNoWhere = autoDrive.actionBuilder(initialPose)
-                .lineToY(37)
-                .setTangent(Math.toRadians(0))
-                .lineToX(18)
+                .lineToY(35)
                 .waitSeconds(3)
-                .setTangent(Math.toRadians(0))
-                .lineToXSplineHeading(46, Math.toRadians(180))
-                .waitSeconds(3);
+                .strafeTo(new Vector2d(48,38))
+                .waitSeconds(2)
+                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
+                .waitSeconds(2)
+                .strafeToSplineHeading(new Vector2d(57.5,38),Math.toRadians(-90))
+                .waitSeconds(1)
+                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
+                .waitSeconds(1.5)
+                .strafeToSplineHeading(new Vector2d(55,25),Math.toRadians(0))
+                .waitSeconds(1.5)
+                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
+                .waitSeconds(1.5)
+                .strafeToSplineHeading(new Vector2d(30,10),Math.toRadians(180));
 
         Action letsDriveToKnowWhere = driveToNoWhere.build();
 

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -35,7 +36,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             /* Ouput Telemtery Data to Driver Stations */
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
-            telemetry.addData("Perp Encoder", drive.geLRpos());
+
             telemetry.update();
 
             periodicCalls();

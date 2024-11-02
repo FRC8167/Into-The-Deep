@@ -96,8 +96,6 @@ public class MecanumDriveBasic implements TeamConstants {
         rightRear.setPower(rrPower);
     }
 
-
-    /** Setters and Getters **/
     public double getDriveCmd() { return drive;  }
     public double getTurnCmd()  { return turn;   }
     public double getStrafe()   { return strafe; }
