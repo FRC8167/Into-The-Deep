@@ -86,7 +86,6 @@ public class ConceptVisionColorSensor extends LinearOpMode {
          */
 
 
-
         PredominantColorProcessor colorSensor = new PredominantColorProcessor.Builder()
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-0.3, 0.3, 0.3, -0.3))  //was 0.1 for all
 //                .setRoi(ImageRegion.entireFrame())
@@ -137,31 +136,39 @@ public class ConceptVisionColorSensor extends LinearOpMode {
             telemetry.addData("Best Match:", result.closestSwatch);
 
             telemetry.addLine(String.format("R %3d, G %3d, B %3d", Color.red(result.rgb), Color.green(result.rgb), Color.blue(result.rgb)));
+//            if (result.closestSwatch == PredominantColorProcessor.Swatch.RED) {
+//                savedColorMatch = "RED";
+//            } else if (result.closestSwatch == PredominantColorProcessor.Swatch.BLUE) {
+//                savedColorMatch = "BLUE";
+//            } else if (result.closestSwatch == PredominantColorProcessor.Swatch.YELLOW) {
+//                savedColorMatch = "YELLOW";
+//            } else {
+//                savedColorMatch = "NOTHING";
+//                telemetry.addData("I must do something about this", savedColorMatch);
+            if (result.closestSwatch != null) {
+                switch (result.closestSwatch) {
+                    case YELLOW:
+                        telemetry.addLine("Found YELLOW");
+                        break;
 
-            switch(result.closestSwatch) {
-                case YELLOW:
-                    telemetry.addLine("Found YELLOW");
-                    break;
+                    case BLUE:
+                        telemetry.addLine("Found BLUE");
+                        break;
 
-                case BLUE:
-                    telemetry.addLine("Found BLUE");
-                    break;
+                    case RED:
+                        telemetry.addLine("Found RED");
+                        break;
 
-                case RED:
-                    telemetry.addLine("Found RED");
-                    break;
-
-                default:
-                    telemetry.addLine("Found NOTHING");
-                    break;
-
+                    default:
+                        telemetry.addLine("Found NOTHING");
+                        break;
+                }
             }
 
+                telemetry.update();
 
-            telemetry.update();
-
-            sleep(20);
+                sleep(20);
+            }
         }
     }
-}
 
