@@ -110,7 +110,6 @@ public class ConceptVisionColorSensor extends LinearOpMode {
          *      .setCamera(BuiltinCameraDirection.BACK)    ... for a Phone Camera
          */
 
-        String savedColorMatch = "NULL";
 
 
         VisionPortal portal = new VisionPortal.Builder()
