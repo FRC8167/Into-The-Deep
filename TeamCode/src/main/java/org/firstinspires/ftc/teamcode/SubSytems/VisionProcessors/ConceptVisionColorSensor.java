@@ -138,25 +138,24 @@ public class ConceptVisionColorSensor extends LinearOpMode {
 
             telemetry.addLine(String.format("R %3d, G %3d, B %3d", Color.red(result.rgb), Color.green(result.rgb), Color.blue(result.rgb)));
 
-            switch(result.closestSwatch){
-            case YELLOW: {
-                telemetry.addLine("Found YELLOW");
-                break;
-            }
-            case BLUE:  {
-                telemetry.addLine("Found BLUE");
-                break;
-            }
-            case RED:  {
-                telemetry.addLine("Found RED");
-                break;
-            }
-            default:
-                telemetry.addLine("Found NOTHING");
-                break;
+            switch(result.closestSwatch) {
+                case YELLOW:
+                    telemetry.addLine("Found YELLOW");
+                    break;
 
-        }
+                case BLUE:
+                    telemetry.addLine("Found BLUE");
+                    break;
 
+                case RED:
+                    telemetry.addLine("Found RED");
+                    break;
+
+                default:
+                    telemetry.addLine("Found NOTHING");
+                    break;
+
+            }
 
 
             telemetry.update();
