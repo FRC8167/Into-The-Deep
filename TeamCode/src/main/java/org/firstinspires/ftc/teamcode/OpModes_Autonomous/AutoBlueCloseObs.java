@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
@@ -17,11 +15,9 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.opencv.core.RotatedRect;
 
-import java.util.List;
-
 //@Disabled
-@Autonomous(name="AutoRR", group="Autonomous", preselectTeleOp = "TeleOp")
-public class AutoRR extends RobotConfiguration implements TeamConstants {
+@Autonomous(name="AutoBlueCloseObs", group="Autonomous", preselectTeleOp = "TeleOp")
+public class AutoBlueCloseObs extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -30,12 +26,11 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
         initializeRobot();
         setAlliance(AllianceColor.BLUE); /* OR */ //setAlliance(AllianceColor.RED);
 
-        Pose2d initialPose = new Pose2d(10,60, -Math.PI/2);
+        Pose2d initialPose = new Pose2d(34,60, -Math.PI/2);
         autoDrive = new MecanumDrive(hardwareMap, initialPose);
 
 
         TrajectoryActionBuilder driveToNoWhere = autoDrive.actionBuilder(initialPose)
-
                 .lineToY(36)
                  .waitSeconds(3)
                 .strafeTo(new Vector2d(50,36))
@@ -50,7 +45,7 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
                 .waitSeconds(1.5)
                 .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
                 .waitSeconds(1.5)
-                .strafeToSplineHeading(new Vector2d(30,10),Math.toRadians(180));
+                .strafeToSplineHeading(new Vector2d(-62,60),Math.toRadians(90));
 
         Action letsDriveToKnowWhere = driveToNoWhere.build();
 
