@@ -11,6 +11,7 @@ import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
@@ -29,12 +30,15 @@ public class AutoRR extends RobotConfiguration implements TeamConstants {
         initializeRobot();
         setAlliance(AllianceColor.BLUE); /* OR */ //setAlliance(AllianceColor.RED);
 
-        Pose2d initialPose = new Pose2d(10,60, Math.toRadians(-90));
+        Pose2d initialPose = new Pose2d(10,60, -Math.PI/2);
+        autoDrive = new MecanumDrive(hardwareMap, initialPose);
+
 
         TrajectoryActionBuilder driveToNoWhere = autoDrive.actionBuilder(initialPose)
-                .lineToY(35)
-                .waitSeconds(3)
-                .strafeTo(new Vector2d(48,38))
+
+                .lineToY(36)
+                 .waitSeconds(3)
+                .strafeTo(new Vector2d(50,36))
                 .waitSeconds(2)
                 .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
                 .waitSeconds(2)
