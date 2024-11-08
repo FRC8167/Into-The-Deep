@@ -14,7 +14,9 @@ public class AutonomousOpTemplate extends RobotConfiguration implements TeamCons
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initializeRobot(new Pose2d(0,0,0));
+        Pose2d startPose = new Pose2d(0,0,0);
+
+        initializeRobot(startPose);
         /* First line of code after initializing the robot should be to set the alliance color.
            This is needed for April Tags, TFOD object files or any other game element that is unique
            to the Red or Blue Alliance. */
