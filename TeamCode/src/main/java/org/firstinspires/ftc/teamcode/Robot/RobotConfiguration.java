@@ -34,9 +34,10 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
     static List<LynxModule> ctrlHubs;
+    static boolean initialized;
 
 
-    /*----------- Define all Module Classes (SubSystems) -----------*/
+    /*----------- Define all Module Classes (SubSystems) ------------*/
     protected MecanumDriveBasic  drive;
     protected MecanumDrive       autoDrive;
     protected VisionPortalObject vision;
@@ -82,6 +83,23 @@ public abstract class RobotConfiguration extends LinearOpMode {
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         vision      = new VisionPortalObject(webCam);
 
+        initialized = true;
+    }
+
+
+    /**
+     * initializeRobot:
+     * This function should be called immediately in the OpMode's runOpMode function. A null value
+     * error will result if you try to use any devices connected to the control hub that
+     * have not been initialized.  This function creates the Hardware Map and the module objects
+     * that use these devices.
+     *
+     * @param pose Required to set the Road Runner Initial Pose on the Field
+     * @throws InterruptedException
+     */
+    public void initializeRobot(Pose2d pose) throws InterruptedException {
+        initializeRobot();
+        autoDrive   = new MecanumDrive(hardwareMap, pose);
     }
 
 
