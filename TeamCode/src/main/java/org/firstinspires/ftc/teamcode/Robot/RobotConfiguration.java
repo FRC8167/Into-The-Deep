@@ -48,10 +48,10 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
     /**
      * initializeRobot:
-     * This function should be called immediately in the OpMode's runOpMode function. A null value
-     * error will result if you try to use any devices connected to the control hub that
-     * have not been initialized.  This function creates the Hardware Map and the module objects
-     * that use these devices.
+     * Initialize robot with a specified start pose (used by Road Runner. This function should be
+     * called immediately in the OpMode's runOpMode function. A null value error will result if you
+     * try to use any devices connected to the control hub that have not been initialized.  This
+     * function creates the Hardware Map and the module objects that use these devices.
      *
      * @throws InterruptedException
      */
