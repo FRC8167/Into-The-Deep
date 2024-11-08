@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
@@ -13,7 +14,7 @@ public class AutonomousOpTemplate extends RobotConfiguration implements TeamCons
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initializeRobot();
+        initializeRobot(new Pose2d(0,0,0));
         /* First line of code after initializing the robot should be to set the alliance color.
            This is needed for April Tags, TFOD object files or any other game element that is unique
            to the Red or Blue Alliance. */
