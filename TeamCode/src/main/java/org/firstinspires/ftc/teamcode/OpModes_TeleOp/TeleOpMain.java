@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
@@ -17,7 +18,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initializeRobot();
+        initializeRobot(new Pose2d(0,0,0));
 
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);

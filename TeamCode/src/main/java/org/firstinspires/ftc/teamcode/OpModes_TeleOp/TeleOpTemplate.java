@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -13,7 +14,7 @@ public class TeleOpTemplate extends RobotConfiguration implements TeamConstants 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initializeRobot();
+        initializeRobot(new Pose2d(0,0,0));
 
         waitForStart();
 

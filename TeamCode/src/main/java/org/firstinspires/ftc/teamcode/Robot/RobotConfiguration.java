@@ -55,7 +55,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
      *
      * @throws InterruptedException
      */
-    public void initializeRobot() throws InterruptedException {
+    public void initializeRobot(Pose2d startPose) throws InterruptedException {
 
         /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
         ctrlHubs = hardwareMap.getAll(LynxModule.class);
@@ -77,29 +77,11 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-        autoDrive   = new MecanumDrive(hardwareMap, new Pose2d(0,0,0));
+        autoDrive   = new MecanumDrive(hardwareMap, startPose);
         wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         vision      = new VisionPortalObject(webCam);
-
-        initialized = true;
-    }
-
-
-    /**
-     * initializeRobot:
-     * This function should be called immediately in the OpMode's runOpMode function. A null value
-     * error will result if you try to use any devices connected to the control hub that
-     * have not been initialized.  This function creates the Hardware Map and the module objects
-     * that use these devices.
-     *
-     * @param pose Required to set the Road Runner Initial Pose on the Field
-     * @throws InterruptedException
-     */
-    public void initializeRobot(Pose2d pose) throws InterruptedException {
-        initializeRobot();
-        autoDrive   = new MecanumDrive(hardwareMap, pose);
     }
 
 
