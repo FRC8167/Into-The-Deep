@@ -30,8 +30,7 @@ public class MotorPivot implements TeamConstants {
 
 
     public void manualMove(double joystickValue) {
-        double newTarget = motor.getCurrentPosition() + .2 * joystickValue;
-        motor.setTargetPosition((int)newTarget);
+        setPositionCounts((int)(motor.getCurrentPosition() + .2 * joystickValue));
         motor.setVelocity(600);
     }
 
@@ -49,7 +48,7 @@ public class MotorPivot implements TeamConstants {
     public void setPositionCounts(int counts){
         motor.setTargetPosition(clamp(counts));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motor.setVelocity(100);
+        motor.setVelocity(3000);
     }
 
 
