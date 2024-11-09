@@ -27,6 +27,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         while (opModeIsActive()) {
 
+            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
+
             /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
             wristRotate.setPosition(-operator.leftStick_Y * 0.5 + 0.5);

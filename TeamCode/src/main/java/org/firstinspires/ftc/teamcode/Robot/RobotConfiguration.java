@@ -34,16 +34,16 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
     static List<LynxModule> ctrlHubs;
-    static boolean initialized;
+    static protected boolean initialized = false;
 
 
     /*----------- Define all Module Classes (SubSystems) ------------*/
-    protected MecanumDriveBasic  drive;
-    protected MecanumDrive       autoDrive;
-    protected VisionPortalObject vision;
-    protected Servo1D            wristRotate;
-    protected Servo1D            wristPivot;
-    protected ServoToggle        gripper;
+    static protected MecanumDriveBasic  drive;
+    static protected MecanumDrive       autoDrive;
+    static protected VisionPortalObject vision;
+    static protected Servo1D            wristRotate;
+    static protected Servo1D            wristPivot;
+    static protected ServoToggle        gripper;
 
 
     /**
@@ -57,31 +57,35 @@ public abstract class RobotConfiguration extends LinearOpMode {
      */
     public void initializeRobot(Pose2d startPose) throws InterruptedException {
 
-        /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
-        ctrlHubs = hardwareMap.getAll(LynxModule.class);
-        for (LynxModule hub : ctrlHubs) {
-            hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        if (!initialized) {
+            /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
+            ctrlHubs = hardwareMap.getAll(LynxModule.class);
+            for (LynxModule hub : ctrlHubs) {
+                hub.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+            }
+
+            /* ******************* Define Hardware Map Here ******************** */
+            DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "par");
+            DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "perp");
+            DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");
+            DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
+
+            Servo wristPivotServo = hardwareMap.get(Servo.class, "servo1");
+            Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
+            Servo gripperServo = hardwareMap.get(Servo.class, "servo0");
+
+            WebcamName webCam = hardwareMap.get(WebcamName.class, "Webcam1");
+
+            /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
+            drive = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+            autoDrive = new MecanumDrive(hardwareMap, startPose);
+            wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
+            wristPivot = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
+            gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
+            vision = new VisionPortalObject(webCam);
+
+            initialized = true;
         }
-
-        /* ******************* Define Hardware Map Here ******************** */
-        DcMotorEx driveMotorLF = hardwareMap.get(DcMotorEx.class, "par");
-        DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "perp");
-        DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");
-        DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
-
-        Servo wristPivotServo  = hardwareMap.get(Servo.class, "servo1");
-        Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
-        Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
-
-        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam1");
-
-        /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
-        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-        autoDrive   = new MecanumDrive(hardwareMap, startPose);
-        wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
-        wristPivot  = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
-        gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        vision      = new VisionPortalObject(webCam);
     }
 
 
