@@ -10,9 +10,11 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
+import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.vision.opencv.ColorRange;
 
 import java.util.List;
 import java.util.Locale;
@@ -45,6 +47,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected Servo1D            wristPivot;
     protected ServoToggle        gripper;
 
+    /*---------------------- Vision Objects -------------------------*/
+    protected ColorProcessor blueSpecimens = new ColorProcessor(ColorRange.BLUE);
 
     /**
      * initializeRobot:

@@ -5,7 +5,10 @@ import android.util.Size;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
@@ -23,11 +26,11 @@ public class VisionPortalObject {
 
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;
-    private AprilTagProcessor aTagP = null;
+    private AprilTagProcessor aprilTagProcessor = null;
 
     private ColorBlobLocatorProcessor blueColorLocator;
     private ColorBlobLocatorProcessor yellowColorLocator;
-    private ColorBlobLocatorProcessor RedColorLocator;
+    private ColorBlobLocatorProcessor redColorLocator;
 
 
     /**
@@ -36,7 +39,7 @@ public class VisionPortalObject {
      */
     public VisionPortalObject(WebcamName cameraName) throws InterruptedException {
         camera = cameraName;
-        buildVisionPortal(aTagP);
+        buildVisionPortal(aprilTagProcessor);
     }
 
 
@@ -47,35 +50,21 @@ public class VisionPortalObject {
      */
     public void buildVisionPortal(AprilTagProcessor atproc) throws InterruptedException {
 
-        //aTagP = atproc;
-
-        blueColorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
-                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
-                .setDrawContours(true)                        // Show contours on the Stream Preview
-                .setBlurSize(5)                               // Smooth the transitions between different colors in image
+        aprilTagProcessor = new AprilTagProcessor.Builder()
+                .setLensIntrinsics(889.035, 889.035, 390.3019, 66.3539)
+                .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .build();
+        aprilTagProcessor.setDecimation(1);
 
-        yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
-                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
-                .setDrawContours(true)                        // Show contours on the Stream Preview
-                .setBlurSize(5)                               // Smooth the transitions between different colors in image
-                .build();
-
-      visionPortal = new VisionPortal.Builder()
+        visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
+                .addProcessor(aprilTagProcessor)
+                .addProcessor(redColorLocator)
                 .addProcessor(blueColorLocator)
                 .addProcessor(yellowColorLocator)
                 .setCameraResolution(new Size(640, 480))
                 .build();
-
-
-   visionPortal.setProcessorEnabled(yellowColorLocator, true);
-   visionPortal.setProcessorEnabled(blueColorLocator, true);
-
 
         /** Pause code execution until camera state is streaming **/
         while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
@@ -105,8 +94,8 @@ public class VisionPortalObject {
     }
 
     /*************************** Processor Controls ***************************/
-    public void enableAprilTagDetection()  { visionPortal.setProcessorEnabled(aTagP, true); }
-    public void disableAprilTagDetection() { visionPortal.setProcessorEnabled(aTagP, false); }
+    public void enableAprilTagDetection()  { visionPortal.setProcessorEnabled(aprilTagProcessor, true); }
+    public void disableAprilTagDetection() { visionPortal.setProcessorEnabled(aprilTagProcessor, false); }
 
 
     /**
@@ -120,19 +109,5 @@ public class VisionPortalObject {
      * to update anything on a periodic basis, typically once per loop in runOpMode.
      */
     public void periodic() { }
-
-    public List<ColorBlobLocatorProcessor.Blob> blueBlobs() {
-        List<ColorBlobLocatorProcessor.Blob> blueBlobs = blueColorLocator.getBlobs();
-        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, blueBlobs);
-        return blueBlobs;
-    }
-
-    public List<ColorBlobLocatorProcessor.Blob> yellowBlobs() {
-        List<ColorBlobLocatorProcessor.Blob> yellowBlobs = yellowColorLocator.getBlobs();
-        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, yellowBlobs);
-        return yellowBlobs;
-    }
-
-
 
 }
