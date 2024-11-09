@@ -29,6 +29,13 @@ public class MotorPivot implements TeamConstants {
     }
 
 
+    public void manualMove(double joystickValue) {
+        double newTarget = motor.getCurrentPosition() + .2 * joystickValue;
+        motor.setTargetPosition((int)newTarget);
+        motor.setVelocity(600);
+    }
+
+
     public void periodic(int slideLength) {
         minCounts = (int) Math.acos((h-y)/slideLength);
     }

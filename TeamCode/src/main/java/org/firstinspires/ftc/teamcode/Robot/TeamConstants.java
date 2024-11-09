@@ -32,7 +32,7 @@ public interface TeamConstants {
     /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
     double DEGREES_TO_COUNTS = 1.0; // TODO: update when Motor/Gearing is determined
     int MIN_POSITION_COUNTS = 0;    // TODO: update when the arm install is complete
-    int MAX_POSITION_COUNTS = 0;    // TODO: update when the arm install is complete
+    int MAX_POSITION_COUNTS = 8000;    // TODO: update when the arm install is complete
 
 
 }

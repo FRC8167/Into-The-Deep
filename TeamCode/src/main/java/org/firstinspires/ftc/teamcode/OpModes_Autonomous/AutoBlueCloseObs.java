@@ -24,7 +24,7 @@ public class AutoBlueCloseObs extends RobotConfiguration implements TeamConstant
     public void runOpMode() throws InterruptedException {
 
         Pose2d initialPose = new Pose2d(34,60, -Math.PI/2);
-
+        autoDrive = new MecanumDrive(hardwareMap, initialPose);
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
 

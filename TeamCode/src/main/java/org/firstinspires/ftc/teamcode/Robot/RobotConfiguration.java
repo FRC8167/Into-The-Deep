@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
+import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
+import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
@@ -44,6 +46,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     static protected Servo1D            wristRotate;
     static protected Servo1D            wristPivot;
     static protected ServoToggle        gripper;
+    static protected MotorPivotExp      armPivot;
 
 
     /**
@@ -69,7 +72,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
             DcMotorEx driveMotorRF = hardwareMap.get(DcMotorEx.class, "perp");
             DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");
             DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
-
+            DcMotorEx armMotorL = hardwareMap.get(DcMotorEx.class, "armL");
+            DcMotorEx armMotorR = hardwareMap.get(DcMotorEx.class, "armR");
             Servo wristPivotServo = hardwareMap.get(Servo.class, "servo1");
             Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
             Servo gripperServo = hardwareMap.get(Servo.class, "servo0");
@@ -83,6 +87,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
             wristPivot = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
             gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
             vision = new VisionPortalObject(webCam);
+            armPivot = new MotorPivotExp(armMotorR,armMotorL);
 
             initialized = true;
         }
