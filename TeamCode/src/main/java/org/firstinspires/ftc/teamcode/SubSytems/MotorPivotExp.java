@@ -42,8 +42,8 @@ public class MotorPivotExp implements TeamConstants {
     public void manualMove(double joystickValue) {
 
 //        double newTarget = (motorR.getCurrentPosition()+motorL.getCurrentPosition())/2.0 + .2 * joystickValue;
-        double newTargetR = motorR.getCurrentPosition() + 50 * joystickValue;
-        double newTargetL = motorL.getCurrentPosition() + 50 * joystickValue;
+        double newTargetR = motorR.getCurrentPosition() + 40 * joystickValue;
+        double newTargetL = motorL.getCurrentPosition() + 40 * joystickValue;
 //            motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //            motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 //
@@ -114,7 +114,6 @@ public class MotorPivotExp implements TeamConstants {
 
     public int command() {
         return targetDisp;
-
     }
 
     public int getRmotorPos() { return motorR.getCurrentPosition(); }

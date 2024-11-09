@@ -30,7 +30,7 @@ public class MotorPivot implements TeamConstants {
 
 
     public void manualMove(double joystickValue) {
-        setPositionCounts((int)(motor.getCurrentPosition() + .2 * joystickValue));
+        setPositionCounts((int)(motor.getCurrentPosition() + 40 * joystickValue));
     }
 
 
