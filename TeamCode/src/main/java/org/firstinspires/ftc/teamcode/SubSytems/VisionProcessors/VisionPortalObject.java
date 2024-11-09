@@ -27,7 +27,7 @@ public class VisionPortalObject {
 
     private ColorBlobLocatorProcessor blueColorLocator;
     private ColorBlobLocatorProcessor yellowColorLocator;
-
+    private ColorBlobLocatorProcessor RedColorLocator;
 
 
     /**
@@ -71,8 +71,6 @@ public class VisionPortalObject {
                 .addProcessor(yellowColorLocator)
                 .setCameraResolution(new Size(640, 480))
                 .build();
-
-
 
 
    visionPortal.setProcessorEnabled(yellowColorLocator, true);
