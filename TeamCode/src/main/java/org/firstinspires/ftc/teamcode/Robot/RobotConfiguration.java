@@ -48,7 +48,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected ServoToggle        gripper;
 
     /*---------------------- Vision Objects -------------------------*/
-    protected ColorProcessor blueSpecimens = new ColorProcessor(ColorRange.BLUE);
+    protected ColorProcessor blueSamples = new ColorProcessor(ColorRange.BLUE);
 
     /**
      * initializeRobot:
@@ -85,7 +85,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
         wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        vision      = new VisionPortalObject(webCam);
+        vision      = new VisionPortalObject.Builder(webCam)
+                                                    .addProcessor(blueSamples.colorProcessor())
+                                                    .build();
     }
 
 

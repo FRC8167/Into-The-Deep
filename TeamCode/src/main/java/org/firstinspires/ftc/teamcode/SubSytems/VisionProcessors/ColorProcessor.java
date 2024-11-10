@@ -9,8 +9,7 @@ import java.util.List;
 
 public class ColorProcessor {
 
-    enum Filter {NONE, AREA, ASPECT};
-//    Filter filter = Filter.NONE;
+    public enum Filter {NONE, AREA, ASPECT};
     ColorBlobLocatorProcessor colorProcessor;
     ColorRange color;
 

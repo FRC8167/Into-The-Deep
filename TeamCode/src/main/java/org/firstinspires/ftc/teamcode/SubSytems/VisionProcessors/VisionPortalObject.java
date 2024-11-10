@@ -7,14 +7,13 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.Exposur
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
-import org.firstinspires.ftc.vision.opencv.ColorRange;
-import org.firstinspires.ftc.vision.opencv.ImageRegion;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class VisionPortalObject {
@@ -27,20 +26,39 @@ public class VisionPortalObject {
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;
     private AprilTagProcessor aprilTagProcessor = null;
-
-    private ColorBlobLocatorProcessor blueColorLocator;
-    private ColorBlobLocatorProcessor yellowColorLocator;
-    private ColorBlobLocatorProcessor redColorLocator;
+    ArrayList<VisionProcessor> processors;
 
 
     /**
      * Create a Vision Portal object with the specified camera.
-     * @param cameraName
+     * @param builder
+     * @throws InterruptedException
      */
-    public VisionPortalObject(WebcamName cameraName) throws InterruptedException {
-        camera = cameraName;
+    public VisionPortalObject(Builder builder) throws InterruptedException {
+        this.camera = builder.camera;
+        processors = builder.processors;
         buildVisionPortal(aprilTagProcessor);
     }
+
+
+    /** Builder Class **/
+    public static class Builder {
+
+        private WebcamName camera;
+        private ArrayList<VisionProcessor> processors = new ArrayList<>();
+
+        public Builder(WebcamName camera) {
+            this.camera = camera;
+        }
+
+        public VisionPortalObject.Builder addProcessor(VisionProcessor processor) {
+            this.processors.add(processor);
+            return this;
+        }
+
+        public VisionPortalObject build() throws InterruptedException { return new VisionPortalObject(this); }
+    }
+    /************************** END CONSTRUCTOR **************************/
 
 
     /**
@@ -57,12 +75,14 @@ public class VisionPortalObject {
                 .build();
         aprilTagProcessor.setDecimation(1);
 
+        /* Convert list of vision processors to an array */
+        VisionProcessor[] procsArray = new VisionProcessor[processors.size()];
+        procsArray = processors.toArray(procsArray);
+
         visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
                 .addProcessor(aprilTagProcessor)
-                .addProcessor(redColorLocator)
-                .addProcessor(blueColorLocator)
-                .addProcessor(yellowColorLocator)
+                .addProcessors(procsArray)
                 .setCameraResolution(new Size(640, 480))
                 .build();
 
