@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
+import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.AprilTagProcessorObject;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
@@ -28,6 +29,9 @@ import java.util.Locale;
  * LinearOpMode framework as this class itself extends the LinearOpMode class.
  */
 public abstract class RobotConfiguration extends LinearOpMode {
+
+    protected RobotConfiguration() throws InterruptedException {
+    }
 
     /*------------ Public Class Variables - Frowned Upon ------------*/
     public enum AllianceColor { RED, BLUE }
@@ -48,7 +52,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected ServoToggle        gripper;
 
     /*---------------------- Vision Objects -------------------------*/
-    protected ColorProcessor blueSamples = new ColorProcessor(ColorRange.BLUE);
+    protected ColorProcessor blueSamps = new ColorProcessor(ColorRange.BLUE);
+    protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
 
     /**
      * initializeRobot:
@@ -86,7 +92,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
         wristPivot  = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         vision      = new VisionPortalObject.Builder(webCam)
-                                                    .addProcessor(blueSamples.colorProcessor())
+                                                    .addProcessor(blueSamps.colorProcessor())
+                                                    .addProcessor(redSamps.colorProcessor())
                                                     .build();
     }
 

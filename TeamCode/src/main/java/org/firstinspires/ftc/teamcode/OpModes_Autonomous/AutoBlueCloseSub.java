@@ -19,7 +19,7 @@ import org.opencv.core.RotatedRect;
 @Autonomous(name="AutoBlueCloseSub", group="Autonomous", preselectTeleOp = "TeleOp")
 public class AutoBlueCloseSub extends RobotConfiguration implements TeamConstants {
 
-    @SuppressLint("DefaultLocale")
+//    @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() throws InterruptedException {
 
