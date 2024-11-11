@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.AprilTagProcessorObject;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
@@ -17,6 +18,10 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
 
         ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
         ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+        AprilTagProcessorObject aprilTag = new AprilTagProcessorObject();
+
+    public TeleOpVisionTest() throws InterruptedException {
+    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -24,6 +29,7 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
         VisionPortalObject vision = new VisionPortalObject.Builder(hardwareMap.get(WebcamName.class, "Webcam1"))
                 .addProcessor(bluSamps.colorProcessor())
                 .addProcessor(redSamps.colorProcessor())
+                .addProcessor(aprilTag.getProcessor())
                 .build();
 
         waitForStart();

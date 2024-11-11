@@ -25,7 +25,6 @@ public class VisionPortalObject {
 
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;
-    private AprilTagProcessor aprilTagProcessor = null;
     ArrayList<VisionProcessor> processors;
 
 
@@ -36,12 +35,12 @@ public class VisionPortalObject {
      */
     public VisionPortalObject(Builder builder) throws InterruptedException {
         this.camera = builder.camera;
-        processors = builder.processors;
-        buildVisionPortal(aprilTagProcessor);
+        processors  = builder.processors;
+        buildVisionPortal();
     }
 
 
-    /** Builder Class **/
+    /*************************** Builder Class ***************************/
     public static class Builder {
 
         private WebcamName camera;
@@ -63,26 +62,18 @@ public class VisionPortalObject {
 
     /**
      * Add an April Tag processor to the vision portal.
-     * @param atproc
+     *
      * @throws InterruptedException
      */
-    public void buildVisionPortal(AprilTagProcessor atproc) throws InterruptedException {
-
-        aprilTagProcessor = new AprilTagProcessor.Builder()
-                .setLensIntrinsics(889.035, 889.035, 390.3019, 66.3539)
-                .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
-                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
-                .build();
-        aprilTagProcessor.setDecimation(1);
+    public void buildVisionPortal() throws InterruptedException {
 
         /* Convert list of vision processors to an array */
-        VisionProcessor[] procsArray = new VisionProcessor[processors.size()];
-        procsArray = processors.toArray(procsArray);
+        VisionProcessor[] processorArray = new VisionProcessor[processors.size()];
+        processorArray = processors.toArray(processorArray);
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
-                .addProcessor(aprilTagProcessor)
-                .addProcessors(procsArray)
+                .addProcessors(processorArray)
                 .setCameraResolution(new Size(640, 480))
                 .build();
 
@@ -112,10 +103,6 @@ public class VisionPortalObject {
             gain.setGain(cameraGain);
         }
     }
-
-    /*************************** Processor Controls ***************************/
-    public void enableAprilTagDetection()  { visionPortal.setProcessorEnabled(aprilTagProcessor, true); }
-    public void disableAprilTagDetection() { visionPortal.setProcessorEnabled(aprilTagProcessor, false); }
 
 
     /**
