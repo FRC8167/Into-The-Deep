@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 
-@Disabled
+//@Disabled
 @TeleOp(name="VisionTest", group="Experimental")
 public class TeleOpVisionTest extends RobotConfiguration implements TeamConstants {
 
