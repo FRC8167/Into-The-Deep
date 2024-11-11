@@ -30,9 +30,6 @@ import java.util.Locale;
  */
 public abstract class RobotConfiguration extends LinearOpMode {
 
-    protected RobotConfiguration() throws InterruptedException {
-    }
-
     /*------------ Public Class Variables - Frowned Upon ------------*/
     public enum AllianceColor { RED, BLUE }
 
