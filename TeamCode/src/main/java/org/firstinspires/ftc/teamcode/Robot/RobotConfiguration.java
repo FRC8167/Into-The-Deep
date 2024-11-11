@@ -51,6 +51,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*---------------------- Vision Objects -------------------------*/
     protected ColorProcessor blueSamps = new ColorProcessor(ColorRange.BLUE);
     protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+
+    /* April tags may have to get moved into the Vision subsystem. */
 //    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
 
     /**
