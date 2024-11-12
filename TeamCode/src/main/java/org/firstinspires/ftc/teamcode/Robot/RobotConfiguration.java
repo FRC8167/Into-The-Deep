@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
+import org.firstinspires.ftc.teamcode.SubSytems.Slide;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -22,7 +23,7 @@ import java.util.Locale;
 /**
  * This class should be used to define all the subsystem modules and assign the hardware used in
  * those modules. The keyword 'abstract' indicates that an object of this class cannot be created
- * directly in an opMode. Instead, a class must be created that extends or inherits from this class.
+ * directly in an opMode. Instead, a class must be created that extends or inherits from this class
  * In our case, all OpModes will extend RobotConfig. This allows the opMode to use all the
  * variables, objects and methods defined below. It also will create an OpMode that uses the SDK's
  * LinearOpMode framework as this class itself extends the LinearOpMode class.
@@ -45,6 +46,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     static protected VisionPortalObject vision;
     static protected Servo1D            wristRotate;
     static protected Servo1D            wristPivot;
+    static protected Slide              slide;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
 
@@ -74,9 +76,11 @@ public abstract class RobotConfiguration extends LinearOpMode {
             DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
             DcMotorEx armMotorL = hardwareMap.get(DcMotorEx.class, "armL");
             DcMotorEx armMotorR = hardwareMap.get(DcMotorEx.class, "armR");
+            DcMotorEx slideMotor = hardwareMap.get(DcMotorEx.class, "slideMotor");
             Servo wristPivotServo = hardwareMap.get(Servo.class, "servo1");
             Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
             Servo gripperServo = hardwareMap.get(Servo.class, "servo0");
+
 
             WebcamName webCam = hardwareMap.get(WebcamName.class, "Webcam1");
 
