@@ -24,6 +24,7 @@ public class MotorPivotExp implements TeamConstants {
     double y = 6;              // Distance from wrist pivot joint to the floor
     double h = 15;             // Distance from arm pivot axis to the floor
     int targetDisp;
+    int CountTest;
 
     public MotorPivotExp(DcMotorEx motorR, DcMotorEx motorL) {
 
@@ -36,6 +37,7 @@ public class MotorPivotExp implements TeamConstants {
         motorL.setTargetPositionTolerance(tolerance);
 
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+        CountTest += 1;
     }
 
 
@@ -75,6 +77,7 @@ public class MotorPivotExp implements TeamConstants {
         motorR.setTargetPosition(clamp(counts));
         motorR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motorR.setVelocity(100);
+
     }
 
 
@@ -114,6 +117,9 @@ public class MotorPivotExp implements TeamConstants {
 
     public int command() {
         return targetDisp;
+    }
+    public int getTest() {
+        return CountTest;
     }
 
     public int getRmotorPos() { return motorR.getCurrentPosition(); }

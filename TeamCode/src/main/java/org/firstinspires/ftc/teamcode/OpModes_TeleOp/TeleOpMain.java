@@ -36,9 +36,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(-operator.leftStick_X  * 0.5 + 0.5);
 //            /* ********************************************************/
 
-//            if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < 0.1) {
+             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
                 armPivot.manualMove(operator.rightStick_Y);
-//            }
+             }
 
             /* Output Telemetry Data to Driver Stations */
             telemetry.addData("Left Motor Pos: ", armPivot.getLmotorPos());
@@ -51,8 +51,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Pose X: ", autoDrive.pose.position.x);
             telemetry.addData("Pose X: ", autoDrive.pose.position.y);
             telemetry.addData("Pose Heading: ", autoDrive.pose.heading);
-            telemetry.update();
+            telemetry.addData("TestPos: ", drive.getLFpos());
+            telemetry.addData("Test: ", armPivot.getTest());
 
+            telemetry.update();
             periodicCalls();
         }
     }

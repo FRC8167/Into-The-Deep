@@ -27,6 +27,7 @@ import java.util.Locale;
  * variables, objects and methods defined below. It also will create an OpMode that uses the SDK's
  * LinearOpMode framework as this class itself extends the LinearOpMode class.
  */
+
 public abstract class RobotConfiguration extends LinearOpMode {
 
     /*------------ Public Class Variables - Frowned Upon ------------*/
@@ -58,9 +59,13 @@ public abstract class RobotConfiguration extends LinearOpMode {
      *
      * @throws InterruptedException
      */
+    int test2;
+    public int getTest2() {
+        return test2;
+    }
     public void initializeRobot(Pose2d startPose) throws InterruptedException {
 
-        if (!initialized) {
+        if (true) {
             /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
             ctrlHubs = hardwareMap.getAll(LynxModule.class);
             for (LynxModule hub : ctrlHubs) {
@@ -88,6 +93,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
             gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
             vision = new VisionPortalObject(webCam);
             armPivot = new MotorPivotExp(armMotorR,armMotorL);
+            test2 += 1;
 
             initialized = true;
         }
