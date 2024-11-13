@@ -45,7 +45,7 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void periodic(int slideLength) {
-        minCounts = (int) Math.acos((h-y)/slideLength);
+        minCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
     }
 
 

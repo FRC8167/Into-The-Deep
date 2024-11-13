@@ -45,14 +45,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Right Motor Pos: ", armPivot.getRmotorPos());
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
-            telemetry.addData("Arm Angle: ", armPivot.getPosition());
-            telemetry.addData("Arm Command: ", armPivot.command());
-            telemetry.addData("Right Y:" , operator.rightStick_Y);
             telemetry.addData("Pose X: ", autoDrive.pose.position.x);
             telemetry.addData("Pose X: ", autoDrive.pose.position.y);
             telemetry.addData("Pose Heading: ", autoDrive.pose.heading);
-            telemetry.addData("TestPos: ", drive.getLFpos());
-            telemetry.addData("Test: ", armPivot.getTest());
 
             telemetry.update();
             periodicCalls();
@@ -63,6 +58,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     private void periodicCalls() {
         driver.update();
         operator.update();
+        armPivot.periodic(30);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
     }
 }
