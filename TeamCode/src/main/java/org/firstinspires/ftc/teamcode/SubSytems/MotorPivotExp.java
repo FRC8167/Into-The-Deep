@@ -98,12 +98,12 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public int degreesToCounts(double degrees) {
-        return (int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
+        return (int)(degrees / TeamConstants.DEGREES_PER_COUNT);
     }
 
 
     public double countsToDegrees(double counts) {
-        return (counts * 1/TeamConstants.DEGREES_TO_COUNTS);
+        return (counts * TeamConstants.DEGREES_PER_COUNT);
     }
 
 
