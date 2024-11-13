@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -75,6 +76,9 @@ public class MotorPivot implements TeamConstants {
         return motor.isBusy();
     }
 
+    public void resetEncoder() {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 
     public int degreesToCounts(double degrees) {
         return (int)(degrees * TeamConstants.DEGREES_TO_COUNTS);

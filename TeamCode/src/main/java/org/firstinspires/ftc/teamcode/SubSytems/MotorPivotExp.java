@@ -17,49 +17,30 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
  */
 
 public class MotorPivotExp implements TeamConstants {
+
     DcMotorEx motorL;
     DcMotorEx motorR;
     int tolerance = 20;
     int minCounts;
     double y = 6;              // Distance from wrist pivot joint to the floor
     double h = 15;             // Distance from arm pivot axis to the floor
-    int targetDisp;
-    int CountTest;
 
     public MotorPivotExp(DcMotorEx motorR, DcMotorEx motorL) {
 
         this.motorR = motorR;
         this.motorL = motorL;
-        motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        resetEncoders();
 
         motorR.setTargetPositionTolerance(tolerance);
         motorL.setTargetPositionTolerance(tolerance);
 
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
-        CountTest += 1;
     }
 
 
     public void manualMove(double joystickValue) {
-
-//        double newTarget = (motorR.getCurrentPosition()+motorL.getCurrentPosition())/2.0 + .2 * joystickValue;
-        double newTargetR = motorR.getCurrentPosition() + 40 * joystickValue;
-        double newTargetL = motorL.getCurrentPosition() + 40 * joystickValue;
-//            motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//
-//            motorR.setPower(0.750 * joystickValue);
-//            motorL.setPower(0.750 * joystickValue);
-        targetDisp = (int)newTargetL;
-        motorR.setTargetPosition((int)newTargetR);
-        motorL.setTargetPosition((int)newTargetL);
-
-        motorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        motorR.setVelocity(2000);
-        motorL.setVelocity(2000);
+        int newTarget = (int)(motorR.getCurrentPosition() + 40 * joystickValue);
+        setPositionCounts(newTarget);
     }
 
 
@@ -68,15 +49,19 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-    public void setPosition(double degrees) {
-        setPositionCounts(degreesToCounts(degrees));
+    public void setPositionDegrees(double degrees) {
+        int counts = degreesToCounts(degrees);
+        setPositionCounts(counts);
     }
 
 
     public void setPositionCounts(int counts){
+        motorL.setTargetPosition(clamp(counts));
         motorR.setTargetPosition(clamp(counts));
+        motorL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motorR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motorR.setVelocity(100);
+        motorL.setVelocity(2000);
+        motorR.setVelocity(2000);
 
     }
 
@@ -91,18 +76,24 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-    public int getPosition(){
-        return(motorR.getCurrentPosition());
-    }
+//    public int getPosition(){
+//        return(motorR.getCurrentPosition());
+//    }
+//
+//
+//    public double getVelocity() {
+//        return(motorR.getVelocity());
+//    }
+//
+//
+//    public boolean inMotion() {
+//        return motorR.isBusy();
+//    }
 
 
-    public double getVelocity() {
-        return(motorR.getVelocity());
-    }
-
-
-    public boolean inMotion() {
-        return motorR.isBusy();
+    public void resetEncoders() {
+        motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 
@@ -115,12 +106,6 @@ public class MotorPivotExp implements TeamConstants {
         return (counts * 1/TeamConstants.DEGREES_TO_COUNTS);
     }
 
-    public int command() {
-        return targetDisp;
-    }
-    public int getTest() {
-        return CountTest;
-    }
 
     public int getRmotorPos() { return motorR.getCurrentPosition(); }
     public int getLmotorPos() { return motorL.getCurrentPosition(); }
