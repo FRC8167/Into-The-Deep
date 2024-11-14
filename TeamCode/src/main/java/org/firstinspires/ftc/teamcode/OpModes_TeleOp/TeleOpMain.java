@@ -42,7 +42,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             /* ********************************************************/
 
 
-            /* Ouput Telemtery Data to Driver Stations */
+            /* Output Telemtery Data to Driver Stations */
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
             telemetry.addData("WristPivot: ", wristPivot.servoPos());
