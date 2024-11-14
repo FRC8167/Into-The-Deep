@@ -29,10 +29,10 @@ public interface TeamConstants {
 //    double GRIPPER_CLOSE   = 0.51;
 //    double GRIPPER_OPEN    = 0.45;
 //
-//    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
-//    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
-//    int MIN_POSITION_COUNTS = 1;    // TODO: update when the arm install is complete
-//    int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
+    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
+    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
+    int MIN_POSITION_COUNTS = 1;    // TODO: update when the arm install is complete
+    int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
 
 
     /*~~~~~~~~~~~~~~~~~~~~~ MecanumDrive Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~*/
