@@ -62,7 +62,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     private void periodicCalls() {
         driver.update();
         operator.update();
-        armPivot.periodic(30);
+//        armPivot.periodic(18);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
     }
 }
