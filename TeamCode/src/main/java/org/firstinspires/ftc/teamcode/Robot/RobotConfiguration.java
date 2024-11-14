@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
-import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
 import org.firstinspires.ftc.teamcode.SubSytems.Slide;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
@@ -44,12 +44,11 @@ public abstract class RobotConfiguration extends LinearOpMode {
     static protected MecanumDriveBasic  drive;
     static protected MecanumDrive       autoDrive;
     static protected VisionPortalObject vision;
-    static protected Servo1D            wristRotate;
+    static protected ServoRotate        wristRotate;
     static protected Servo1D            wristPivot;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
     static protected Slide              slide;
-
 
     /**
      * initializeRobot:
@@ -87,8 +86,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive = new MecanumDrive(hardwareMap, startPose);
-        wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
-        wristPivot = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
+        wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_PIVOT_CENTER, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
+        wristPivot = new Servo1D(wristPivotServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);
         gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         vision = new VisionPortalObject(webCam);
         armPivot = new MotorPivotExp(armMotorR,armMotorL);

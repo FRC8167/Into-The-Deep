@@ -35,10 +35,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
-    android:id="@+id/action_settings"
-    android:orderInCategory="100"
-    app:showAsAction="never"
-    android:title="@string/settings_menu_item"/>
+      android:id="@+id/action_settings"
+      android:orderInCategory="100"
+      android:title="@string/settings_menu_item"
+      app:showAsAction="never" />
   <item
     android:id="@+id/action_restart_robot"
     android:orderInCategory="200"
