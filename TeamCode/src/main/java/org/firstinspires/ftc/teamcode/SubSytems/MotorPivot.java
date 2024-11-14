@@ -18,11 +18,12 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 public class MotorPivot implements TeamConstants {
 
     DcMotorEx motor;
-    int tolerance = 20;
+    int tolerance = 6;
     int minRotationCounts;
-    double y = 6;              // Distance from wrist pivot joint to the floor
-    double h = 15;             // Distance from arm pivot axis to the floor
-
+    double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
+    double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
+    //double lmin = 408 / 25.4;
+    //initialize position = 45; degrees;
 
     public MotorPivot(DcMotorEx motor) {
         this.motor = motor;
