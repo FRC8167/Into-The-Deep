@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -32,15 +33,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         waitForStart();
 
         while (opModeIsActive()) {
-            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
-            /* ********* Created for wrist proof of concept ********* */
-            if(operator.a.pressed()) gripper.toggleGripper();
-            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
-            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
-            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
-            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
+//            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
+//            /* ********* Created for wrist proof of concept ********* */
+//            if(operator.a.pressed()) gripper.toggleGripper();
+//            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
+//            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
+//            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
+//            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
             /* ********************************************************/
-
+            wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
 
             /* Output Telemtery Data to Driver Stations */
             telemetry.addData("GripServo: ", gripper.servoPos());
@@ -61,9 +62,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(-operator.leftStick_X  * 0.5 + 0.5);
 //            /* ********************************************************/
 
-//             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
-//                armPivot.manualMove(operator.rightStick_Y);
-//             }
+             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
+                armPivot.manualMove(operator.rightStick_Y);
+             }
 
 //            /* Output Telemetry Data to Driver Stations */
 //            telemetry.addData("Left Motor Pos: ", armPivot.getLmotorPos());
