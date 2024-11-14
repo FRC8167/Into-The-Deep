@@ -25,6 +25,7 @@ public class MotorPivot implements TeamConstants {
     //double lmin = 408 / 25.4;
     //initialize position = 45; degrees;
 
+
     public MotorPivot(DcMotorEx motor) {
         this.motor = motor;
         motor.setTargetPositionTolerance(tolerance);
