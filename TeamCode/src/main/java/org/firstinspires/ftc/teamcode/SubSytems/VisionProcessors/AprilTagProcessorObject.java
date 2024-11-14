@@ -44,7 +44,7 @@ public class AprilTagProcessorObject {
      * Create an processor for April Tag detections
      * @throws InterruptedException
      */
-    public AprilTagProcessorObject() throws InterruptedException {
+    public AprilTagProcessorObject()  {
 
         aprilTagProc = new AprilTagProcessor.Builder()
                 // The following default settings are available to un-comment and edit as needed.

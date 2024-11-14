@@ -48,12 +48,12 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected Servo1D            wristPivot;
     protected ServoToggle        gripper;
 
+
     /*---------------------- Vision Objects -------------------------*/
     protected ColorProcessor blueSamps = new ColorProcessor(ColorRange.BLUE);
     protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
 
-    /* April tags may have to get moved into the Vision subsystem. */
-//    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
 
     /**
      * initializeRobot:
@@ -93,6 +93,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         vision      = new VisionPortalObject.Builder(webCam)
                                                     .addProcessor(blueSamps.colorProcessor())
                                                     .addProcessor(redSamps.colorProcessor())
+                                                    .addProcessor(aprilTags.getProcessor())
                                                     .build();
     }
 
