@@ -11,28 +11,28 @@ public interface TeamConstants {
 //
 //
 //    /*~~~~~~~~~~~~~~~~~~~~~ Wrist Pivot Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~*/
-//    double PIVOT_MIN = 0.0;
-//    double PIVOT_MAX = 1.0;
-//    double PIVOT_CENTER = 0.5;
+    double PIVOT_MIN = 0.0;
+    double PIVOT_MAX = 1.0;
+    double PIVOT_CENTER = 0.5;
     // Need preset positions
 
 
     /*~~~~~~~~~~~~~~~~~~~~ Wrist Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~*/
-//    double ROTATE_MIN = 0.5;
-//    double ROTATE_MAX = 0.0;
-//    double ROTATE_CENTER = 0.25;  // Needs Verified
+    double ROTATE_MIN = 0.5;
+    double ROTATE_MAX = 0.0;
+    double ROTATE_CENTER = 0.25;  // Needs Verified
 //
 //
 //    /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
-//    double GRIPPER_MAX_POS = 0.515;
-//    double GRIPPER_MIN_POS = 0.40;
-//    double GRIPPER_CLOSE   = 0.51;
-//    double GRIPPER_OPEN    = 0.45;
-//
+    double GRIPPER_MAX_POS = 0.515;
+    double GRIPPER_MIN_POS = 0.40;
+    double GRIPPER_CLOSE   = 0.51;
+    double GRIPPER_OPEN    = 0.45;
+
 //    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
-//    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
-//    int MIN_POSITION_COUNTS = 1;    // TODO: update when the arm install is complete
-//    int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
+    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
+    int MIN_POSITION_COUNTS = 1;    // TODO: update when the arm install is complete
+    int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
 
 
     /*~~~~~~~~~~~~~~~~~~~~~ MecanumDrive Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~*/
@@ -56,11 +56,9 @@ public interface TeamConstants {
     double WRIST_ROTATE_CENTER = 0.5;
 
 
-    /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
-    double GRIPPER_MAX_POS = 0.515;
-    double GRIPPER_MIN_POS = 0.40;
-    double GRIPPER_CLOSE   = 0.51;
-    double GRIPPER_OPEN    = 0.40;
-
+    /*~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    int SLIDE_MIN = 0;
+    int SLIDE_MAX = 500;
+    double INCHES_TO_COUNTS = 0.5;  //TODO:  update when value is known
 
 }
