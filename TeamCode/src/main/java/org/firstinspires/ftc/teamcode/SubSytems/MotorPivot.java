@@ -18,10 +18,12 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 public class MotorPivot implements TeamConstants {
 
     DcMotorEx motor;
-    int tolerance = 20;
-    int minCounts;
-    double y = 6;              // Distance from wrist pivot joint to the floor
-    double h = 15;             // Distance from arm pivot axis to the floor
+    int tolerance = 6;
+    int minRotationCounts;
+    double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
+    double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
+    //double lmin = 408 / 25.4;
+    //initialize position = 45; degrees;
 
 
     public MotorPivot(DcMotorEx motor) {
@@ -36,7 +38,7 @@ public class MotorPivot implements TeamConstants {
 
 
     public void periodic(int slideLength) {
-        minCounts = (int) Math.acos((h-y)/slideLength);
+        minRotationCounts = (int) Math.acos((h-y)/slideLength);
     }
 
 
@@ -55,8 +57,8 @@ public class MotorPivot implements TeamConstants {
     private int clamp(int position){
         if (position > MAX_POSITION_COUNTS){
             return MAX_POSITION_COUNTS;
-        } else if (position < minCounts){
-            return minCounts;
+        } else if (position < minRotationCounts){
+            return minRotationCounts;
         }
         else return position;
     }

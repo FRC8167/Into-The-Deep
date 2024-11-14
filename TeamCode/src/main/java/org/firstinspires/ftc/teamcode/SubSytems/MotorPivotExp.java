@@ -21,7 +21,7 @@ public class MotorPivotExp implements TeamConstants {
     DcMotorEx motorL;
     DcMotorEx motorR;
     int tolerance = 20;
-    int minCounts;
+    int minRotationCounts;
     double y = 6;              // Distance from wrist pivot joint to the floor
     double h = 15;             // Distance from arm pivot axis to the floor
 
@@ -45,7 +45,7 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void periodic(int slideLength) {
-        minCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
+        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
     }
 
 
@@ -69,8 +69,8 @@ public class MotorPivotExp implements TeamConstants {
     private int clamp(int position){
         if (position > MAX_POSITION_COUNTS){
             return MAX_POSITION_COUNTS;
-        } else if (position < minCounts){
-            return minCounts;
+        } else if (position < minRotationCounts){
+            return minRotationCounts;
         }
         else return position;
     }
