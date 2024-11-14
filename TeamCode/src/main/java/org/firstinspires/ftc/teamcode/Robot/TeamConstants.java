@@ -24,21 +24,14 @@ public interface TeamConstants {
 //
 //
 //    /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
-<<<<<<< HEAD
+
     double GRIPPER_MAX_POS = 0.515;
     double GRIPPER_MIN_POS = 0.40;
     double GRIPPER_CLOSE   = 0.51;
     double GRIPPER_OPEN    = 0.45;
 
-//    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
-=======
-//    double GRIPPER_MAX_POS = 0.515;
-//    double GRIPPER_MIN_POS = 0.40;
-//    double GRIPPER_CLOSE   = 0.51;
-//    double GRIPPER_OPEN    = 0.45;
-//
     /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
->>>>>>> origin/master
+
     double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
     int MIN_POSITION_COUNTS = 1;    // TODO: update when the arm install is complete
     int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
