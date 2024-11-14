@@ -12,6 +12,7 @@ import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
+import org.firstinspires.ftc.teamcode.SubSytems.Slide;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
@@ -47,6 +48,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     static protected Servo1D            wristPivot;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
+    static protected Slide              slide;
 
 
     /**
@@ -90,6 +92,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         vision = new VisionPortalObject(webCam);
         armPivot = new MotorPivotExp(armMotorR,armMotorL);
+        slide = new Slide(slideMotor);
 
     }
 
