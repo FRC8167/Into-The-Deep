@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
@@ -95,5 +99,25 @@ public class MotorPivot implements TeamConstants {
 
 
     // TODO: Add Action enabling Road Runner to have access to setPositionCounts
+    /** Action Classes **/
+    public class rotateToPosition implements Action {
 
+        int position;
+
+        public rotateToPosition(int pos) {
+            position = pos;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            setPositionCounts(position);
+            return false;
+        }
+
+    }
+
+
+    public Action setServoPosition(int position) {
+        return new MotorPivot.rotateToPosition(position);
+    }
 }

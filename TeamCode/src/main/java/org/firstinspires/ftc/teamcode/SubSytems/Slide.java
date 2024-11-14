@@ -53,10 +53,10 @@ public class Slide implements TeamConstants {
     }
 
 
-
     public int inchesToCounts(double inches){
         return (int)(inches * TeamConstants.INCHES_TO_COUNTS);
     }
+
 
     public double countsToInches(double counts) {
         return (counts * 1/TeamConstants.INCHES_TO_COUNTS);
