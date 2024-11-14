@@ -21,6 +21,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         initializeRobot(new Pose2d(0,0,0));
 
+        /* For starting directly in TeleOp only */
+        armPivot.resetEncoders();
+        /* ************************************ */
+
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
