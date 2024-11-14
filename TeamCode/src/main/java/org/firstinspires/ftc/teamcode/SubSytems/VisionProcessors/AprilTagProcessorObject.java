@@ -30,7 +30,7 @@ public class AprilTagProcessorObject {
     // Decimation = 3 ..  Detect 2" Tag from 4  feet away at 30 Frames Per Second (default)
     // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second (default)
     // Note: Decimation can be changed on-the-fly to adapt during a match.
-    private final int decimationRate = 1;
+    private final int decimationRate = 3;
 
 
     /* Uncomment setLensIntrinsics line in the constructor if used */
