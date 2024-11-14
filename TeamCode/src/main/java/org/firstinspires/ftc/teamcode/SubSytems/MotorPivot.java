@@ -117,7 +117,7 @@ public class MotorPivot implements TeamConstants {
     }
 
 
-    public Action setServoPosition(int position) {
+    public Action rotateToPosition(int position) {
         return new MotorPivot.rotateToPosition(position);
     }
 }
