@@ -19,7 +19,7 @@ public class MotorPivot implements TeamConstants {
 
     DcMotorEx motor;
     int tolerance = 20;
-    int minCounts;
+    int minRotationCounts;
     double y = 6;              // Distance from wrist pivot joint to the floor
     double h = 15;             // Distance from arm pivot axis to the floor
 
@@ -36,7 +36,7 @@ public class MotorPivot implements TeamConstants {
 
 
     public void periodic(int slideLength) {
-        minCounts = (int) Math.acos((h-y)/slideLength);
+        minRotationCounts = (int) Math.acos((h-y)/slideLength);
     }
 
 
@@ -55,8 +55,8 @@ public class MotorPivot implements TeamConstants {
     private int clamp(int position){
         if (position > MAX_POSITION_COUNTS){
             return MAX_POSITION_COUNTS;
-        } else if (position < minCounts){
-            return minCounts;
+        } else if (position < minRotationCounts){
+            return minRotationCounts;
         }
         else return position;
     }
