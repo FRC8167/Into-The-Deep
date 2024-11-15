@@ -25,10 +25,10 @@ public class Slide implements TeamConstants {
     }
 
 
-    public void manualMove(double joystickValue) {
-        setPositionCounts((int)(motor.getCurrentPosition() + 40 * joystickValue));
+    public void manualMove(double triggerValue) {
+        setPositionCounts((int)(motor.getCurrentPosition() + 40 * triggerValue));
     }
-    //TODO:  want to do this with a Trigger
+    //TODO:  want to do this with a Trigger; figure this out in TeleOp??
 
 
     public void setPosition(double inches) {
