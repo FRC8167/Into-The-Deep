@@ -1,5 +1,10 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -17,10 +22,12 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 public class MotorPivot implements TeamConstants {
 
     DcMotorEx motor;
-    int tolerance = 20;
-    int minCounts;
-    double y = 6;              // Distance from wrist pivot joint to the floor
-    double h = 15;             // Distance from arm pivot axis to the floor
+    int tolerance = 6;
+    int minRotationCounts;
+    double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
+    double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
+    //double lmin = 408 / 25.4;
+    //initialize position = 45; degrees;
 
 
     public MotorPivot(DcMotorEx motor) {
@@ -35,7 +42,7 @@ public class MotorPivot implements TeamConstants {
 
 
     public void periodic(int slideLength) {
-        minCounts = (int) Math.acos((h-y)/slideLength);
+        minRotationCounts = (int) Math.acos((h-y)/slideLength);
     }
 
 
@@ -54,8 +61,8 @@ public class MotorPivot implements TeamConstants {
     private int clamp(int position){
         if (position > MAX_POSITION_COUNTS){
             return MAX_POSITION_COUNTS;
-        } else if (position < minCounts){
-            return minCounts;
+        } else if (position < minRotationCounts){
+            return minRotationCounts;
         }
         else return position;
     }
@@ -76,16 +83,41 @@ public class MotorPivot implements TeamConstants {
     }
 
 
+    public void resetEncoder() {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+
     public int degreesToCounts(double degrees) {
-        return (int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
+        return (int)(degrees / TeamConstants.DEGREES_PER_COUNT);
     }
 
 
     public double countsToDegrees(double counts) {
-        return (counts * 1/TeamConstants.DEGREES_TO_COUNTS);
+        return (counts * TeamConstants.DEGREES_PER_COUNT);
     }
 
 
     // TODO: Add Action enabling Road Runner to have access to setPositionCounts
+    /** Action Classes **/
+    public class rotateToPosition implements Action {
 
+        int position;
+
+        public rotateToPosition(int pos) {
+            position = pos;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            setPositionCounts(position);
+            return false;
+        }
+
+    }
+
+
+    public Action rotateToPosition(int position) {
+        return new MotorPivot.rotateToPosition(position);
+    }
 }

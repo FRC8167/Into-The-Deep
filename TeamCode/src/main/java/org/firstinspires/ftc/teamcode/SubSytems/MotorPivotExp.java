@@ -17,20 +17,21 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
  */
 
 public class MotorPivotExp implements TeamConstants {
+
     DcMotorEx motorL;
     DcMotorEx motorR;
     int tolerance = 20;
-    int minCounts;
-    double y = 6;              // Distance from wrist pivot joint to the floor
-    double h = 15;             // Distance from arm pivot axis to the floor
-    int targetDisp;
+    int minRotationCounts;
+    double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
+    double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
+    //double lmin = 408 / 25.4;
+    //initialize position = 45; degrees;
 
     public MotorPivotExp(DcMotorEx motorR, DcMotorEx motorL) {
 
         this.motorR = motorR;
         this.motorL = motorL;
-        motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        resetEncoders();
 
         motorR.setTargetPositionTolerance(tolerance);
         motorL.setTargetPositionTolerance(tolerance);
@@ -40,81 +41,73 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void manualMove(double joystickValue) {
-
-//        double newTarget = (motorR.getCurrentPosition()+motorL.getCurrentPosition())/2.0 + .2 * joystickValue;
-        double newTargetR = motorR.getCurrentPosition() + 40 * joystickValue;
-        double newTargetL = motorL.getCurrentPosition() + 40 * joystickValue;
-//            motorL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//            motorR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-//
-//            motorR.setPower(0.750 * joystickValue);
-//            motorL.setPower(0.750 * joystickValue);
-        targetDisp = (int)newTargetL;
-        motorR.setTargetPosition((int)newTargetR);
-        motorL.setTargetPosition((int)newTargetL);
-
-        motorL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        motorR.setVelocity(2000);
-        motorL.setVelocity(2000);
+        int newTarget = (int)(motorR.getCurrentPosition() + 40 * joystickValue);
+        setPositionCounts(newTarget);
     }
 
 
     public void periodic(int slideLength) {
-        minCounts = (int) Math.acos((h-y)/slideLength);
+        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
     }
 
 
-    public void setPosition(double degrees) {
-        setPositionCounts(degreesToCounts(degrees));
+    public void setPositionDegrees(double degrees) {
+        int counts = degreesToCounts(degrees);
+        setPositionCounts(counts);
     }
 
 
     public void setPositionCounts(int counts){
+        motorL.setTargetPosition(clamp(counts));
         motorR.setTargetPosition(clamp(counts));
+        motorL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motorR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motorR.setVelocity(100);
+        motorL.setVelocity(2000);
+        motorR.setVelocity(2000);
+
     }
 
 
     private int clamp(int position){
         if (position > MAX_POSITION_COUNTS){
             return MAX_POSITION_COUNTS;
-        } else if (position < minCounts){
-            return minCounts;
+        } else if (position < minRotationCounts){
+            return minRotationCounts;
         }
         else return position;
     }
 
 
-    public int getPosition(){
-        return(motorR.getCurrentPosition());
-    }
+//    public int getPosition(){
+//        return(motorR.getCurrentPosition());
+//    }
+//
+//
+//    public double getVelocity() {
+//        return(motorR.getVelocity());
+//    }
+//
+//
+//    public boolean inMotion() {
+//        return motorR.isBusy();
+//    }
 
 
-    public double getVelocity() {
-        return(motorR.getVelocity());
-    }
-
-
-    public boolean inMotion() {
-        return motorR.isBusy();
+    public void resetEncoders() {
+        motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
 
     public int degreesToCounts(double degrees) {
-        return (int)(degrees * TeamConstants.DEGREES_TO_COUNTS);
+        return (int)(degrees / TeamConstants.DEGREES_PER_COUNT);
     }
 
 
     public double countsToDegrees(double counts) {
-        return (counts * 1/TeamConstants.DEGREES_TO_COUNTS);
+        return (counts * TeamConstants.DEGREES_PER_COUNT);
     }
 
-    public int command() {
-        return targetDisp;
-    }
 
     public int getRmotorPos() { return motorR.getCurrentPosition(); }
     public int getLmotorPos() { return motorL.getCurrentPosition(); }

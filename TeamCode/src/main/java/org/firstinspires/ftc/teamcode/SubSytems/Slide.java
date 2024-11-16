@@ -12,64 +12,54 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class Slide implements TeamConstants {
 
-    DcMotorEx slideMotor;
+    DcMotorEx motor;
+    int tolerance = 6;
+    int minSlideCounts;
     int min;
     double max;
 
 
-    public Slide(DcMotorEx slideMotor, double initPos, int minCounts, double max) {
-        this.slideMotor = slideMotor;
-        setPosition(initPos);
-        this.min = minCounts;
-        this.max = max;
+    public Slide(DcMotorEx motor) {
+        this.motor = motor;
+        motor.setTargetPositionTolerance(tolerance);
     }
 
-    public void manualMove(double joystickValue) {
-        setPositionCounts((int)(slideMotor.getCurrentPosition() + 40 * joystickValue));
-    } //change to trigger button
+
+    public void manualMove(double triggerValue) {
+        setPositionCounts((int)(motor.getCurrentPosition() + 40 * triggerValue));
+    }
+    //TODO:  want to do this with a Trigger; figure this out in TeleOp??
+
+
+    public void setPosition(double inches) {
+        setPositionCounts(inchesToCounts(inches));
+    }
+
 
     public void setPositionCounts(int counts){
-        slideMotor.setTargetPosition(clamp(counts));
-        slideMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        slideMotor.setVelocity(3000);
+        motor.setTargetPosition(clamp(counts));
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setVelocity(3000);
     }
 
+
     private int clamp(int position){
-        if (position > MAX_POSITION_COUNTS){
-            return MAX_POSITION_COUNTS;
-        } else if (position < min){
-            return min;
+        if (position > SLIDE_MAX){
+            return SLIDE_MAX;
+        } else if (position < SLIDE_MIN){
+            return SLIDE_MIN;
         }
         else return position;
     }
 
-    public void setPosition(double position) {slideMotor.setPosition(Range.clip(position, min, max));
+
+    public int inchesToCounts(double inches){
+        return (int)(inches * TeamConstants.INCHES_TO_COUNTS);
     }
 
 
-    public double servoPos() { return slideMotor.getPosition(); }
-
-
-    /** Action Classes **/
-    public class SetServoPosition implements Action {
-
-        double position;
-
-        public SetServoPosition(double pos) {
-            position = pos;
-        }
-
-        @Override
-        public boolean run(@NonNull TelemetryPacket packet) {
-            slideMotor.setPosition(position);
-            return false;
-        }
-
-    }
-
-
-    public Action setServoPosition(double position) {
-        return new SetServoPosition(position);
+    public double countsToInches(double counts) {
+        return (counts * 1/TeamConstants.INCHES_TO_COUNTS);
     }
 
 }
