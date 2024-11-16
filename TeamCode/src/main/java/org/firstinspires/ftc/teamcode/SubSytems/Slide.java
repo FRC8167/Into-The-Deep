@@ -5,8 +5,6 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -54,12 +52,12 @@ public class Slide implements TeamConstants {
 
 
     public int inchesToCounts(double inches){
-        return (int)(inches * TeamConstants.INCHES_TO_COUNTS);
+        return (int)(inches * TeamConstants.INCHES_PER_COUNT);
     }
 
 
     public double countsToInches(double counts) {
-        return (counts * 1/TeamConstants.INCHES_TO_COUNTS);
+        return (counts * 1/TeamConstants.INCHES_PER_COUNT);
     }
 
 
