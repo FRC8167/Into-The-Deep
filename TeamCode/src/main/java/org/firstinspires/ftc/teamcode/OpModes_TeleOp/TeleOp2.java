@@ -31,6 +31,7 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
         waitForStart();
 
         while (opModeIsActive()) {
+
             if (!autoDriveInProgress) {
 
                 if (driver.leftBumper.pressed())  drive.setDegradedDrive(true);
@@ -39,6 +40,7 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
 
                 armPivot.manualMove(operator.leftStick_Y);
             }
+
             if (operator.y.pressed()) scoreHigh();
 
 
