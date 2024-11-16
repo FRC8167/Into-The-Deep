@@ -63,7 +63,7 @@ public class Slide implements TeamConstants {
     }
 
 
-    /** Action Classes **/
+    /* ************************* Actions * *************************/
     public class SlidePosition implements Action {
 
         int position;
