@@ -20,7 +20,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        initializeRobot(new Pose2d(0,0,0));
+        telemetry.addData("Test: ", initializeRobot(new Pose2d(0,0,0)));
+        telemetry.update();
 
         /* For starting directly in TeleOp only */
         armPivot.resetEncoders();
@@ -35,7 +36,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
 //            /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
-
+            wristPivot.setPosition(((operator.rightStick_X+1)/2)*.85);
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
