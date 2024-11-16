@@ -100,6 +100,7 @@ public class MotorPivotExp implements TeamConstants {
     public void resetEncoders() {
         motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 
