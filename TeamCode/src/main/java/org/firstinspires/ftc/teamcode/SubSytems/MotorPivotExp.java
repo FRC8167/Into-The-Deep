@@ -92,9 +92,9 @@ public class MotorPivotExp implements TeamConstants {
 //    }
 //
 //
-//    public boolean inMotion() {
-//        return motorR.isBusy();
-//    }
+    public boolean inMotion() {
+        return motorR.isBusy()  ||  motorL.isBusy();
+    }
 
 
     public void resetEncoders() {

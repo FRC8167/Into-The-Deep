@@ -59,7 +59,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
      *
      * @throws InterruptedException
      */
-    public void initializeRobot(Pose2d startPose) throws InterruptedException {
+    public double initializeRobot(Pose2d startPose) throws InterruptedException {
 
         /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
         ctrlHubs = hardwareMap.getAll(LynxModule.class);
@@ -87,12 +87,15 @@ public abstract class RobotConfiguration extends LinearOpMode {
         drive = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive = new MecanumDrive(hardwareMap, startPose);
         wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);
-        wristPivot = new Servo1D(wristPivotServo, TeamConstants.WRIST_PIVOT_CENTER, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
+        wristRotateServo.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
+        wristPivot = new Servo1D(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
+        wristPivotServo.setPosition(TeamConstants.WRIST_PIVOT_MAX);
         gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
+        gripperServo.setPosition(TeamConstants.GRIPPER_CLOSE);
         vision = new VisionPortalObject(webCam);
         armPivot = new MotorPivotExp(armMotorR,armMotorL);
         slide = new Slide(slideMotor);
-
+        return gripper.servoPos();
     }
 
 
