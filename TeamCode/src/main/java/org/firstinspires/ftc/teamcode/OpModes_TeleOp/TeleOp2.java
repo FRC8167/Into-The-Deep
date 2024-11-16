@@ -33,19 +33,15 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
 
         while (opModeIsActive()) {
             if (!autoDriveInProgress) {
-                if (driver.leftBumper.pressed()) {
-                    drive.setDegradedDrive(true);
-                }
-                if (driver.leftBumper.released()) {
-                    drive.setDegradedDrive(false);
-                }
 
+                if (driver.leftBumper.pressed())  drive.setDegradedDrive(true);
+                if (driver.leftBumper.released()) drive.setDegradedDrive(false);
                 drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
+
                 armPivot.manualMove(operator.leftStick_Y);
             }
-            if (operator.y.pressed()) {
-                scoreHigh();
-            }
+            if (operator.y.pressed()) scoreHigh();
+
 
             /*
             manual move
