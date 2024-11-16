@@ -100,11 +100,11 @@ public class MotorPivot implements TeamConstants {
 
     // TODO: Add Action enabling Road Runner to have access to setPositionCounts
     /** Action Classes **/
-    public class rotateToPosition implements Action {
+    public class RotateToPosition implements Action {
 
         int position;
 
-        public rotateToPosition(int pos) {
+        public RotateToPosition(int pos) {
             position = pos;
         }
 
@@ -118,6 +118,6 @@ public class MotorPivot implements TeamConstants {
 
 
     public Action rotateToPosition(int position) {
-        return new MotorPivot.rotateToPosition(position);
+        return new MotorPivot.RotateToPosition(position);
     }
 }

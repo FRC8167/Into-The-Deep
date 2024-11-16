@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.Actions;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoToggle extends Servo1D {
@@ -26,6 +31,18 @@ public class ServoToggle extends Servo1D {
     }
 
     //TODO: Add Action to toggle gripper
+    public class Toggle implements Action {
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            toggleGripper();
+            return false;
+        }
+    }
+
+    public Action toggle() {
+            return new Toggle();
+        }
+
 
 
 }
