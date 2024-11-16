@@ -21,7 +21,6 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
 
-
         driver = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
         autoDriveInProgress = false;
