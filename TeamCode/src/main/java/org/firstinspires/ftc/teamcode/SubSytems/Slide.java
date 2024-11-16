@@ -63,4 +63,25 @@ public class Slide implements TeamConstants {
     }
 
 
+    /** Action Classes **/
+    public class SlidePosition implements Action {
+
+        int position;
+
+        public SlidePosition(int pos) {
+            position = pos;
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            setPositionCounts(position);
+            return false;
+        }
+
+    }
+
+
+    public Action rotateToPosition(int position) {
+        return new SlidePosition(position);
+    }
 }

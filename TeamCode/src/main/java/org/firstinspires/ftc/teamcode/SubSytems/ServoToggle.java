@@ -36,11 +36,13 @@ public class ServoToggle extends Servo1D {
         public boolean run(@NonNull TelemetryPacket packet) {
             toggleGripper();
             return false;
+        }
     }
 
     public Action toggle() {
-        return new Toggle();
-    }
+            return new Toggle();
+        }
+
 
 
 }
