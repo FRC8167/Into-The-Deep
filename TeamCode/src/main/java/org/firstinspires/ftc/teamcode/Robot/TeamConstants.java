@@ -26,8 +26,8 @@ public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~*/
     int SLIDE_MIN = 0;
-    int SLIDE_MAX = 500;
-    double INCHES_PER_COUNT = 0.00879
+    int SLIDE_MAX = 2060;  //actual calculated is 2186 counts for 488 mm
+    double INCHES_PER_COUNT = 0.00879;
     int SLIDE_SCORE_HIGH = 1;
 
 

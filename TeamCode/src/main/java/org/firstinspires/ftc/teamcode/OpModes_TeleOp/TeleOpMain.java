@@ -25,18 +25,25 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         /* For starting directly in TeleOp only */
         armPivot.resetEncoders();
+        slide.resetEncoders();
         /* ************************************ */
 
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
+
         double RotateAcuteAng;
         waitForStart();
 
         while (opModeIsActive()) {
+            double fdrive = -gamepad1.left_stick_y;
+            double strafe = gamepad1.left_stick_x;
+            double turn = gamepad1.right_stick_x;
+            drive.mecanumDrive(fdrive, strafe, turn);
+
 //            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
 //            /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
-            wristPivot.setPosition(((operator.rightStick_X+1)/2)*.85);
+            wristPivot.setPosition(operator.rightStick_X+.85);
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
@@ -65,6 +72,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
              if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
                 armPivot.manualMove(operator.rightStick_Y);
+             }
+
+             if (operator.rightTrigger > 0.0 || operator.leftTrigger > 0.0)  {
+                 slide.manualMove(operator.leftTrigger, operator.rightTrigger);
              }
 
 //            /* Output Telemetry Data to Driver Stations */

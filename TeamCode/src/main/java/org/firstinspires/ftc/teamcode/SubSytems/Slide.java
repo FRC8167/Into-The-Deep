@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -22,9 +24,14 @@ public class Slide implements TeamConstants {
         motor.setTargetPositionTolerance(tolerance);
     }
 
+    public void resetEncoders() {
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
 
-    public void manualMove(double triggerValue) {
-        setPositionCounts((int)(motor.getCurrentPosition() + 40 * triggerValue));
+
+    public void manualMove(double leftTriggerValue, double rightTriggerValue) {
+        setPositionCounts((int)(motor.getCurrentPosition() + 40*(rightTriggerValue-leftTriggerValue)));
     }
     //TODO:  want to do this with a Trigger; figure this out in TeleOp??
 
