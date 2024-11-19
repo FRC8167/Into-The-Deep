@@ -98,8 +98,7 @@ public class MotorPivot implements TeamConstants {
     }
 
 
-    // TODO: Add Action enabling Road Runner to have access to setPositionCounts
-    /** Action Classes **/
+    /* ************************* Actions * *************************/
     public class RotateToPosition implements Action {
 
         int position;

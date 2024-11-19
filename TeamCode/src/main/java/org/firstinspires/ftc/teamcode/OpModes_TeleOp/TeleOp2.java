@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 
-@Disabled
+//@Disabled
 @TeleOp(name="TeleOp2", group="Competition")
 public class TeleOp2 extends RobotConfiguration implements TeamConstants {
 
@@ -21,7 +21,6 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
 
-
         driver = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
         autoDriveInProgress = false;
@@ -32,20 +31,18 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
         waitForStart();
 
         while (opModeIsActive()) {
-            if (!autoDriveInProgress) {
-                if (driver.leftBumper.pressed()) {
-                    drive.setDegradedDrive(true);
-                }
-                if (driver.leftBumper.released()) {
-                    drive.setDegradedDrive(false);
-                }
 
+            if (!autoDriveInProgress) {
+
+                if (driver.leftBumper.pressed())  drive.setDegradedDrive(true);
+                if (driver.leftBumper.released()) drive.setDegradedDrive(false);
                 drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
+
                 armPivot.manualMove(operator.leftStick_Y);
             }
-            if (operator.y.pressed()) {
-                scoreHigh();
-            }
+
+            if (operator.y.pressed()) scoreHigh();
+
 
             /*
             manual move

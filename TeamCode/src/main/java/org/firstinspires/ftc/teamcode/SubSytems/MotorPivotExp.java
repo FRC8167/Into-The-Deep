@@ -116,8 +116,9 @@ public class MotorPivotExp implements TeamConstants {
 
     public int getRmotorPos() { return motorR.getCurrentPosition(); }
     public int getLmotorPos() { return motorL.getCurrentPosition(); }
-    // TODO: Add Action enabling Road Runner to have access to setPositionCounts
 
+
+    /* ************************* Actions * *************************/
     public class SetPositionCounts implements Action {
 
         int position;

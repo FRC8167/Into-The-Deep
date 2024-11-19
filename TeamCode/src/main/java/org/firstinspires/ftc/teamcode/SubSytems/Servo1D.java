@@ -35,7 +35,7 @@ public class Servo1D implements TeamConstants {
     public double servoPos() { return servo.getPosition(); }
 
 
-    /** Action Classes **/
+    /* ************************* Actions * *************************/
     public class SetServoPosition implements Action {
 
         double position;

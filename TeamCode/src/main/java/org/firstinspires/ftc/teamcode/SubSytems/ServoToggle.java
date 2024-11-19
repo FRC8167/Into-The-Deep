@@ -30,8 +30,9 @@ public class ServoToggle extends Servo1D {
         }
     }
 
-    //TODO: Add Action to toggle gripper
+    /* ************************* Actions * *************************/
     public class Toggle implements Action {
+
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             toggleGripper();
