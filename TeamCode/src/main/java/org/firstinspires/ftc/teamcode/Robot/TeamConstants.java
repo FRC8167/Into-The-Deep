@@ -27,7 +27,7 @@ public interface TeamConstants {
     /*~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~*/
     int SLIDE_MIN = 0;
     int SLIDE_MAX = 500;
-    double INCHES_PER_COUNT = 0.5;  //TODO:  update when value is known
+    double INCHES_PER_COUNT = 0.00879
     int SLIDE_SCORE_HIGH = 1;
 
 
