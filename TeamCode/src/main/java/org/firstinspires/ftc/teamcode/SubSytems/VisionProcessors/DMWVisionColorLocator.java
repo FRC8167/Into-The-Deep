@@ -67,6 +67,8 @@ public class DMWVisionColorLocator extends LinearOpMode {
     @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() {
+        gamepad1.setLedColor(0, 0, 0, 0);
+
         PredominantColorProcessor colorSensor = new PredominantColorProcessor.Builder()
                 .setRoi(ImageRegion.asUnityCenterCoordinates(-0.3, 0.3, 0.3, -0.3))  //was 0.1 for all
 //                .setRoi(ImageRegion.entireFrame())
@@ -219,6 +221,8 @@ public class DMWVisionColorLocator extends LinearOpMode {
                 switch (result.closestSwatch) {
                     case YELLOW:
                         telemetry.addLine("Found YELLOW");
+                        gamepad1.setLedColor(1, 1, 0, 1000);
+
                         org.opencv.core.Size yellowBoxFitSize;
                         for (ColorBlobLocatorProcessor.Blob b : yellowBlobs) {
                             RotatedRect boxFit = b.getBoxFit();
@@ -234,7 +238,7 @@ public class DMWVisionColorLocator extends LinearOpMode {
 
                     case BLUE:
                         telemetry.addLine("Found BLUE");
-                        gamepad1.rumble(500);
+//                        gamepad1.rumble(500);
                         gamepad1.setLedColor(0, 0, 1, 1000);
                         org.opencv.core.Size blueBoxFitSize;
                         for (ColorBlobLocatorProcessor.Blob b : blueBlobs) {
@@ -255,7 +259,7 @@ public class DMWVisionColorLocator extends LinearOpMode {
 
                     case RED:
                         telemetry.addLine("Found RED");
-                        gamepad1.rumble(500);
+//                        gamepad1.rumble(500);
                         gamepad1.setLedColor(1, 0, 0, 1000);
                         org.opencv.core.Size myBoxFitSize;
                         for (ColorBlobLocatorProcessor.Blob b : redBlobs) {
@@ -272,6 +276,8 @@ public class DMWVisionColorLocator extends LinearOpMode {
 
                     default:
                         telemetry.addLine("Found NOTHING");
+                        gamepad1.setLedColor(0, 0, 0, 1000);
+
                         break;
                 }
             }
