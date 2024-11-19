@@ -36,16 +36,16 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
 
         while (opModeIsActive()) {
 
-            telemetry.addData("blue width", bluSamps.blobData(ColorProcessor.Filter.AREA).size.width);
-            telemetry.addData("blue height", bluSamps.blobData(ColorProcessor.Filter.AREA).size.height);
-            telemetry.addData("blue angle", bluSamps.blobData(ColorProcessor.Filter.AREA).angle);
+            telemetry.addData("blue width", bluSamps.blobData(ColorProcessor.Filter.NONE).size.width);
+            telemetry.addData("blue height", bluSamps.blobData(ColorProcessor.Filter.NONE).size.height);
+            telemetry.addData("blue angle", bluSamps.blobData(ColorProcessor.Filter.NONE).angle);
 
-            telemetry.addData("red width", redSamps.blobData(ColorProcessor.Filter.AREA).size.width);
-            telemetry.addData("red height", redSamps.blobData(ColorProcessor.Filter.AREA).size.height);
-            telemetry.addData("red angle", redSamps.blobData(ColorProcessor.Filter.AREA).angle);
+            telemetry.addData("red width", redSamps.blobData(ColorProcessor.Filter.ASPECT).size.width);
+            telemetry.addData("red height", redSamps.blobData(ColorProcessor.Filter.ASPECT).size.height);
+            telemetry.addData("red angle", redSamps.blobData(ColorProcessor.Filter.ASPECT).angle);
             telemetry.update();
 
-            sleep(100);
+            sleep(500);
         }
     }
 }

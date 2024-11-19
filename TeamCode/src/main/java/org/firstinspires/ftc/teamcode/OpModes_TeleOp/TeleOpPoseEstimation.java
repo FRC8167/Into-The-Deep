@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-@Disabled
+//@Disabled
 @TeleOp(name="PoseEstimator", group="Competition")
 public class TeleOpPoseEstimation extends RobotConfiguration implements TeamConstants {
 
@@ -17,7 +17,7 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
     public void runOpMode() throws InterruptedException {
 
         /* Position robot and the center of the play pen, heading facing 0 degrees */
-        initializeRobot(new Pose2d(0,0,0));
+        initializeRobot(new Pose2d(0,48,-Math.PI/2));
 
         GamepadWrapper driver = new GamepadWrapper(gamepad1);
 
@@ -25,19 +25,19 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
 
         while (opModeIsActive()) {
 
-            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
+            drive.mecanumDrive(-driver.leftStick_Y *.5 , driver.leftStick_X *.5, driver.rightStick_X*.5);
 
             aprilTags.scanForAprilTags();
             if(aprilTags.aprilTagsDetected()) {
                 for(AprilTagDetection tag : aprilTags.allAprilTagsDetected()) {
                     telemetry.addData("Tag ID: ", tag.id);
                     telemetry.addData("X: ", tag.robotPose.getPosition().x);
-                    telemetry.addData("Y: ", tag.robotPose.getPosition().x);
+                    telemetry.addData("Y: ", tag.robotPose.getPosition().y);
                     telemetry.addData("Heading", tag.robotPose.getOrientation().getYaw());
                 }
             }
 
-            /* Needed?? autoDrive.updatePoseEstimate(); */
+            autoDrive.updatePoseEstimate();
             telemetry.addLine("\n_____________________________________\n");
             telemetry.addLine("Road Runner Data");
             telemetry.addData("X: ", autoDrive.pose.position.x);

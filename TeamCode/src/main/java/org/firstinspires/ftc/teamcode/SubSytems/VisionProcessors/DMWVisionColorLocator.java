@@ -234,6 +234,8 @@ public class DMWVisionColorLocator extends LinearOpMode {
 
                     case BLUE:
                         telemetry.addLine("Found BLUE");
+                        gamepad1.rumble(500);
+                        gamepad1.setLedColor(0, 0, 1, 1000);
                         org.opencv.core.Size blueBoxFitSize;
                         for (ColorBlobLocatorProcessor.Blob b : blueBlobs) {
                             RotatedRect boxFit = b.getBoxFit();
@@ -253,6 +255,8 @@ public class DMWVisionColorLocator extends LinearOpMode {
 
                     case RED:
                         telemetry.addLine("Found RED");
+                        gamepad1.rumble(500);
+                        gamepad1.setLedColor(1, 0, 0, 1000);
                         org.opencv.core.Size myBoxFitSize;
                         for (ColorBlobLocatorProcessor.Blob b : redBlobs) {
                             RotatedRect boxFit = b.getBoxFit();
