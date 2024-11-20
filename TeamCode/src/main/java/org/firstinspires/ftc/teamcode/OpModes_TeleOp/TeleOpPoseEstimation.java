@@ -18,7 +18,8 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
     public void runOpMode() throws InterruptedException {
 
         /* Position robot and the center of the play pen, heading facing 0 degrees */
-        initializeRobot(new Pose2d(0,48,-Math.PI/2));
+//        initializeRobot(new Pose2d(0,48,-Math.PI/2));
+        initializeRobot(new Pose2d(0,0,0));
 
         GamepadWrapper driver = new GamepadWrapper(gamepad1);
 
@@ -44,7 +45,7 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
             telemetry.addLine("Road Runner Data");
             telemetry.addData("X: ", autoDrive.pose.position.x);
             telemetry.addData("Y: ", autoDrive.pose.position.y);
-            telemetry.addData("Heading: ", autoDrive.pose.heading);
+            telemetry.addData("Heading: ", Math.toDegrees(autoDrive.pose.heading.toDouble());
 
             telemetry.update();
             driver.update();
