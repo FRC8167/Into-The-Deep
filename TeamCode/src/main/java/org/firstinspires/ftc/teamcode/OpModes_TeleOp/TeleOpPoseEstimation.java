@@ -45,7 +45,7 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
             telemetry.addLine("Road Runner Data");
             telemetry.addData("X: ", autoDrive.pose.position.x);
             telemetry.addData("Y: ", autoDrive.pose.position.y);
-            telemetry.addData("Heading: ", Math.toDegrees(autoDrive.pose.heading.toDouble());
+            telemetry.addData("Heading: ", Math.toDegrees(autoDrive.pose.heading.toDouble()));
 
             telemetry.update();
             driver.update();
