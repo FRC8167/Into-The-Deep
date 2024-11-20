@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
@@ -26,7 +27,6 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
         while (opModeIsActive()) {
 
             drive.mecanumDrive(-driver.leftStick_Y *.5 , driver.leftStick_X *.5, driver.rightStick_X*.5);
-
             aprilTags.scanForAprilTags();
             if(aprilTags.aprilTagsDetected()) {
                 for(AprilTagDetection tag : aprilTags.allAprilTagsDetected()) {
@@ -36,6 +36,8 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
                     telemetry.addData("Heading", tag.robotPose.getOrientation().getYaw());
                 }
             }
+
+
 
             autoDrive.updatePoseEstimate();
             telemetry.addLine("\n_____________________________________\n");
