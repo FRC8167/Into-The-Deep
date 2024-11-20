@@ -45,7 +45,7 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void manualMove(double joystickValue) {
-        int newTarget = (int)(motorR.getCurrentPosition() + 40 * joystickValue);
+        int newTarget = (int)(motorR.getCurrentPosition() + 20 * joystickValue);
         setPositionCounts(newTarget);
     }
 
