@@ -25,8 +25,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
-//        armPivot.triangulateTo(wristX, wristY);
-//        slide.triangulateTo(wristX, wristY);
+
 
         telemetry.addData("Test: ", initializeRobot(new Pose2d(0,0,0)));
         telemetry.update();
@@ -57,6 +56,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
             wristPivot.setPosition(operator.rightStick_X+.85);
+
+//            armPivot.triangulateTo(wristX, wristY);
+//            slide.triangulateTo(wristX, wristY);
+
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
