@@ -30,7 +30,7 @@ public class AprilTagProcessorObject {
     // Decimation = 3 ..  Detect 2" Tag from 4  feet away at 30 Frames Per Second (default)
     // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second (default)
     // Note: Decimation can be changed on-the-fly to adapt during a match.
-    private final int decimationRate = 1;
+    private final int decimationRate = 3;
 
 
     /* Uncomment setLensIntrinsics line in the constructor if used */
@@ -48,7 +48,7 @@ public class AprilTagProcessorObject {
 
         aprilTagProc = new AprilTagProcessor.Builder()
                 // The following default settings are available to un-comment and edit as needed.
-                //.setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
+                .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
                 .setDrawTagID(false)
