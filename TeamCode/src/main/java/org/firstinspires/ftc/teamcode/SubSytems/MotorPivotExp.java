@@ -42,11 +42,15 @@ public class MotorPivotExp implements TeamConstants {
 
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-
+    public void triangulateTo(double x, double y) {
+        int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
+        setPositionCounts(newTarget);
+    }
 
     public void manualMove(double joystickValue) {
-        int newTarget = (int)(motorR.getCurrentPosition() + 20 * joystickValue);
-        setPositionCounts(newTarget);
+        int newTargetL = (int)(motorL.getCurrentPosition() + 20 * joystickValue);
+        int newTargetR = (int)(motorR.getCurrentPosition() + 20 * joystickValue);
+        setPositionCounts(newTargetL, newTargetR);
     }
 
 
@@ -55,15 +59,15 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-    public void setPositionDegrees(double degrees) {
-        int counts = degreesToCounts(degrees);
-        setPositionCounts(counts);
-    }
+//    public void setPositionDegrees(double degrees) {
+//        int counts = degreesToCounts(degrees);
+//        setPositionCounts(counts);
+//    }
 
 
-    public void setPositionCounts(int counts){
-        motorL.setTargetPosition(clamp(counts));
-        motorR.setTargetPosition(clamp(counts));
+    public void setPositionCounts(int countsL, int countsR){
+        motorL.setTargetPosition(clamp(countsL));
+        motorR.setTargetPosition(clamp(countsR));
         motorL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motorR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motorL.setVelocity(2000);
@@ -129,7 +133,7 @@ public class MotorPivotExp implements TeamConstants {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPositionCounts(position);
+            setPositionCounts(position, position);
             return false;
         }
 
