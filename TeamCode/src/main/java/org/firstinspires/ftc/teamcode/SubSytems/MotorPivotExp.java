@@ -44,7 +44,7 @@ public class MotorPivotExp implements TeamConstants {
     }
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
-        setPositionCounts(newTarget);
+        setPositionCounts(newTarget, newTarget);
     }
 
     public void manualMove(double joystickValue) {
