@@ -42,7 +42,10 @@ public class MotorPivotExp implements TeamConstants {
 
         motorL.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-
+    public void triangulateTo(double x, double y) {
+        int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
+        setPositionCounts(newTarget);
+    }
 
     public void manualMove(double joystickValue) {
         int newTargetL = (int)(motorL.getCurrentPosition() + 20 * joystickValue);

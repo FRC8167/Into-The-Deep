@@ -17,8 +17,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     GamepadWrapper driver;
     GamepadWrapper operator;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
+        double wristX = 288.500/25.4;// ~11.358in
+        double wristY = -288.500/25.4;
+        // Looking from right side of robot
+        // (0,0) at arm pivot
+        // Units in inches
+
 
         telemetry.addData("Test: ", initializeRobot(new Pose2d(0,0,0)));
         telemetry.update();
@@ -39,11 +46,24 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
             drive.mecanumDrive(fdrive, strafe, turn);
-
+            wristY += (operator.rightTrigger-operator.leftTrigger);
+            wristX += (operator.rightStick_Y);
+            if (Math.sqrt(wristX*wristX+wristY*wristY) < (408/25.4)){
+                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY/(408/25.4)));
+                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY/(408/25.4)));
+            }
+            if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)){
+                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)));
+                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)));
+            }
 //            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
 //            /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
             wristPivot.setPosition(operator.rightStick_X+.85);
+
+//            armPivot.triangulateTo(wristX, wristY);
+//            slide.triangulateTo(wristX, wristY);
+
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
