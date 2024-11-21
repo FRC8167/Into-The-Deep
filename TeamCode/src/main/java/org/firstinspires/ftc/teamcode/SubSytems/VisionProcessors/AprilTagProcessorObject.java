@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -40,6 +42,7 @@ public class AprilTagProcessorObject {
     private final double LENS_INTRINSICS_CY = 411.6;
 
 
+
     /**
      * Create an processor for April Tag detections
      * @throws InterruptedException
@@ -48,6 +51,7 @@ public class AprilTagProcessorObject {
 
         aprilTagProc = new AprilTagProcessor.Builder()
                 // The following default settings are available to un-comment and edit as needed.
+                .setCameraPose(new Position(DistanceUnit.INCH, 0, 0, 0, 0), new YawPitchRollAngles(AngleUnit.DEGREES, 0, -90, 0, 0))
                 .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
