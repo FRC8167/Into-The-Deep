@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
@@ -34,7 +35,7 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
                     telemetry.addData("Tag ID: ", tag.id);
                     telemetry.addData("X: ", tag.robotPose.getPosition().x);
                     telemetry.addData("Y: ", tag.robotPose.getPosition().y);
-                    telemetry.addData("Heading", tag.robotPose.getOrientation().getYaw());
+                    telemetry.addData("Heading", tag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES));
                 }
             }
 
