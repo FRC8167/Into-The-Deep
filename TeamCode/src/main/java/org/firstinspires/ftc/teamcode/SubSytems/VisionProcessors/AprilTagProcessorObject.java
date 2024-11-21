@@ -35,7 +35,7 @@ public class AprilTagProcessorObject {
 
     /* Uncomment setLensIntrinsics line in the constructor if used */
     private final double LENS_INTRINSICS_FX = 1403.87;
-    private final double LENS_INTRINSICS_FY = 403.87;
+    private final double LENS_INTRINSICS_FY = 1403.87;
     private final double LENS_INTRINSICS_CX = 692.607;
     private final double LENS_INTRINSICS_CY = 411.6;
 
