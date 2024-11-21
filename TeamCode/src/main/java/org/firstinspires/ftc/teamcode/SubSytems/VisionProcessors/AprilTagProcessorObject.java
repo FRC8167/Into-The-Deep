@@ -30,14 +30,14 @@ public class AprilTagProcessorObject {
     // Decimation = 3 ..  Detect 2" Tag from 4  feet away at 30 Frames Per Second (default)
     // Decimation = 3 ..  Detect 5" Tag from 10 feet away at 30 Frames Per Second (default)
     // Note: Decimation can be changed on-the-fly to adapt during a match.
-    private final int decimationRate = 1;
+    private final int decimationRate = 3;
 
 
     /* Uncomment setLensIntrinsics line in the constructor if used */
-    private final double LENS_INTRINSICS_FX = 1426.86;//889.035;
-    private final double LENS_INTRINSICS_FY = 1426.86;//889.035;
-    private final double LENS_INTRINSICS_CX = 542.206;//390.3019;
-    private final double LENS_INTRINSICS_CY = 407.087;//66.3539;
+    private final double LENS_INTRINSICS_FX = 1403.87;
+    private final double LENS_INTRINSICS_FY = 403.87;
+    private final double LENS_INTRINSICS_CX = 692.607;
+    private final double LENS_INTRINSICS_CY = 411.6;
 
 
     /**
@@ -51,10 +51,10 @@ public class AprilTagProcessorObject {
                 .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
-                .setDrawTagID(false)
-                .setDrawTagOutline(false)    // Change these options to ture if needed for debugging
-                .setDrawAxes(false)
-                .setDrawCubeProjection(false)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)    // Change these options to ture if needed for debugging
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .build();
 
