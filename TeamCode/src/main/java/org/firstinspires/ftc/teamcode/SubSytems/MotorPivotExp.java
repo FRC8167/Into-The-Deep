@@ -24,7 +24,7 @@ public class MotorPivotExp implements TeamConstants {
 
     DcMotorEx motorL;
     DcMotorEx motorR;
-    int tolerance = 20;
+    int tolerance = 5;
     int minRotationCounts;
     double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
     double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
@@ -44,7 +44,7 @@ public class MotorPivotExp implements TeamConstants {
     }
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
-        setPositionCounts(newTarget);
+        setPositionCounts(newTarget, newTarget);
     }
 
     public void manualMove(double joystickValue) {

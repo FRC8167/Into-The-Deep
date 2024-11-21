@@ -80,7 +80,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("LX: ", operator.leftStick_X);
             telemetry.addData("LY: ", operator.leftStick_Y);
             telemetry.addData("RY: ", operator.rightStick_Y);
-
+            telemetry.addData("R; ", armPivot.getRmotorPos());
+            telemetry.addData("L; ", armPivot.getLmotorPos());
 
 //            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
 //
