@@ -73,7 +73,7 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
 
 
     public void scoreHigh(){
-        armPivot.setPositionCounts(PIVOT_SCORE_HIGH);
+        armPivot.setPositionCounts(PIVOT_SCORE_HIGH, PIVOT_SCORE_HIGH);
         slide.setPositionCounts(TeamConstants.SLIDE_SCORE_HIGH);
         wristPivot.setPosition(WRISTPIVOT_SCORE_HIGH);
         wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
