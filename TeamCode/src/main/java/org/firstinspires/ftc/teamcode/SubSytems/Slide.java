@@ -29,7 +29,7 @@ public class Slide implements TeamConstants {
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void trangulateTo(double x, double y) {
+    public void triangulateTo(double x, double y) {
         int newTarget = (int)((Math.sqrt(x*x+y*y)-(408/25.4))/TeamConstants.INCHES_PER_COUNT);
         setPositionCounts(newTarget);
     }

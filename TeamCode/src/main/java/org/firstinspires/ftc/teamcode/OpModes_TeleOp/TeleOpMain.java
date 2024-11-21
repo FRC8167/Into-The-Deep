@@ -22,7 +22,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
         double wristX = 288.500;
         double wristY = -288.500;
-        // looking from right side of robot (0,0) at arm pivot units of inches
+        // Looking from right side of robot
+        // (0,0) at arm pivot
+        // Units in inches
+//        armPivot.triangulateTo(wristX, wristY);
+//        slide.triangulateTo(wristX, wristY);
+
         telemetry.addData("Test: ", initializeRobot(new Pose2d(0,0,0)));
         telemetry.update();
 
