@@ -51,10 +51,10 @@ public class AprilTagProcessorObject {
                 .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
-                .setDrawTagID(false)
-                .setDrawTagOutline(false)    // Change these options to ture if needed for debugging
-                .setDrawAxes(false)
-                .setDrawCubeProjection(false)
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)    // Change these options to ture if needed for debugging
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .build();
 
