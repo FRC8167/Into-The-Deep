@@ -20,8 +20,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        double wristX = 288.500;
-        double wristY = -288.500;
+        double wristX = 288.500/25.4;// ~11.358in
+        double wristY = -288.500/25.4;
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
@@ -51,6 +51,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             if (Math.sqrt(wristX*wristX+wristY*wristY) < (408/25.4)){
                 wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY/(408/25.4)));
                 wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY/(408/25.4)));
+            }
+            if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)){
+                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)));
+                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)));
             }
 //            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
 //            /* ********* Created for wrist proof of concept ********* */
