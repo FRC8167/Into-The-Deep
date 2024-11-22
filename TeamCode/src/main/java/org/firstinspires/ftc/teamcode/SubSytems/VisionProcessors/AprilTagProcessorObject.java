@@ -37,7 +37,7 @@ public class AprilTagProcessorObject {
 
     /* Uncomment setLensIntrinsics line in the constructor if used */
     private final double LENS_INTRINSICS_FX = 1403.87;
-    private final double LENS_INTRINSICS_FY = 403.87;
+    private final double LENS_INTRINSICS_FY = 1403.87;
     private final double LENS_INTRINSICS_CX = 692.607;
     private final double LENS_INTRINSICS_CY = 411.6;
 
@@ -45,6 +45,7 @@ public class AprilTagProcessorObject {
             0, 9, 0, 0);
     private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
             0, -90, 0, 0);
+
 
 
     /**
@@ -55,12 +56,13 @@ public class AprilTagProcessorObject {
 
         aprilTagProc = new AprilTagProcessor.Builder()
                 // The following default settings are available to un-comment and edit as needed.
+                .setCameraPose(new Position(DistanceUnit.INCH, 0, 9, 0, 0), new YawPitchRollAngles(AngleUnit.DEGREES, 0, -90, 0, 0))
                 .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
                 .setCameraPose(cameraPosition, cameraOrientation)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
                 .setDrawTagID(true)
-                .setDrawTagOutline(true)    // Change these options to ture if needed for debugging
+                .setDrawTagOutline(true)    // Change these options to true if needed for debugging
                 .setDrawAxes(true)
                 .setDrawCubeProjection(true)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
