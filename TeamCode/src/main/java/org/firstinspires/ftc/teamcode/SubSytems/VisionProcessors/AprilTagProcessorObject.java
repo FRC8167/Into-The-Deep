@@ -46,8 +46,6 @@ public class AprilTagProcessorObject {
     private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
             0, -90, 0, 0);
 
-
-
     /**
      * Create an processor for April Tag detections
      * @throws InterruptedException
