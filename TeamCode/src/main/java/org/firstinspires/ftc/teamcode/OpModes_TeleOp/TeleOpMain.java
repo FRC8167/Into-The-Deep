@@ -46,16 +46,17 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
             drive.mecanumDrive(fdrive, strafe, turn);
-            wristY += (operator.rightTrigger-operator.leftTrigger);
-            wristX += (operator.rightStick_Y);
+            wristY += 0.01*(operator.rightTrigger-operator.leftTrigger);
+            wristX += 0.01*(-operator.rightStick_Y);
             if (Math.sqrt(wristX*wristX+wristY*wristY) < (408/25.4)){
-                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY/(408/25.4)));
-                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY/(408/25.4)));
+                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
+                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
             }
-            if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)){
-                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)));
-                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT)));
+            if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))){
+                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
+                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
             }
+
 //            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
 //            /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
@@ -80,8 +81,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("LX: ", operator.leftStick_X);
             telemetry.addData("LY: ", operator.leftStick_Y);
             telemetry.addData("RY: ", operator.rightStick_Y);
-            telemetry.addData("R; ", armPivot.getRmotorPos());
-            telemetry.addData("L; ", armPivot.getLmotorPos());
+            telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
+            telemetry.addData("TargetX: ", wristX);
+            telemetry.addData("TargetY: ", wristY);
+            telemetry.addData("Length: ", (Math.sqrt(wristX*wristX+wristY*wristY)));
+            telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
+
 
 //            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
 //
