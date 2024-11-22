@@ -12,14 +12,6 @@ import java.util.List;
 
 public class AprilTagProcessorObject {
 
-    /** Season Tag IDs **/
-    public final int BLUE_AUDIENCE_WALL = 11;
-    public final int BLUE_SEAM_3 = 12;
-    public final int BLUE_REAR_WALL = 13;
-    public final int RED_AUDIENCE_WALL = 14;
-    public final int RED_SEAM_3 = 15;
-    public final int RED_REAR_WALL = 16;
-
     /** The variable to store our instance of the AprilTag processor. **/
     private AprilTagProcessor aprilTagProc = null;
 
@@ -41,10 +33,8 @@ public class AprilTagProcessorObject {
     private final double LENS_INTRINSICS_CX = 692.607;
     private final double LENS_INTRINSICS_CY = 411.6;
 
-    private Position cameraPosition = new Position(DistanceUnit.INCH,
-            0, 9, 0, 0);
-    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,
-            0, -90, 0, 0);
+    private Position cameraPosition = new Position(DistanceUnit.INCH,0, 9, 0, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,0, -90, 0, 0);
 
     /**
      * Create an processor for April Tag detections
