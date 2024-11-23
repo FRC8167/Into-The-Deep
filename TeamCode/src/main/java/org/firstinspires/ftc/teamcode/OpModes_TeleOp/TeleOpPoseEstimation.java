@@ -36,7 +36,19 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
                     telemetry.addData("X: ", tag.robotPose.getPosition().x);
                     telemetry.addData("Y: ", tag.robotPose.getPosition().y);
                     telemetry.addData("Heading", tag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES));
+
+                    telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                            tag.ftcPose.x,
+                            tag.ftcPose.y,
+                            tag.ftcPose.bearing));
+                    telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+                            tag.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
+                            tag.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
+                            tag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
+                    telemetry.addLine("\nkey:\nXYZ = X (Right), Y (Forward), Z (Up) dist.");
+                    telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
                 }
+
             }
 
 
