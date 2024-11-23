@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
-import org.firstinspires.ftc.teamcode.SubSytems.Func;
-import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -28,8 +26,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         // (0,0) at arm pivot
         // Units in inches
 
-
-        telemetry.addData("Test: ", initializeRobot(new Pose2d(0,0,0)));
         telemetry.update();
 
         /* For starting directly in TeleOp only */

@@ -8,9 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
-import org.firstinspires.ftc.teamcode.SubSytems.Func;
+import org.firstinspires.ftc.teamcode.Cogintilities.Func;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
-import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
@@ -62,7 +61,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
      *
      * @throws InterruptedException
      */
-    public double initializeRobot(Pose2d startPose) throws InterruptedException {
+    public void initializeRobot(Pose2d startPose) throws InterruptedException {
 
         /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
         ctrlHubs = hardwareMap.getAll(LynxModule.class);
@@ -99,7 +98,6 @@ public abstract class RobotConfiguration extends LinearOpMode {
         armPivot = new MotorPivotExp(armMotorR,armMotorL);
         slide = new Slide(slideMotor);
         Functions = new Func();
-        return gripper.servoPos();
     }
 
 
