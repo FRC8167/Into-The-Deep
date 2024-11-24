@@ -8,8 +8,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
+import org.firstinspires.ftc.teamcode.Cogintilities.Func;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
-import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
 import org.firstinspires.ftc.teamcode.SubSytems.Slide;
@@ -45,10 +46,11 @@ public abstract class RobotConfiguration extends LinearOpMode {
     static protected MecanumDrive       autoDrive;
     static protected VisionPortalObject vision;
     static protected ServoRotate        wristRotate;
-    static protected Servo1D            wristPivot;
+    static protected ServoPivot          wristPivot;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
     static protected Slide              slide;
+    static protected Func              Functions;
 
     /**
      * initializeRobot:
@@ -59,7 +61,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
      *
      * @throws InterruptedException
      */
-    public double initializeRobot(Pose2d startPose) throws InterruptedException {
+    public void initializeRobot(Pose2d startPose) throws InterruptedException {
 
         /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
         ctrlHubs = hardwareMap.getAll(LynxModule.class);
@@ -88,14 +90,14 @@ public abstract class RobotConfiguration extends LinearOpMode {
         autoDrive = new MecanumDrive(hardwareMap, startPose);
         wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);
         wristRotateServo.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
-        wristPivot = new Servo1D(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
+        wristPivot = new ServoPivot(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
         wristPivotServo.setPosition(TeamConstants.WRIST_PIVOT_MAX);
         gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         gripperServo.setPosition(TeamConstants.GRIPPER_CLOSE);
         vision = new VisionPortalObject(webCam);
         armPivot = new MotorPivotExp(armMotorR,armMotorL);
         slide = new Slide(slideMotor);
-        return gripper.servoPos();
+        Functions = new Func();
     }
 
 

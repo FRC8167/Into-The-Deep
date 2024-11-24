@@ -4,11 +4,8 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
-import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
-import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -22,12 +19,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
         double wristX = 288.500/25.4;// ~11.358in
         double wristY = -288.500/25.4;
+        double newWristX = 288.500/25.4;// ~11.358in
+        double newWristY = -288.500/25.4;
+        boolean wristForward = true;
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
 
-
-        telemetry.addData("Test: ", initializeRobot(new Pose2d(0,0,0)));
         telemetry.update();
 
         /* For starting directly in TeleOp only */
@@ -46,21 +44,18 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
             drive.mecanumDrive(fdrive, strafe, turn);
-            wristY += 0.01*(operator.rightTrigger-operator.leftTrigger);
-            wristX += 0.01*(-operator.rightStick_Y);
-            if (Math.sqrt(wristX*wristX+wristY*wristY) < (408/25.4)){
-                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
-                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
-            }
-            if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))){
-                wristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
-                wristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
-            }
-
-//            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
+            newWristY = wristY + 0.01*(operator.rightTrigger-operator.leftTrigger);
+            newWristX =wristX + 0.01*(-operator.rightStick_Y);
+            wristX = Functions.TestNewX(wristX, wristY, newWristX, newWristY);
+            wristY = Functions.TestNewY(wristX, wristY, newWristX, newWristY);
+            wristX = Functions.TriClampX(wristX,wristY);
+            wristY = Functions.TriClampY(wristX, wristY);
+            wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
+            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
 //            /* ********* Created for wrist proof of concept ********* */
-            if(operator.a.pressed()) gripper.toggleGripper();
-            wristPivot.setPosition(operator.rightStick_X+.85);
+//            if(operator.a.pressed()) gripper.toggleGripper();
+//            wristPivot.setPosition(operator.rightStick_X+.85);
+
 
 //            armPivot.triangulateTo(wristX, wristY);
 //            slide.triangulateTo(wristX, wristY);
