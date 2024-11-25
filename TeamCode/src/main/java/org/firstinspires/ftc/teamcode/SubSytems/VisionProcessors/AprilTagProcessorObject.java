@@ -33,8 +33,8 @@ public class AprilTagProcessorObject {
     private final double LENS_INTRINSICS_CX = 692.607;
     private final double LENS_INTRINSICS_CY = 411.6;
 
-    private Position cameraPosition = new Position(DistanceUnit.INCH,0, 9, 0, 0);
-    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,0, -90, 0, 0);
+    private Position cameraPosition = new Position(DistanceUnit.INCH,-1, 9, 5.5, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  0, 0, 0);
 
     /**
      * Create an processor for April Tag detections
@@ -44,7 +44,7 @@ public class AprilTagProcessorObject {
 
         aprilTagProc = new AprilTagProcessor.Builder()
                 // The following default settings are available to un-comment and edit as needed.
-                .setCameraPose(new Position(DistanceUnit.INCH, 0, 0, 0, 0), new YawPitchRollAngles(AngleUnit.DEGREES, -90, 0, 0, 0))
+                .setCameraPose(cameraPosition, cameraOrientation)
                 .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
                 .setCameraPose(cameraPosition, cameraOrientation)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)

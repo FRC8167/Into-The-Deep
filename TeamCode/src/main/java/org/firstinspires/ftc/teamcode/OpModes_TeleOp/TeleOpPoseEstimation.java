@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import android.annotation.SuppressLint;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -15,6 +17,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 @TeleOp(name="PoseEstimator", group="Competition")
 public class TeleOpPoseEstimation extends RobotConfiguration implements TeamConstants {
 
+    @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() throws InterruptedException {
 

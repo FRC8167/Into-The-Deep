@@ -29,6 +29,8 @@
 
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import android.annotation.SuppressLint;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -94,8 +96,8 @@ public class DMWAprilTagLocalization extends LinearOpMode {
      * it's pointing straight left, -90 degrees for straight right, etc. You can also set the roll
      * to +/-90 degrees if it's vertical, or 180 degrees if it's upside-down.
      */
-    private Position cameraPosition = new Position(DistanceUnit.INCH,0, 9, 0, 0);
-    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90, 0, 0, 0);
+    private Position cameraPosition = new Position(DistanceUnit.INCH,-1, 9, 5.5, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  0, 0, 0);
 
     /**
      * The variable to store our instance of the AprilTag processor.
@@ -155,7 +157,7 @@ public class DMWAprilTagLocalization extends LinearOpMode {
                 //.setDrawTagOutline(true)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 //.setTagLibrary(AprilTagGameDatabase.getCenterStageTagLibrary())
-                //.setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .setCameraPose(cameraPosition, cameraOrientation)
 
                 // == CAMERA CALIBRATION ==
@@ -213,6 +215,7 @@ public class DMWAprilTagLocalization extends LinearOpMode {
     /**
      * Add telemetry about AprilTag detections.
      */
+    @SuppressLint("DefaultLocale")
     private void telemetryAprilTag() {
 
         List<AprilTagDetection> currentDetections = aprilTag.getDetections();
@@ -222,10 +225,15 @@ public class DMWAprilTagLocalization extends LinearOpMode {
         for (AprilTagDetection detection : currentDetections) {
             if (detection.metadata != null) {
                 telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
-                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+                telemetry.addLine(String.format("FieldXYZ %6.1f %6.1f %6.1f  (inch)",
                         detection.robotPose.getPosition().x,
                         detection.robotPose.getPosition().y,
                         detection.robotPose.getPosition().z));
+                telemetry.addLine(String.format("Distance from tag XYZ %6.1f %6.1f %6.1f  (inch)",
+                        detection.ftcPose.x,
+                        detection.ftcPose.y,
+                        detection.ftcPose.z));
+
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
                         detection.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
                         detection.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
