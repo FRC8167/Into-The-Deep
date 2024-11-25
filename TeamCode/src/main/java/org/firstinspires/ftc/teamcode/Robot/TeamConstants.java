@@ -18,9 +18,12 @@ public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
 
-    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
+    double DEGREES_PER_COUNT =  360/4062.8; //worm gear
+            //4062.8 PPR
+    double COUNTS_PER_DEGREE = 4062.8/360;
+//    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
     int MIN_POSITION_COUNTS = 0;    // TODO: update when the arm install is complete
-    int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
+    int MAX_POSITION_COUNTS = 3000; // TODO: update when the arm install is complete
     int PIVOT_SCORE_HIGH = 1;
 
 
