@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -29,8 +30,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         telemetry.update();
 
         /* For starting directly in TeleOp only */
-        armPivot.resetEncoders();
-        slide.resetEncoders();
+        //armPivot.resetEncoders();
+        //slide.resetEncoders();
         /* ************************************ */
 
         driver   = new GamepadWrapper(gamepad1);
@@ -91,13 +92,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(-operator.leftStick_X  * 0.5 + 0.5);
 //            /* ********************************************************/
 
-             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
-                armPivot.manualMove(operator.rightStick_Y);
-             }
-
-             if (operator.rightTrigger > 0.0 || operator.leftTrigger > 0.0)  {
-                 slide.manualMove(operator.leftTrigger, operator.rightTrigger);
-             }
+//             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
+//                armPivot.manualMove(operator.rightStick_Y);
+//             }
+//
+//             if (operator.rightTrigger > 0.0 || operator.leftTrigger > 0.0)  {
+//                 slide.manualMove(operator.leftTrigger, operator.rightTrigger);
+//             }
 
 //            /* Output Telemetry Data to Driver Stations */
 //            telemetry.addData("Left Motor Pos: ", armPivot.getLmotorPos());
