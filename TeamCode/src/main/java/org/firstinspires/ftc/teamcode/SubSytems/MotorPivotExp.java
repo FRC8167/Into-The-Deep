@@ -34,7 +34,7 @@ public class MotorPivotExp implements TeamConstants {
     public MotorPivotExp(DcMotorEx motor) {
 
         this.motor = motor;
-       // resetEncoders();
+       resetEncoders();
 
         motor.setTargetPositionTolerance(tolerance);
 
@@ -82,14 +82,14 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-//    public int getPosition(){
-//        return(motorR.getCurrentPosition());
-//    }
-//
-//
-//    public double getVelocity() {
-//        return(motorR.getVelocity());
-//    }
+    public int getPosition(){
+        return(motor.getCurrentPosition());
+    }
+
+
+    public double getVelocity() {
+        return(motor.getVelocity());
+    }
 //
 //
     public boolean inMotion() {
