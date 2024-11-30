@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import static java.util.Collections.swap;
+
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -19,9 +21,34 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
         ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
         ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
         AprilTagProcessorObject aprilTag = new AprilTagProcessorObject();
+        public Boolean blueReadyForPickup = false;
+        public Boolean redReadyForPickup = false;
+
 
     public TeleOpVisionTest() throws InterruptedException {
     }
+
+    public Boolean ReadyForPickup(double alpha, double width, double height)
+    {
+        if ((alpha < 45.0 & height > width) || (alpha > 45.0 & width > height))
+        {
+            return false;
+        }
+        else return true;
+    }
+
+    public double CalcWristAngleDegrees(double alpha, double width, double height)
+    {
+        if (alpha < 45.0 & height > width)
+        {
+            return (90 - alpha);
+        }
+        else if (alpha > 45.0 & width > height) {
+            return -alpha;
+        }
+        else {return 0.0;}
+    }
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -36,16 +63,43 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
 
         while (opModeIsActive()) {
 
-            telemetry.addData("blue width", bluSamps.blobData(ColorProcessor.Filter.NONE).size.width);
-            telemetry.addData("blue height", bluSamps.blobData(ColorProcessor.Filter.NONE).size.height);
-            telemetry.addData("blue angle", bluSamps.blobData(ColorProcessor.Filter.NONE).angle);
 
-            telemetry.addData("red width", redSamps.blobData(ColorProcessor.Filter.ASPECT).size.width);
-            telemetry.addData("red height", redSamps.blobData(ColorProcessor.Filter.ASPECT).size.height);
-            telemetry.addData("red angle", redSamps.blobData(ColorProcessor.Filter.ASPECT).angle);
+            //*********************BLUE*************************//
+            double blueFoundAngle = bluSamps.blobData(ColorProcessor.Filter.NONE).angle;
+            double adjBlueAngle = 0;
+            double blueFoundWidth = bluSamps.blobData(ColorProcessor.Filter.NONE).size.width;
+            double blueFoundHeight = bluSamps.blobData(ColorProcessor.Filter.NONE).size.height;
+            adjBlueAngle = 90 - blueFoundAngle;
+            blueReadyForPickup = ReadyForPickup(adjBlueAngle, blueFoundWidth, blueFoundHeight);
+            if (!blueReadyForPickup) {
+                double wristRotDegrees = CalcWristAngleDegrees(adjBlueAngle, blueFoundWidth, blueFoundHeight);
+                telemetry.addData("Wrist needs to rotate", wristRotDegrees);
+            }
+            else {telemetry.addLine("BLUE is ready for pickup");}
+            telemetry.addData("blue width", blueFoundWidth);
+            telemetry.addData("blue height", blueFoundHeight);
+            telemetry.addData("blue angle", blueFoundAngle);
+            telemetry.addData("new angle", adjBlueAngle);
+
+            //*********************RED*************************//
+            double redFoundAngle = redSamps.blobData(ColorProcessor.Filter.NONE).angle;
+            double adjRedAngle = 0;
+            double redFoundWidth = redSamps.blobData(ColorProcessor.Filter.NONE).size.width;
+            double redFoundHeight = redSamps.blobData(ColorProcessor.Filter.NONE).size.height;
+            adjRedAngle = 90 - redFoundAngle;
+            redReadyForPickup = ReadyForPickup(adjRedAngle, redFoundWidth, redFoundHeight);
+            if (!redReadyForPickup) {
+                double wristRotDegrees = CalcWristAngleDegrees(adjRedAngle, redFoundWidth, redFoundHeight);
+                telemetry.addData("Wrist needs to rotate", wristRotDegrees);
+            }
+            else {telemetry.addLine("RED is ready for pickup");}
+            telemetry.addData("red width", redFoundWidth);
+            telemetry.addData("red height", redFoundHeight);
+            telemetry.addData("red angle", redSamps.blobData(ColorProcessor.Filter.NONE).angle);
+            telemetry.addData("new angle", adjRedAngle);
             telemetry.update();
 
-            sleep(500);
+            sleep(5000);
         }
     }
 }

@@ -47,7 +47,7 @@ public class ColorProcessor {
                 break;
 
             case AREA:
-                ColorBlobLocatorProcessor.Util.filterByArea(10000, 20000, blobs);
+                ColorBlobLocatorProcessor.Util.filterByArea(1000, 20000, blobs);  //was 10000
                 break;
             case ASPECT:
                 ColorBlobLocatorProcessor.Util.filterByAspectRatio(1.8, 3.2, blobs);
