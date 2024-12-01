@@ -16,8 +16,8 @@ public interface TeamConstants {
     double GRIPPER_CLOSE   = 0.51;
     double GRIPPER_OPEN    = 0.45;
 
-    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
 
+    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
     double DEGREES_PER_COUNT =  360/4062.8; //worm gear
             //4062.8 PPR
     double COUNTS_PER_DEGREE = 4062.8/360;
@@ -27,7 +27,7 @@ public interface TeamConstants {
     int PIVOT_SCORE_HIGH = 1;
 
 
-    /*~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     int SLIDE_MIN = 0;
     int SLIDE_MAX = 2060;  // 460 mm actual calculated is 2186 counts for 488 mm
     double INCHES_PER_COUNT = 0.00879;

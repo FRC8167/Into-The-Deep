@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 public class Servo1D implements TeamConstants {
 
     Servo servo;
-    enum State{OPEN, CLOSE};
+    enum State{ OPEN, CLOSE }
     State state;
     double min;
     double max;
