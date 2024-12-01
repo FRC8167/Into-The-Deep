@@ -9,9 +9,13 @@ public class ServoPivot extends Servo1D {
     double angle = 45;
     double distFromGround = 0;
     double servoPos = 0;
+
+
     public ServoPivot(Servo servo, double initPos, double min, double max) {
         super(servo, initPos, min, max);
     }
+
+
     public void setServoAngToGround(double targetAng, double armAng){
         servoPos= (180-armAng)/300;
         if (servoPos >=0){
@@ -21,6 +25,7 @@ public class ServoPivot extends Servo1D {
             servo.setPosition(0);
         }
     }
+
 
     public boolean moveByPos(double x,double y, boolean forward){
         angle = (Math.toDegrees(-Math.atan2(x, y))+135);
