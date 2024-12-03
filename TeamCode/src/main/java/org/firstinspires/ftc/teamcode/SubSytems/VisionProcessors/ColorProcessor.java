@@ -12,6 +12,9 @@ public class ColorProcessor {
     public enum Filter {NONE, AREA, ASPECT};
     ColorBlobLocatorProcessor colorProcessor;
     ColorRange color;
+    double alpha;
+    double height;
+    double width;
 
     public ColorProcessor(ColorRange color) {
         this.color = color;
@@ -61,8 +64,34 @@ public class ColorProcessor {
                 boxFit = b.getBoxFit();
             }
         } else boxFit = new RotatedRect();
-
+        height = boxFit.boundingRect().height;
+        width = boxFit.boundingRect().width;
+        alpha = 90 - boxFit.angle;
         return boxFit;
+    }
+
+    public Boolean ReadyForPickup()
+    {
+        blobData(ColorProcessor.Filter.NONE);
+        if ((alpha < 45.0 & height > width) || (alpha > 45.0 & width > height))
+        {
+            return false;
+        }
+        else return true;
+    }
+
+    public double CalcWristAngleDegrees()
+    {
+        blobData(ColorProcessor.Filter.NONE);
+
+        if (alpha < 45.0 & height > width)
+        {
+            return (90 - alpha);
+        }
+        else if (alpha > 45.0 & width > height) {
+            return -alpha;
+        }
+        else {return 0.0;}
     }
 
 }
