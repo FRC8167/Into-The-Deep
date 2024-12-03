@@ -19,6 +19,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
         initializeRobot(new Pose2d(0,0,0));
+        armPivot.resetEncoders();
 
         double wristX = 288.500/25.4;// ~11.358in
         double wristY = -288.500/25.4;
@@ -80,6 +81,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
             telemetry.addData("WristPivot: ", wristPivot.servoPos());
+            telemetry.addData("Pivot Encoder", armPivot.getPosition());
             telemetry.addData("RotateTest: ", (((((RotateAcuteAng)/(300))+.2))));
             telemetry.addData("Ang: ", RotateAcuteAng);
             telemetry.addData("LX: ", operator.leftStick_X);

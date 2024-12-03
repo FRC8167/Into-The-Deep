@@ -33,6 +33,7 @@ public class MotorPivot implements TeamConstants {
     public MotorPivot(DcMotorEx motor) {
         this.motor = motor;
         motor.setTargetPositionTolerance(tolerance);
+        motor.setPositionPIDFCoefficients(8);
     }
 
 

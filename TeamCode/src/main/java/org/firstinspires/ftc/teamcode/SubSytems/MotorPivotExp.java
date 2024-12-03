@@ -37,7 +37,7 @@ public class MotorPivotExp implements TeamConstants {
        resetEncoders();
 
         motor.setTargetPositionTolerance(tolerance);
-
+        motor.setPositionPIDFCoefficients(8);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public void triangulateTo(double x, double y) {
@@ -47,8 +47,7 @@ public class MotorPivotExp implements TeamConstants {
     }
 
     public void manualMove(double joystickValue) {
-        int newTarget = (int)(motor.getCurrentPosition() + 40 * joystickValue);
-
+        int newTarget = (int)(motor.getCurrentPosition() + 60 * joystickValue);
         setPositionCounts(newTarget);
     }
 
@@ -67,7 +66,7 @@ public class MotorPivotExp implements TeamConstants {
     public void setPositionCounts(int counts){
         motor.setTargetPosition(clamp(counts));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motor.setVelocity(2000);
+        motor.setVelocity(4000);
 
     }
 

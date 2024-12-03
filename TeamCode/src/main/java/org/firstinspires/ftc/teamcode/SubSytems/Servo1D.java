@@ -21,9 +21,9 @@ public class Servo1D implements TeamConstants {
     public Servo1D(Servo servo, double initPos, double min, double max) {
         this.servo = servo;
         state = State.CLOSE;
-        setPosition(initPos);
         this.min = min;
         this.max = max;
+        setPosition(initPos);
     }
 
 
