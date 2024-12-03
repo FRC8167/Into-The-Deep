@@ -16,15 +16,18 @@ public interface TeamConstants {
     double GRIPPER_CLOSE   = 0.51;
     double GRIPPER_OPEN    = 0.45;
 
-    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
 
-    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
+    /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
+    double DEGREES_PER_COUNT =  360/4062.8; //worm gear
+            //4062.8 PPR
+    double COUNTS_PER_DEGREE = 4062.8/360;
+//    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
     int MIN_POSITION_COUNTS = 0;    // TODO: update when the arm install is complete
-    int MAX_POSITION_COUNTS = 800; // TODO: update when the arm install is complete
+    int MAX_POSITION_COUNTS = 3000; // TODO: update when the arm install is complete
     int PIVOT_SCORE_HIGH = 1;
 
 
-    /*~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     int SLIDE_MIN = 0;
     int SLIDE_MAX = 2060;  // 460 mm actual calculated is 2186 counts for 488 mm
     double INCHES_PER_COUNT = 0.00879;

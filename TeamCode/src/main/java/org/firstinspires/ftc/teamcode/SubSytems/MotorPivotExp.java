@@ -22,35 +22,34 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class MotorPivotExp implements TeamConstants {
 
-    DcMotorEx motorL;
-    DcMotorEx motorR;
-    int tolerance = 5;
+    DcMotorEx motor;
+
+    int tolerance = 20;
     int minRotationCounts;
     double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
     double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
     //double lmin = 408 / 25.4;
     //initialize position = 45; degrees;
 
-    public MotorPivotExp(DcMotorEx motorR, DcMotorEx motorL) {
+    public MotorPivotExp(DcMotorEx motor) {
 
-        this.motorR = motorR;
-        this.motorL = motorL;
-        resetEncoders();
+        this.motor = motor;
+       resetEncoders();
 
-        motorR.setTargetPositionTolerance(tolerance);
-        motorL.setTargetPositionTolerance(tolerance);
+        motor.setTargetPositionTolerance(tolerance);
 
-        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+//        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
-        setPositionCounts(newTarget, newTarget);
+        setPositionCounts(newTarget);
+
     }
 
     public void manualMove(double joystickValue) {
-        int newTargetL = (int)(motorL.getCurrentPosition() + 20 * joystickValue);
-        int newTargetR = (int)(motorR.getCurrentPosition() + 20 * joystickValue);
-        setPositionCounts(newTargetL, newTargetR);
+        int newTarget = (int)(motor.getCurrentPosition() + 40 * joystickValue);
+
+        setPositionCounts(newTarget);
     }
 
 
@@ -59,19 +58,16 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-//    public void setPositionDegrees(double degrees) {
-//        int counts = degreesToCounts(degrees);
-//        setPositionCounts(counts);
-//    }
+    public void setPositionDegrees(double degrees) {
+        int counts = degreesToCounts(degrees);
+        setPositionCounts(counts);
+    }
 
 
-    public void setPositionCounts(int countsL, int countsR){
-        motorL.setTargetPosition(clamp(countsL));
-        motorR.setTargetPosition(clamp(countsR));
-        motorL.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motorR.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motorL.setVelocity(2000);
-        motorR.setVelocity(2000);
+    public void setPositionCounts(int counts){
+        motor.setTargetPosition(clamp(counts));
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setVelocity(2000);
 
     }
 
@@ -86,25 +82,24 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-//    public int getPosition(){
-//        return(motorR.getCurrentPosition());
-//    }
-//
-//
-//    public double getVelocity() {
-//        return(motorR.getVelocity());
-//    }
+    public int getPosition(){
+        return(motor.getCurrentPosition());
+    }
+
+
+    public double getVelocity() {
+        return(motor.getVelocity());
+    }
 //
 //
     public boolean inMotion() {
-        return motorR.isBusy()  ||  motorL.isBusy();
+        return motor.isBusy();
     }
 
 
     public void resetEncoders() {
-        motorL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorL.setDirection(DcMotorSimple.Direction.REVERSE);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
 
@@ -118,8 +113,7 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
-    public int getRmotorPos() { return motorR.getCurrentPosition(); }
-    public int getLmotorPos() { return motorL.getCurrentPosition(); }
+    public int getmotorPos() { return motor.getCurrentPosition(); }
 
 
     /* ************************* Actions * *************************/
@@ -133,7 +127,7 @@ public class MotorPivotExp implements TeamConstants {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            setPositionCounts(position, position);
+            setPositionCounts(position);
             return false;
         }
 

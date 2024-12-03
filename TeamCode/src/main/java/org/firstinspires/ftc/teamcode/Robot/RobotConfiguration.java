@@ -75,8 +75,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");
         DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
 
-        DcMotorEx armMotorL = hardwareMap.get(DcMotorEx.class, "armL");
-        DcMotorEx armMotorR = hardwareMap.get(DcMotorEx.class, "armR");
+        DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "arm");
         DcMotorEx slideMotor = hardwareMap.get(DcMotorEx.class, "slide");
 
         Servo wristPivotServo = hardwareMap.get(Servo.class, "servo1");
@@ -95,7 +94,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
         gripperServo.setPosition(TeamConstants.GRIPPER_CLOSE);
         vision = new VisionPortalObject(webCam);
-        armPivot = new MotorPivotExp(armMotorR,armMotorL);
+        armPivot = new MotorPivotExp(armMotor);
         slide = new Slide(slideMotor);
         Functions = new Func();
     }

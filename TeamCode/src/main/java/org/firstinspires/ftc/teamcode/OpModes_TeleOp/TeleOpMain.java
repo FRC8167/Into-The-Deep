@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -17,6 +18,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        initializeRobot(new Pose2d(0,0,0));
+
         double wristX = 288.500/25.4;// ~11.358in
         double wristY = -288.500/25.4;
         double newWristX = 288.500/25.4;// ~11.358in
@@ -36,6 +39,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
+
         double RotateAcuteAng;
         waitForStart();
 
@@ -43,17 +47,22 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double fdrive = -gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
+            if(operator.b.pressed()) {
+                armPivot.triangulateTo(20, 10);}
+            if(operator.x.pressed()) {
+                slide.triangulateTo(20, 10);
+            }
             drive.mecanumDrive(fdrive, strafe, turn);
-            newWristY = wristY + 0.01*(operator.rightTrigger-operator.leftTrigger);
-            newWristX =wristX + 0.01*(-operator.rightStick_Y);
-            wristX = Functions.TestNewX(wristX, wristY, newWristX, newWristY);
-            wristY = Functions.TestNewY(wristX, wristY, newWristX, newWristY);
+            newWristY = wristY + 0.1*(operator.rightTrigger-operator.leftTrigger);
+            newWristX =wristX + 0.1*(-operator.rightStick_Y);
+            wristX = newWristX;
+            wristY = newWristY;
             wristX = Functions.TriClampX(wristX,wristY);
             wristY = Functions.TriClampY(wristX, wristY);
             wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
             RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
-//            /* ********* Created for wrist proof of concept ********* */
-//            if(operator.a.pressed()) gripper.toggleGripper();
+            /* ********* Created for wrist proof of concept ********* */
+            if(operator.a.pressed()) gripper.toggleGripper();
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
 
@@ -91,13 +100,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(-operator.leftStick_X  * 0.5 + 0.5);
 //            /* ********************************************************/
 
-             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
-                armPivot.manualMove(operator.rightStick_Y);
-             }
-
-             if (operator.rightTrigger > 0.0 || operator.leftTrigger > 0.0)  {
-                 slide.manualMove(operator.leftTrigger, operator.rightTrigger);
-             }
+//             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
+//                armPivot.manualMove(operator.rightStick_Y);
+//             }
+//
+//             if (operator.rightTrigger > 0.0 || operator.leftTrigger > 0.0)  {
+//                 slide.manualMove(operator.leftTrigger, operator.rightTrigger);
+//             }
 
 //            /* Output Telemetry Data to Driver Stations */
 //            telemetry.addData("Left Motor Pos: ", armPivot.getLmotorPos());
