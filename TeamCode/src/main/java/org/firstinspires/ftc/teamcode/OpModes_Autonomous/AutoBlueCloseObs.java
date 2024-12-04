@@ -43,7 +43,7 @@ public class AutoBlueCloseObs extends RobotConfiguration implements TeamConstant
                 .waitSeconds(1.5)
                 .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
                 .waitSeconds(1.5)
-                .strafeToSplineHeading(new Vector2d(-62,60),Math.toRadians(90));
+                .strafeToSplineHeading(new Vector2d(-58,60),Math.toRadians(90));
 
         Action letsDriveToKnowWhere = driveToNoWhere.build();
 

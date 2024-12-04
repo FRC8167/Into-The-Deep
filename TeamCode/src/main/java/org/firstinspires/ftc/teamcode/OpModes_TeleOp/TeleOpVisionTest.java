@@ -18,9 +18,9 @@ import org.firstinspires.ftc.vision.opencv.ColorRange;
 @TeleOp(name="VisionTest", group="Experimental")
 public class TeleOpVisionTest extends RobotConfiguration implements TeamConstants {
 
-        ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
-        ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
-        AprilTagProcessorObject aprilTag = new AprilTagProcessorObject();
+    ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
+    ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+    AprilTagProcessorObject aprilTag = new AprilTagProcessorObject();
 
     public TeleOpVisionTest() throws InterruptedException {
     }
@@ -69,8 +69,8 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
             //*********************RED*************************//
             if (!redSamps.ReadyForPickup()) {
                 wristRotate.setServoPosition(redSamps.CalcWristAngleDegrees());
-            telemetry.update();
 
+            }
         }
     }
 }

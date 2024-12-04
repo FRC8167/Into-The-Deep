@@ -26,12 +26,29 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
         initializeRobot(new Pose2d(0,0,0));
 
         GamepadWrapper driver = new GamepadWrapper(gamepad1);
-
+        gamepad1.setLedColor(0, 0, 0, 500);
+//
         waitForStart();
 
         while (opModeIsActive()) {
+            //*********************BLUE*************************//
+            if (bluSamps.ReadyForPickup()) {
+//                wristRotate.setServoPosition(bluSamps.CalcWristAngleDegrees());
+                gamepad1.setLedColor(0, 0, 1, 500);
+            }
+
+            //*********************RED*************************//
+            if (redSamps.ReadyForPickup()) {
+//                wristRotate.setServoPosition(redSamps.CalcWristAngleDegrees());
+                gamepad1.setLedColor(1, 0, 0, 500);
+            }
+
+            if (!redSamps.ReadyForPickup() & !bluSamps.ReadyForPickup())
+            {gamepad1.setLedColor(0, 0, 0, 500);}
 
             drive.mecanumDrive(-driver.leftStick_Y *.5 , driver.leftStick_X *.5, driver.rightStick_X*.5);
+
+
             aprilTags.scanForAprilTags();
             if(aprilTags.aprilTagsDetected()) {
                 for(AprilTagDetection tag : aprilTags.allAprilTagsDetected()) {
