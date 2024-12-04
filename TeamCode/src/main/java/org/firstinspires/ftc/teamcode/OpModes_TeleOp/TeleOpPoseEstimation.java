@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.LED;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
@@ -26,25 +28,28 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
         initializeRobot(new Pose2d(0,0,0));
 
         GamepadWrapper driver = new GamepadWrapper(gamepad1);
-        gamepad1.setLedColor(0, 0, 0, 500);
+        gamepad1.setLedColor(0, 1, 0, 500);
 //
         waitForStart();
 
         while (opModeIsActive()) {
             //*********************BLUE*************************//
-            if (bluSamps.ReadyForPickup()) {
+            if (bluSamps.ReadyForPickup() & gamepad1.right_bumper) {
 //                wristRotate.setServoPosition(bluSamps.CalcWristAngleDegrees());
                 gamepad1.setLedColor(0, 0, 1, 500);
             }
 
             //*********************RED*************************//
-            if (redSamps.ReadyForPickup()) {
+           else if (redSamps.ReadyForPickup() & gamepad1.left_bumper) {
 //                wristRotate.setServoPosition(redSamps.CalcWristAngleDegrees());
                 gamepad1.setLedColor(1, 0, 0, 500);
             }
+//            else if (yelSamps.ReadyForPickup()) {
+////                wristRotate.setServoPosition(redSamps.CalcWristAngleDegrees());
+//                gamepad1.setLedColor(1, 0, 0, 500);
+//            }
 
-            if (!redSamps.ReadyForPickup() & !bluSamps.ReadyForPickup())
-            {gamepad1.setLedColor(0, 0, 0, 500);}
+            else {gamepad1.setLedColor(0, 1, 0, 500);}
 
             drive.mecanumDrive(-driver.leftStick_Y *.5 , driver.leftStick_X *.5, driver.rightStick_X*.5);
 

@@ -52,6 +52,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*---------------------- Vision Objects -------------------------*/
     protected ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
     protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+    protected ColorProcessor yelSamps = new ColorProcessor(ColorRange.YELLOW);
     protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
 
 
@@ -93,6 +94,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         vision      = new VisionPortalObject.Builder(webCam)
                                                     .addProcessor(bluSamps.colorProcessor())
                                                     .addProcessor(redSamps.colorProcessor())
+                                                    .addProcessor((yelSamps.colorProcessor()))
                                                     .addProcessor(aprilTags.getProcessor())
                                                     .build();
     }
