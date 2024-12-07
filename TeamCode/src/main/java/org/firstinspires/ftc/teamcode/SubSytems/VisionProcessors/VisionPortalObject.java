@@ -22,12 +22,12 @@ public class VisionPortalObject {
     /** WebCam1 Camera Settings **/
     WebcamName camera = null;
     private final long CAMERA_EXPOSURE = 6; //15;
-    private final int  CAMERA_GAIN = 250;
+    private final int  CAMERA_GAIN = 245;
 
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;
     ArrayList<VisionProcessor> processors;
-
+    private int portalID;
 
     /**
      * Create a Vision Portal object with the specified camera.
@@ -37,6 +37,7 @@ public class VisionPortalObject {
     public VisionPortalObject(Builder builder) throws InterruptedException {
         this.camera = builder.camera;
         processors  = builder.processors;
+        portalID = builder.portalID;
         buildVisionPortal();
     }
 
@@ -46,10 +47,11 @@ public class VisionPortalObject {
 
         private WebcamName camera;
         private ArrayList<VisionProcessor> processors = new ArrayList<>();
+        private int portalID;
 
-
-        public Builder(WebcamName camera) {
+        public Builder(WebcamName camera, int ID) {
             this.camera = camera;
+            this.portalID = ID;
         }
 
         public VisionPortalObject.Builder addProcessor(VisionProcessor processor) {
@@ -76,6 +78,7 @@ public class VisionPortalObject {
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
+                .setLiveViewContainerId(portalID)
                 .addProcessors(processorArray)
                 .setCameraResolution(new Size(640, 480))
                 .build();

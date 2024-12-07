@@ -50,12 +50,6 @@ public class TeleOpVisionTest extends RobotConfiguration implements TeamConstant
     @Override
     public void runOpMode() throws InterruptedException {
 
-        VisionPortalObject vision = new VisionPortalObject.Builder(hardwareMap.get(WebcamName.class, "Webcam1"))
-                .addProcessor(bluSamps.colorProcessor())
-                .addProcessor(redSamps.colorProcessor())
-                .addProcessor(aprilTag.getProcessor())
-                .build();
-
         waitForStart();
 
         while (opModeIsActive()) {

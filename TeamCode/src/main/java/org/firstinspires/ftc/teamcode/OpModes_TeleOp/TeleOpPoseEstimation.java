@@ -32,32 +32,33 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
 
         GamepadWrapper driver = new GamepadWrapper(gamepad1);
         gamepad1.setLedColor(0, 1, 0, 500);
-
-
+        telemetry.addData("Portal 1 View ID (index 0 of myPortalsList)", aTPortalID);
+        telemetry.addData("Portal 2 View ID (index 1 of myPortalsList)", colorPortalID);
+        telemetry.update();
 //
         waitForStart();
 
         while (opModeIsActive()) {
             //*********************BLUE*************************//
-            if (bluSamps.ReadyForPickup() & gamepad1.right_bumper) {
+            if (bluSamps.getBlobs().size() > 0) {
 //                wristRotate.setServoPosition(bluSamps.CalcWristAngleDegrees());
-                gamepad1.setLedColor(0, 0, 1, 500);
+                    gamepad1.setLedColor(0, 0, 1, 100);
             }
 
-            //*********************RED*************************//
-           else if (redSamps.ReadyForPickup() & gamepad1.left_bumper) {
+                //*********************RED*************************//
+                else if (redSamps.getBlobs().size() > 0) {
 //                wristRotate.setServoPosition(redSamps.CalcWristAngleDegrees());
-                gamepad1.setLedColor(1, 0, 0, 500);
-            }
+                    gamepad1.setLedColor(1, 0, 0, 100);
+                }
 //            else if (yelSamps.ReadyForPickup()) {
 ////                wristRotate.setServoPosition(redSamps.CalcWristAngleDegrees());
-//                gamepad1.setLedColor(1, 0, 0, 500);
+//                gamepad1.setLedColor(1, 0, 0, 100);
 //            }
 
-            else {gamepad1.setLedColor(0, 1, 0, 500);}
+                else { gamepad1.setLedColor(0, 1, 0, 100); }
+
 
             drive.mecanumDrive(-driver.leftStick_Y *.5 , driver.leftStick_X *.5, driver.rightStick_X*.5);
-
 
             aprilTags.scanForAprilTags();
             if(aprilTags.aprilTagsDetected()) {

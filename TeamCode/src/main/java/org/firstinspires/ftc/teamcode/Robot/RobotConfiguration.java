@@ -37,11 +37,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*------------ Public Class Variables - Frowned Upon ------------*/
     public enum AllianceColor { RED, BLUE }
 
-    public int cameraMonitorViewId=0;
-    int[] myIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
-    int ATPortalID;
-    int ColorPortalID;
-
+    public int[] myPortalIDs;
+    public int aTPortalID;
+    public int colorPortalID;
 
 
     /*------------- Private Class Variables - Preferred -------------*/
@@ -95,13 +93,10 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
 
 
-
-
-
-        WebcamName webCam1 = (WebcamName) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), myIDs[0]);
-        WebcamName webCam2 = (WebcamName) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam2"), myIDs[1]);
-//        WebcamName webCam1      = hardwareMap.get(WebcamName.class, "Webcam1");
-//        WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
+//        WebcamName webCam1 = (WebcamName) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), myIDs[0]);
+//        WebcamName webCam2 = (WebcamName) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam2"), myIDs[1]);
+        WebcamName webCam1      = hardwareMap.get(WebcamName.class, "Webcam1");
+        WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
 
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
@@ -110,17 +105,21 @@ public abstract class RobotConfiguration extends LinearOpMode {
         wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        atVision    = new VisionPortalObject.Builder(webCam1)
+
+        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+        aTPortalID = myPortalIDs[1];
+        colorPortalID = myPortalIDs[0];
+
+        atVision    = new VisionPortalObject.Builder(webCam1, aTPortalID)
                                                     .addProcessor(aprilTags.getProcessor())
                                                     .build();
-        colorVision =  new VisionPortalObject.Builder(webCam2)
+        colorVision =  new VisionPortalObject.Builder(webCam2, colorPortalID)
                 .addProcessor(bluSamps.colorProcessor())
                 .addProcessor(redSamps.colorProcessor())
                 .addProcessor((yelSamps.colorProcessor()))
                 .build();
 
-        AprilTagID = myIDs[0];
-        Portal_2_View_ID = myIDs[1];
+
     }
 
 
