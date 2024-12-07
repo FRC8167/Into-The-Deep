@@ -53,6 +53,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            if(operator.x.pressed()) {
 //                slide.triangulateTo(20, 10);
 //            }
+
+            if(driver.rightBumper.pressed()) {
+                drive.setDegradedDrive(true);
+            }
+            else drive.setDegradedDrive(false);
+
             drive.mecanumDrive(fdrive, strafe, turn);
             newWristY = wristY + 0.1*(operator.rightTrigger-operator.leftTrigger);
             newWristX =wristX + 0.1*(-operator.rightStick_Y);
@@ -70,6 +76,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             armPivot.triangulateTo(wristX, wristY);
             slide.triangulateTo(wristX, wristY);
 
+            if(operator.y.pressed()) {
+                wristX = -1;
+                wristY = 34;
+            }
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
@@ -94,6 +104,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
             telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
             telemetry.addData("ClassServoPos: ", (wristPivot.getServoPos()));
+            telemetry.addData("PivotBusy: ", (armPivot.getBusy()));
 
 //            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
 //

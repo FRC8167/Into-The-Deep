@@ -114,7 +114,9 @@ public class MotorPivotExp implements TeamConstants {
 
     public int getmotorPos() { return motor.getCurrentPosition(); }
 
-
+    public boolean getBusy(){
+        return motor.isBusy();
+    }
     /* ************************* Actions * *************************/
     public class SetPositionCounts implements Action {
 
