@@ -13,7 +13,10 @@ import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+
+import java.util.List;
 
 //@Disabled
 @TeleOp(name="PoseEstimator", group="Competition")
@@ -29,6 +32,8 @@ public class TeleOpPoseEstimation extends RobotConfiguration implements TeamCons
 
         GamepadWrapper driver = new GamepadWrapper(gamepad1);
         gamepad1.setLedColor(0, 1, 0, 500);
+
+
 //
         waitForStart();
 

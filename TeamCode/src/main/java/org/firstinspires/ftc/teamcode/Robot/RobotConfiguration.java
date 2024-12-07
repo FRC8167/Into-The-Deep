@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.JavaUtil;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.SubSytems.Servo1D;
@@ -15,7 +16,10 @@ import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
+import org.openftc.easyopencv.OpenCvCameraFactory;
 
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +37,13 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*------------ Public Class Variables - Frowned Upon ------------*/
     public enum AllianceColor { RED, BLUE }
 
+    public int cameraMonitorViewId=0;
+    int[] myIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+    List myPortalsList;
+
+    myPortalsList = JavaUtil.makeIntegerList(VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL));
+    Portal_1_View_ID = ((Integer) JavaUtil.inListGet(myPortalsList, JavaUtil.AtMode.FROM_START, (int) 0, false)).intValue();
+    Portal_2_View_ID = ((Integer) JavaUtil.inListGet(myPortalsList, JavaUtil.AtMode.FROM_START, (int) 1, false)).intValue();
 
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
@@ -43,7 +54,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*----------- Define all Module Classes (SubSystems) ------------*/
     protected MecanumDriveBasic  drive;
     protected MecanumDrive       autoDrive;
-    protected VisionPortalObject vision;
+    protected VisionPortalObject atVision;
+    protected VisionPortalObject colorVision;
     protected Servo1D            wristRotate;
     protected Servo1D            wristPivot;
     protected ServoToggle        gripper;
@@ -83,7 +95,15 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
         Servo gripperServo     = hardwareMap.get(Servo.class, "servo0");
 
-        WebcamName webCam      = hardwareMap.get(WebcamName.class, "Webcam1");
+
+
+
+
+        WebcamName webCam1 = (WebcamName) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam1"), myIDs[0]);
+        WebcamName webCam2 = (WebcamName) OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam2"), myIDs[1]);
+//        WebcamName webCam1      = hardwareMap.get(WebcamName.class, "Webcam1");
+//        WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
+
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
@@ -91,12 +111,16 @@ public abstract class RobotConfiguration extends LinearOpMode {
         wristRotate = new Servo1D(wristRotateServo, TeamConstants.PIVOT_CENTER, TeamConstants.PIVOT_MIN, TeamConstants.PIVOT_MAX);
         wristPivot  = new Servo1D(wristPivotServo, TeamConstants.ROTATE_CENTER, TeamConstants.ROTATE_MIN, TeamConstants.ROTATE_MAX);
         gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        vision      = new VisionPortalObject.Builder(webCam)
-                                                    .addProcessor(bluSamps.colorProcessor())
-                                                    .addProcessor(redSamps.colorProcessor())
-                                                    .addProcessor((yelSamps.colorProcessor()))
+        atVision    = new VisionPortalObject.Builder(webCam1)
                                                     .addProcessor(aprilTags.getProcessor())
                                                     .build();
+        colorVision =  new VisionPortalObject.Builder(webCam2)
+                .addProcessor(bluSamps.colorProcessor())
+                .addProcessor(redSamps.colorProcessor())
+                .addProcessor((yelSamps.colorProcessor()))
+                .build();
+
+
     }
 
 

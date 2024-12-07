@@ -14,6 +14,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class VisionPortalObject {
@@ -46,6 +47,7 @@ public class VisionPortalObject {
         private WebcamName camera;
         private ArrayList<VisionProcessor> processors = new ArrayList<>();
 
+
         public Builder(WebcamName camera) {
             this.camera = camera;
         }
@@ -70,6 +72,7 @@ public class VisionPortalObject {
         /* Convert list of vision processors to an array */
         VisionProcessor[] processorArray = new VisionProcessor[processors.size()];
         processorArray = processors.toArray(processorArray);
+
 
         visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)

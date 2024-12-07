@@ -35,7 +35,7 @@ public class ColorProcessor {
     }
 
 
-    private List<ColorBlobLocatorProcessor.Blob> getBlobs() {
+    public List<ColorBlobLocatorProcessor.Blob> getBlobs() {
         return colorProcessor.getBlobs();
     }
 
