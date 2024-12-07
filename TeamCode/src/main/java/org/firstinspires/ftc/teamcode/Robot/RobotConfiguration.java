@@ -39,11 +39,10 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
     public int cameraMonitorViewId=0;
     int[] myIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
-    List myPortalsList;
+    int ATPortalID;
+    int ColorPortalID;
 
-    myPortalsList = JavaUtil.makeIntegerList(VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL));
-    Portal_1_View_ID = ((Integer) JavaUtil.inListGet(myPortalsList, JavaUtil.AtMode.FROM_START, (int) 0, false)).intValue();
-    Portal_2_View_ID = ((Integer) JavaUtil.inListGet(myPortalsList, JavaUtil.AtMode.FROM_START, (int) 1, false)).intValue();
+
 
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
@@ -120,7 +119,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
                 .addProcessor((yelSamps.colorProcessor()))
                 .build();
 
-
+        AprilTagID = myIDs[0];
+        Portal_2_View_ID = myIDs[1];
     }
 
 
