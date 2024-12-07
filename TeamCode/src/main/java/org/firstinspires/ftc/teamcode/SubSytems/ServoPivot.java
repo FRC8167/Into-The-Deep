@@ -17,7 +17,7 @@ public class ServoPivot extends Servo1D {
 
 
     public void setServoAngToGround(double targetAng, double armAng){
-        servoPos= (180-armAng)/300;
+        servoPos= (90-armAng+targetAng)/240;
         if (servoPos >=0){
             servo.setPosition(servoPos);
         }
@@ -28,9 +28,9 @@ public class ServoPivot extends Servo1D {
 
 
     public boolean moveByPos(double x,double y, boolean forward){
-        angle = (Math.toDegrees(-Math.atan2(x, y))+135);
+        angle = ((180-(Math.toDegrees(Math.atan2(x, y)))))-7;
         distFromGround = 380.09193/25.4 + y- 3.37;
-        if (angle <= 51 || distFromGround < 0){
+        if (angle <= 65 || distFromGround < 0){
             setPosition(TeamConstants.WRIST_PIVOT_MAX);
             return true;
         } else if (angle <= 90) {
@@ -57,7 +57,12 @@ public class ServoPivot extends Servo1D {
         }
 
     }
+    public double getAngle(){
+        return angle;
+    }
+    public double getServoPos() {
 
-
+            return servoPos*240;
+        }
 
 }

@@ -14,7 +14,7 @@ public interface TeamConstants {
     double GRIPPER_MAX_POS = 0.515;
     double GRIPPER_MIN_POS = 0.40;
     double GRIPPER_CLOSE   = 0.51;
-    double GRIPPER_OPEN    = 0.45;
+    double GRIPPER_OPEN    = 0.42;
 
 
     /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/

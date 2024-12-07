@@ -48,11 +48,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double fdrive = -gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-            if(operator.b.pressed()) {
-                armPivot.triangulateTo(20, 10);}
-            if(operator.x.pressed()) {
-                slide.triangulateTo(20, 10);
-            }
+//            if(operator.b.pressed()) {
+//                armPivot.triangulateTo(20, 10);}
+//            if(operator.x.pressed()) {
+//                slide.triangulateTo(20, 10);
+//            }
             drive.mecanumDrive(fdrive, strafe, turn);
             newWristY = wristY + 0.1*(operator.rightTrigger-operator.leftTrigger);
             newWristX =wristX + 0.1*(-operator.rightStick_Y);
@@ -67,8 +67,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
 
-//            armPivot.triangulateTo(wristX, wristY);
-//            slide.triangulateTo(wristX, wristY);
+            armPivot.triangulateTo(wristX, wristY);
+            slide.triangulateTo(wristX, wristY);
 
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
@@ -92,7 +92,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("TargetY: ", wristY);
             telemetry.addData("Length: ", (Math.sqrt(wristX*wristX+wristY*wristY)));
             telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
-
+            telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
+            telemetry.addData("ClassServoPos: ", (wristPivot.getServoPos()));
 
 //            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
 //
