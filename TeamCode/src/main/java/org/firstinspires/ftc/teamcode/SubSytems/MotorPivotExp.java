@@ -133,10 +133,27 @@ public class MotorPivotExp implements TeamConstants {
         }
 
     }
+    public class armTrig implements Action {
+
+        public double newx;
+        public double newy;
+
+        public armTrig(double x, double y){newx = x; newy = y;}
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            triangulateTo(newx, newy);
+            return false;
+        }
+
+    }
 
 
     public Action rotateToPosition(int position) {
         return new SetPositionCounts(position);
+    }
+    public Action armTrig(double x, double y) {
+        return new armTrig(x,y);
     }
 
 }

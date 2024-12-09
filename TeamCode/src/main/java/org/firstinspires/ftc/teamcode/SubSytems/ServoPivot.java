@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -36,6 +40,9 @@ public class ServoPivot extends Servo1D {
         } else if (angle <= 90) {
             setServoAngToGround(0, angle);
             return true;
+        } else if (y<= 15) {
+            setServoAngToGround(180, angle);
+            return true;
         } else if (angle < 170) {
             setServoAngToGround(90, angle);
             return true;
@@ -65,4 +72,22 @@ public class ServoPivot extends Servo1D {
             return servoPos*240;
         }
 
+    public class wristTrig implements Action {
+
+        public double newx;
+        public double newy;
+        public boolean newforward;
+
+        public wristTrig(double x, double y, boolean forward){newx = x; newy = y; newforward = forward;}
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            moveByPos(newx, newy, newforward);
+            return false;
+        }
+
+    }
+    public Action wristTrig(double x, double y, boolean forward) {
+        return new wristTrig(x,y,forward);
+    }
 }

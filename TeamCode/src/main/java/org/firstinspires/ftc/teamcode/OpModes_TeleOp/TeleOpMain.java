@@ -66,10 +66,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristY = newWristY;
             wristX = Functions.TriClampX(wristX,wristY);
             wristY = Functions.TriClampY(wristX, wristY);
+
             wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
             RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
             /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
+
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
 

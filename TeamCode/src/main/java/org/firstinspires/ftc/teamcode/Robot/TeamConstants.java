@@ -36,7 +36,7 @@ public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~~ Wrist Pivot Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~*/
     double WRIST_PIVOT_MIN    = 0.0;
-    double WRIST_PIVOT_MAX    = 0.85;
+    double WRIST_PIVOT_MAX    = 1.0;
     double WRIST_PIVOT_CENTER = 0.5;
     double WRISTPIVOT_SCORE_HIGH = 1;
     // Need preset positions

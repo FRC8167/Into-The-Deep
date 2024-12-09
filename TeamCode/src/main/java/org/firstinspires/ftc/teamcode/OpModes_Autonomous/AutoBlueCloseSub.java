@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -12,6 +13,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.SubSytems.MotorPivot;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.opencv.core.RotatedRect;
 
@@ -23,40 +25,70 @@ public class AutoBlueCloseSub extends RobotConfiguration implements TeamConstant
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Pose2d initialPose = new Pose2d(34,60, -Math.PI/2);
+        Pose2d initialPose = new Pose2d(12,60, -Math.PI/2);
+        autoDrive = new MecanumDrive(hardwareMap, initialPose);
 
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
 
-        TrajectoryActionBuilder driveToNoWhere = autoDrive.actionBuilder(initialPose)
-                .lineToY(36)
-                 .waitSeconds(3)
-                .strafeTo(new Vector2d(50,36))
-                .waitSeconds(2)
-                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
-                .waitSeconds(2)
-                .strafeToSplineHeading(new Vector2d(57.5,38),Math.toRadians(-90))
-                .waitSeconds(1)
-                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
-                .waitSeconds(1.5)
-                .strafeToSplineHeading(new Vector2d(55,25),Math.toRadians(0))
-                .waitSeconds(1.5)
-                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45))
-                .waitSeconds(1.5)
+        TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(initialPose)
+                .lineToY(36);
+        TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(12,36,-Math.PI/2))
+                .strafeTo(new Vector2d(48,36));
+        TrajectoryActionBuilder basket1 = autoDrive.actionBuilder(new Pose2d(48,36, -Math.PI/2))
+                .strafeToSplineHeading(new Vector2d(52,52),Math.toRadians(45));
+        TrajectoryActionBuilder block2 = autoDrive.actionBuilder(new Pose2d(52,52, Math.toRadians(45)))
+                .strafeToSplineHeading(new Vector2d(57.5,38),Math.toRadians(-90));
+        TrajectoryActionBuilder basket2 = autoDrive.actionBuilder(new Pose2d(57.5,38, Math.toRadians(-90)))
+                .strafeToSplineHeading(new Vector2d(52,52),Math.toRadians(45));
+        TrajectoryActionBuilder block3 = autoDrive.actionBuilder(new Pose2d(52,52, Math.toRadians(45)))
+                .strafeToSplineHeading(new Vector2d(55,25),Math.toRadians(0));
+        TrajectoryActionBuilder basket3 = autoDrive.actionBuilder(new Pose2d(55,25, Math.toRadians(0)))
+                .strafeToSplineHeading(new Vector2d(52,52),Math.toRadians(45));
+        TrajectoryActionBuilder park = autoDrive.actionBuilder(new Pose2d(52,52, Math.toRadians(45)))
                 .strafeToSplineHeading(new Vector2d(30,10),Math.toRadians(180));
 
-        Action letsDriveToKnowWhere = driveToNoWhere.build();
-
-        waitForStart();
+ //       Action letsDriveToKnowWhere = driveToNoWhere.build();
 
 
-        Actions.runBlocking(letsDriveToKnowWhere);
 
 
-        Actions.runBlocking(wristPivot.setServoPosition(0.2));
+//        Actions.runBlocking(letsDriveToKnowWhere);
+
+
+//        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         telemetry.update();
+        waitForStart();
+        if (isStopRequested()) return;
 
-        }
+        Action goForward1 = forward1.build();
+
+        Action goBlock1 = block1.build();
+
+        Action goBasket1 = basket1.build();
+
+        Action goBlock2 = block2.build();
+
+        Action goBasket2 = basket2.build();
+
+        Action goBlock3 = block3.build();
+
+        Action goBasket3 = basket3.build();
+
+        Action goPark = park.build();
+        Actions.runBlocking(
+                new SequentialAction(
+                        goForward1,
+                        goBlock1,
+                        goBasket1,
+                        goBlock2,
+                        goBasket2,
+                        goBlock3,
+                        goBasket3,
+                        goPark));
+
+
+    }
 
     }
 
