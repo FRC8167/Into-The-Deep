@@ -72,13 +72,13 @@ public class ServoPivot extends Servo1D {
             return servoPos*240;
         }
 
-    public class wristTrig implements Action {
+    public class WristTrig implements Action {
 
         public double newx;
         public double newy;
         public boolean newforward;
 
-        public wristTrig(double x, double y, boolean forward){newx = x; newy = y; newforward = forward;}
+        public WristTrig(double x, double y, boolean forward){newx = x; newy = y; newforward = forward;}
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -88,6 +88,6 @@ public class ServoPivot extends Servo1D {
 
     }
     public Action wristTrig(double x, double y, boolean forward) {
-        return new wristTrig(x,y,forward);
+        return new WristTrig(x,y,forward);
     }
 }
