@@ -24,10 +24,12 @@ public class Slide implements TeamConstants {
         motor.setTargetPositionTolerance(tolerance);
     }
 
+
     public void resetEncoders() {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+
 
     public void triangulateTo(double x, double y) {
         int newTarget = (int)((Math.sqrt(x*x+y*y)-(408/25.4))/TeamConstants.INCHES_PER_COUNT);
@@ -38,7 +40,6 @@ public class Slide implements TeamConstants {
     public void manualMove(double leftTriggerValue, double rightTriggerValue) {
         setPositionCounts((int)((motor.getCurrentPosition() + 40*(rightTriggerValue-leftTriggerValue))));
     }
-
 
 
     public void setPosition(double inches) {
@@ -90,6 +91,7 @@ public class Slide implements TeamConstants {
 
     }
 
+
     public class SlideTrig implements Action {  //Note: slide does not extend
 
         public double newx;
@@ -105,7 +107,6 @@ public class Slide implements TeamConstants {
             triangulateTo(newx, newy);
             return false;
         }
-
     }
 
 
@@ -113,6 +114,8 @@ public class Slide implements TeamConstants {
     {
         return new SlidePosition(position);
     }
+
+
     public Action slideTrig(double x, double y)
     {
         return new SlideTrig(x,y);
