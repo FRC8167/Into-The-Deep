@@ -1,7 +1,10 @@
+
 package org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
@@ -9,14 +12,6 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 import java.util.List;
 
 public class AprilTagProcessorObject {
-
-    /** Season Tag IDs **/
-    public final int BLUE_AUDIENCE_WALL = 11;
-    public final int BLUE_SEAM_3 = 12;
-    public final int BLUE_REAR_WALL = 13;
-    public final int RED_AUDIENCE_WALL = 14;
-    public final int RED_SEAM_3 = 15;
-    public final int RED_REAR_WALL = 16;
 
     /** The variable to store our instance of the AprilTag processor. **/
     private AprilTagProcessor aprilTagProc = null;
@@ -34,27 +29,31 @@ public class AprilTagProcessorObject {
 
 
     /* Uncomment setLensIntrinsics line in the constructor if used */
-    private final double LENS_INTRINSICS_FX = 889.035;
-    private final double LENS_INTRINSICS_FY = 889.035;
-    private final double LENS_INTRINSICS_CX = 390.3019;
-    private final double LENS_INTRINSICS_CY = 66.3539;
+    private final double LENS_INTRINSICS_FX = 1403.87;
+    private final double LENS_INTRINSICS_FY = 1403.87;
+    private final double LENS_INTRINSICS_CX = 692.607;
+    private final double LENS_INTRINSICS_CY = 411.6;
 
+    private Position cameraPosition = new Position(DistanceUnit.INCH,-1, 9, 5.5, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  0, 0, 0);
 
     /**
      * Create an processor for April Tag detections
      * @throws InterruptedException
      */
-    public AprilTagProcessorObject() throws InterruptedException {
+    public AprilTagProcessorObject()  {
 
         aprilTagProc = new AprilTagProcessor.Builder()
                 // The following default settings are available to un-comment and edit as needed.
-                //.setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
+                .setCameraPose(cameraPosition, cameraOrientation)
+                .setLensIntrinsics(LENS_INTRINSICS_FX, LENS_INTRINSICS_FY, LENS_INTRINSICS_CX, LENS_INTRINSICS_CY)
+                .setCameraPose(cameraPosition, cameraOrientation)
                 //.setTagFamily(AprilTagProcessor.TagFamily.TAG_36h11)
                 .setTagLibrary(AprilTagGameDatabase.getCurrentGameTagLibrary())
                 .setDrawTagID(true)
-                .setDrawTagOutline(true)    // Change these options to ture if needed for debugging
+                .setDrawTagOutline(true)    // Change these options to true if needed for debugging
                 .setDrawAxes(true)
-                .setDrawCubeProjection(true)
+                .setDrawCubeProjection(false)
                 .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
                 .build();
 

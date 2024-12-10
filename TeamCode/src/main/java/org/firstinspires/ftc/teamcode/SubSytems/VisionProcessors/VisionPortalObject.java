@@ -5,12 +5,15 @@ import android.util.Size;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
-import org.firstinspires.ftc.vision.opencv.ColorRange;
-import org.firstinspires.ftc.vision.opencv.ImageRegion;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.VisionProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,65 +22,66 @@ public class VisionPortalObject {
     /** WebCam1 Camera Settings **/
     WebcamName camera = null;
     private final long CAMERA_EXPOSURE = 6; //15;
-    private final int  CAMERA_GAIN = 250;
+    private final int  CAMERA_GAIN = 245;
 
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;
-    private AprilTagProcessor aTagP = null;
-
-    private ColorBlobLocatorProcessor blueColorLocator;
-    private ColorBlobLocatorProcessor yellowColorLocator;
-
-
+    ArrayList<VisionProcessor> processors;
+    private int portalID;
 
     /**
      * Create a Vision Portal object with the specified camera.
-     * @param cameraName
+     * @param builder
+     * @throws InterruptedException
      */
-    public VisionPortalObject(WebcamName cameraName) throws InterruptedException {
-        camera = cameraName;
-        buildVisionPortal(aTagP);
+    public VisionPortalObject(Builder builder) throws InterruptedException {
+        this.camera = builder.camera;
+        processors  = builder.processors;
+        portalID = builder.portalID;
+        buildVisionPortal();
     }
+
+
+    /*************************** Builder Class ***************************/
+    public static class Builder {
+
+        private WebcamName camera;
+        private ArrayList<VisionProcessor> processors = new ArrayList<>();
+        private int portalID;
+
+        public Builder(WebcamName camera, int ID) {
+            this.camera = camera;
+            this.portalID = ID;
+        }
+
+        public VisionPortalObject.Builder addProcessor(VisionProcessor processor) {
+            this.processors.add(processor);
+            return this;
+        }
+
+        public VisionPortalObject build() throws InterruptedException { return new VisionPortalObject(this); }
+    }
+    /************************** END CONSTRUCTOR **************************/
 
 
     /**
      * Add an April Tag processor to the vision portal.
-     * @param atproc
+     *
      * @throws InterruptedException
      */
-    public void buildVisionPortal(AprilTagProcessor atproc) throws InterruptedException {
+    public void buildVisionPortal() throws InterruptedException {
 
-        //aTagP = atproc;
+        /* Convert list of vision processors to an array */
+        VisionProcessor[] processorArray = new VisionProcessor[processors.size()];
+        processorArray = processors.toArray(processorArray);
 
-        blueColorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.BLUE)         // use a predefined color match
-                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
-                .setDrawContours(true)                        // Show contours on the Stream Preview
-                .setBlurSize(5)                               // Smooth the transitions between different colors in image
-                .build();
 
-        yellowColorLocator = new ColorBlobLocatorProcessor.Builder()
-                .setTargetColorRange(ColorRange.YELLOW)         // use a predefined color match
-                .setContourMode(ColorBlobLocatorProcessor.ContourMode.EXTERNAL_ONLY)    // exclude blobs inside blobs
-                .setRoi(ImageRegion.asUnityCenterCoordinates(-0.5, 0.5, 0.5, -0.5))  // search central 1/4 of camera view
-                .setDrawContours(true)                        // Show contours on the Stream Preview
-                .setBlurSize(5)                               // Smooth the transitions between different colors in image
-                .build();
-
-      visionPortal = new VisionPortal.Builder()
+        visionPortal = new VisionPortal.Builder()
                 .setCamera(camera)
-                .addProcessor(blueColorLocator)
-                .addProcessor(yellowColorLocator)
+                .setLiveViewContainerId(portalID)
+                .addProcessors(processorArray)
                 .setCameraResolution(new Size(640, 480))
                 .build();
-
-
-
-
-   visionPortal.setProcessorEnabled(yellowColorLocator, true);
-   visionPortal.setProcessorEnabled(blueColorLocator, true);
-
 
         /** Pause code execution until camera state is streaming **/
         while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
@@ -106,10 +110,6 @@ public class VisionPortalObject {
         }
     }
 
-    /*************************** Processor Controls ***************************/
-    public void enableAprilTagDetection()  { visionPortal.setProcessorEnabled(aTagP, true); }
-    public void disableAprilTagDetection() { visionPortal.setProcessorEnabled(aTagP, false); }
-
 
     /**
      * Return the frames/second the vision portal is capturing. Can be used to assess cpu memory usage
@@ -122,19 +122,5 @@ public class VisionPortalObject {
      * to update anything on a periodic basis, typically once per loop in runOpMode.
      */
     public void periodic() { }
-
-    public List<ColorBlobLocatorProcessor.Blob> blueBlobs() {
-        List<ColorBlobLocatorProcessor.Blob> blueBlobs = blueColorLocator.getBlobs();
-        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, blueBlobs);
-        return blueBlobs;
-    }
-
-    public List<ColorBlobLocatorProcessor.Blob> yellowBlobs() {
-        List<ColorBlobLocatorProcessor.Blob> yellowBlobs = yellowColorLocator.getBlobs();
-        ColorBlobLocatorProcessor.Util.filterByArea(50, 20000, yellowBlobs);
-        return yellowBlobs;
-    }
-
-
 
 }

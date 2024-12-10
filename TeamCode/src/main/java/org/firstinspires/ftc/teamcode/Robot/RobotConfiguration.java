@@ -14,9 +14,11 @@ import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
 import org.firstinspires.ftc.teamcode.SubSytems.Slide;
+import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.AprilTagProcessorObject;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 import java.util.List;
 import java.util.Locale;
@@ -35,6 +37,9 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*------------ Public Class Variables - Frowned Upon ------------*/
     public enum AllianceColor { RED, BLUE }
 
+    public int[] myPortalIDs;
+    public int aTPortalID;
+    public int colorPortalID;
 
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
@@ -44,7 +49,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*----------- Define all Module Classes (SubSystems) ------------*/
     static protected MecanumDriveBasic  drive;
     static protected MecanumDrive       autoDrive;
-    static protected VisionPortalObject vision;
+    protected VisionPortalObject atVision;
+    protected VisionPortalObject colorVision;
     static protected ServoRotate        wristRotate;
     static protected ServoPivot          wristPivot;
     static protected ServoToggle        gripper;
@@ -52,6 +58,12 @@ public abstract class RobotConfiguration extends LinearOpMode {
     static protected Slide              slide;
     static protected Func              Functions;
 
+
+    /*---------------------- Vision Objects -------------------------*/
+    protected ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
+    protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+    protected ColorProcessor yelSamps = new ColorProcessor(ColorRange.YELLOW);
+    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
     /**
      * initializeRobot:
      * Initialize robot with a specified start pose (used by Road Runner. This function should be
@@ -82,7 +94,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
         Servo gripperServo = hardwareMap.get(Servo.class, "servo0");
 
-        WebcamName webCam = hardwareMap.get(WebcamName.class, "Webcam1");
+        WebcamName webCam1      = hardwareMap.get(WebcamName.class, "Webcam1");
+        WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
         drive = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
@@ -90,10 +103,22 @@ public abstract class RobotConfiguration extends LinearOpMode {
         wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);
         wristPivot = new ServoPivot(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
         gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        vision = new VisionPortalObject(webCam);
         armPivot = new MotorPivotExp(armMotor);
         slide = new Slide(slideMotor);
         Functions = new Func();
+
+        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+        aTPortalID = myPortalIDs[1];
+        colorPortalID = myPortalIDs[0];
+
+        atVision    = new VisionPortalObject.Builder(webCam1, aTPortalID)
+                .addProcessor(aprilTags.getProcessor())
+                .build();
+        colorVision =  new VisionPortalObject.Builder(webCam2, colorPortalID)
+                .addProcessor(bluSamps.colorProcessor())
+                .addProcessor(redSamps.colorProcessor())
+                .addProcessor((yelSamps.colorProcessor()))
+                .build();
     }
 
 
