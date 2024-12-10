@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
+import static android.os.SystemClock.sleep;
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
@@ -7,6 +9,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -40,14 +43,17 @@ public class MotorPivotExp implements TeamConstants {
         motor.setPositionPIDFCoefficients(8);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+
+
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
         setPositionCounts(newTarget);
 
     }
 
+
     public void manualMove(double joystickValue) {
-        int newTarget = (int)(motor.getCurrentPosition() + 60 * joystickValue);
+        int newTarget = (int)(motor.getCurrentPosition() + 20 * joystickValue);
         setPositionCounts(newTarget);
     }
 
@@ -64,7 +70,8 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void setPositionCounts(int counts){
-        motor.setTargetPosition(clamp(counts));
+//        motor.setTargetPosition(clamp(counts));
+        motor.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setVelocity(4000);
 
@@ -89,8 +96,8 @@ public class MotorPivotExp implements TeamConstants {
     public double getVelocity() {
         return(motor.getVelocity());
     }
-//
-//
+
+
     public boolean inMotion() {
         return motor.isBusy();
     }
@@ -132,7 +139,10 @@ public class MotorPivotExp implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPositionCounts(position);
-            return false;
+            if (motor.isBusy()){
+                return true;
+            }
+            else return false;
         }
 
     }
@@ -148,7 +158,10 @@ public class MotorPivotExp implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             triangulateTo(newx, newy);
-            return false;
+            if (motor.isBusy()){
+                return true;
+            }
+            else return false;
         }
 
     }

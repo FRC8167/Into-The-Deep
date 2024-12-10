@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -48,7 +49,7 @@ public class Slide implements TeamConstants {
 
 
     public void setPositionCounts(int counts){
-        motor.setTargetPosition(clamp(counts));
+        motor.setTargetPosition(Range.clip(counts, SLIDE_MIN, SLIDE_MAX));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setVelocity(3000);
     }
@@ -86,7 +87,8 @@ public class Slide implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPositionCounts(position);
-            return false;
+            if(motor.isBusy()) return true;
+            else return false;
         }
 
     }
@@ -94,8 +96,8 @@ public class Slide implements TeamConstants {
 
     public class SlideTrig implements Action {  //Note: slide does not extend
 
-        public double newx;
-        public double newy;
+        double newx;
+        double newy;
 
         public SlideTrig(double x, double y){
             newx = x;
@@ -120,4 +122,5 @@ public class Slide implements TeamConstants {
     {
         return new SlideTrig(x,y);
     }
+
 }

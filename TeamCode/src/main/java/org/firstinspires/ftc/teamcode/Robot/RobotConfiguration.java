@@ -89,8 +89,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
         DcMotorEx driveMotorLR = hardwareMap.get(DcMotorEx.class, "motor1");
         DcMotorEx driveMotorRR = hardwareMap.get(DcMotorEx.class, "motor2");
 
-        DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "arm");
-        DcMotorEx slideMotor = hardwareMap.get(DcMotorEx.class, "slide");
+        DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "arm");  //EH3
+        DcMotorEx slideMotor = hardwareMap.get(DcMotorEx.class, "slide");  //EH2
 
         Servo wristPivotServo = hardwareMap.get(Servo.class, "servo1");
         Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
@@ -113,14 +113,14 @@ public abstract class RobotConfiguration extends LinearOpMode {
         aTPortalID = myPortalIDs[1];
         colorPortalID = myPortalIDs[0];
 
-        atVision    = new VisionPortalObject.Builder(webCam1, aTPortalID)
-                .addProcessor(aprilTags.getProcessor())
-                .build();
-        colorVision =  new VisionPortalObject.Builder(webCam2, colorPortalID)
-                .addProcessor(bluSamps.colorProcessor())
-                .addProcessor(redSamps.colorProcessor())
-                .addProcessor((yelSamps.colorProcessor()))
-                .build();
+//        atVision    = new VisionPortalObject.Builder(webCam1, aTPortalID)
+//                .addProcessor(aprilTags.getProcessor())
+//                .build();
+//        colorVision =  new VisionPortalObject.Builder(webCam2, colorPortalID)
+//                .addProcessor(bluSamps.colorProcessor())
+//                .addProcessor(redSamps.colorProcessor())
+//                .addProcessor((yelSamps.colorProcessor()))
+//                .build();
     }
 
 

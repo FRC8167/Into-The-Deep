@@ -29,13 +29,18 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
 
+        armPivot.resetEncoders();
+        slide.resetEncoders();
+
        // ************************TRAJECTORIES****************************
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,60));
-        TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(new Pose2d(0, 60, -Math.PI/2))
+                .strafeTo(new Vector2d(0,50));
+        TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(new Pose2d(0, 50, -Math.PI/2))
                 .lineToY(30);
-        TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(0, 30, -Math.PI/2))
+        TrajectoryActionBuilder back1 = autoDrive.actionBuilder(new Pose2d(0, 30, -Math.PI/2))
+                .lineToY(60);
+        TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(0, 60, -Math.PI/2))
                  .strafeTo(new Vector2d(50,36));
         TrajectoryActionBuilder basket1 = autoDrive.actionBuilder(new Pose2d(50, 36, -Math.PI/2))
                 .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
@@ -54,6 +59,7 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
 
         Action goForward1 = forward1.build();
         Action goCenterX = centerX.build();
+        Action goBack1 = back1.build();
         Action goBlock1 = block1.build();
         Action goBasket1 = basket1.build();
         Action goBlock2 = block2.build();
@@ -73,14 +79,16 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,3),
-                        slide.slideTrig(20,3),
-                        wristPivot.wristTrig(16.5,3, true),
+                        armPivot.armTrig(20,3.5),
+                        slide.slideTrig(20,3.5),
+                        wristPivot.wristTrig(20,3.5, true),
                         goCenterX,
                         goForward1,
-                        armPivot.armTrig(30,10),
-                        slide.slideTrig(30,10),
-                        wristPivot.wristTrig(30,10, true)
+                        armPivot.armTrig(20,7),// change to 6?
+                        slide.slideTrig(20,7),
+                        wristPivot.wristTrig(20,7, true),
+                        goBack1
+
 //                        goBlock1,
 //                        goBasket1,
 //                        goBlock2,
