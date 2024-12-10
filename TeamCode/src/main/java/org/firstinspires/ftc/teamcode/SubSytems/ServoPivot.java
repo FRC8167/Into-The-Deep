@@ -64,13 +64,17 @@ public class ServoPivot extends Servo1D {
         }
 
     }
+
+
     public double getAngle(){
         return angle;
     }
-    public double getServoPos() {
 
+
+    public double getServoPos() {
             return servoPos*240;
-        }
+    }
+
 
     public class WristTrig implements Action {
 
@@ -87,6 +91,8 @@ public class ServoPivot extends Servo1D {
         }
 
     }
+
+
     public Action wristTrig(double x, double y, boolean forward) {
         return new WristTrig(x,y,forward);
     }

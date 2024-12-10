@@ -114,9 +114,12 @@ public class MotorPivotExp implements TeamConstants {
 
     public int getmotorPos() { return motor.getCurrentPosition(); }
 
+
     public boolean getBusy(){
         return motor.isBusy();
     }
+
+
     /* ************************* Actions * *************************/
     public class SetPositionCounts implements Action {
 
@@ -133,6 +136,8 @@ public class MotorPivotExp implements TeamConstants {
         }
 
     }
+
+
     public class ArmTrig implements Action {
 
         public double newx;
@@ -155,6 +160,7 @@ public class MotorPivotExp implements TeamConstants {
 //    public Action armTrig(double x, double y) {
 //        return new armTrig(x,y);
 //    }
+
     public Action armTrig(double x, double y) {
         return new ArmTrig(x,y);
     }
