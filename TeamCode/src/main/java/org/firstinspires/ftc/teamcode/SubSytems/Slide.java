@@ -89,12 +89,16 @@ public class Slide implements TeamConstants {
         }
 
     }
-    public class slideTrig implements Action {  //Note: slide does not extend
+
+    public class SlideTrig implements Action {  //Note: slide does not extend
 
         public double newx;
         public double newy;
 
-        public slideTrig(double x, double y){newx = x; newy = y;}
+        public SlideTrig(double x, double y){
+            newx = x;
+            newy = y;
+        }
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -111,6 +115,6 @@ public class Slide implements TeamConstants {
     }
     public Action slideTrig(double x, double y)
     {
-        return new slideTrig(x,y);
+        return new SlideTrig(x,y);
     }
 }

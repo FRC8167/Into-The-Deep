@@ -133,12 +133,12 @@ public class MotorPivotExp implements TeamConstants {
         }
 
     }
-    public class armTrig implements Action {
+    public class ArmTrig implements Action {
 
         public double newx;
         public double newy;
 
-        public armTrig(double x, double y){newx = x; newy = y;}
+        public ArmTrig(double x, double y){newx = x; newy = y;}
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
@@ -152,8 +152,11 @@ public class MotorPivotExp implements TeamConstants {
     public Action rotateToPosition(int position) {
         return new SetPositionCounts(position);
     }
+//    public Action armTrig(double x, double y) {
+//        return new armTrig(x,y);
+//    }
     public Action armTrig(double x, double y) {
-        return new armTrig(x,y);
+        return new ArmTrig(x,y);
     }
 
 }
