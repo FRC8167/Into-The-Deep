@@ -50,12 +50,6 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         TrajectoryActionBuilder park = autoDrive.actionBuilder(new Pose2d(55, 55, Math.toRadians(45)))
                 .strafeToSplineHeading(new Vector2d(-62,60),Math.toRadians(90));
 
-
-
-        waitForStart();
-
-        if (isStopRequested()) return;
-
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
         Action goForward1 = forward1.build();
@@ -67,6 +61,12 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         Action goBlock3 = block3.build();
         Action goBasket3 = basket3.build();
         Action goPark = park.build();
+
+
+        waitForStart();
+
+        if (isStopRequested()) return;
+
 
 
 
