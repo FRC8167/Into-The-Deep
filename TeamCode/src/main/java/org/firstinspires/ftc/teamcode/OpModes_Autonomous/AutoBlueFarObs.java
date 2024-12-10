@@ -26,9 +26,11 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
     public void runOpMode() throws InterruptedException {
 
         Pose2d initialPose = new Pose2d(-12,60, -Math.PI/2);
-
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
+
+       // ************************TRAJECTORIES****************************
+
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
                 .strafeTo(new Vector2d(0,60));
         TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(new Pose2d(0, 60, -Math.PI/2))
@@ -52,29 +54,23 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
 
         waitForStart();
 
-
-
         if (isStopRequested()) return;
-//        Action goSpecimenHang = armPivot.armTrig(10,10);
+
+        //**************************TRAJECTORIES -> ACTIONS  *********************
 
         Action goForward1 = forward1.build();
-
         Action goCenterX = centerX.build();
-
         Action goBlock1 = block1.build();
-
         Action goBasket1 = basket1.build();
-
         Action goBlock2 = block2.build();
-
         Action goBasket2 = basket2.build();
-
         Action goBlock3 = block3.build();
-
         Action goBasket3 = basket3.build();
-
         Action goPark = park.build();
 
+
+
+        //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
                         armPivot.armTrig(20,3),

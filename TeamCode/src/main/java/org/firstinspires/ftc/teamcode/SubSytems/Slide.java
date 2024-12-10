@@ -105,10 +105,12 @@ public class Slide implements TeamConstants {
     }
 
 
-    public Action rotateToPosition(int position) {
+    public Action slideToPosition(int position)
+    {
         return new SlidePosition(position);
     }
-    public Action slideTrig(double x, double y) {
+    public Action slideTrig(double x, double y)
+    {
         return new slideTrig(x,y);
     }
 }

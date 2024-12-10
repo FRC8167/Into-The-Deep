@@ -55,7 +55,8 @@ public class Servo1D implements TeamConstants {
     }
 
 
-    public Action setServoPosition(double position) {
+    public Action setServoPosition(double position)
+    {
         return new SetServoPosition(position);
     }
 
