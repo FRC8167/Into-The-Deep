@@ -18,10 +18,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        initializeRobot(new Pose2d(0,0,0));  //will need to change
-
+        initializeRobot(new Pose2d(0,0,0));  //will need to chang
         double wristX = 288.500/25.4;// ~11.358in
         double wristY = -288.500/25.4;
+        double oldWristX = wristX;
+        double oldWristY = wristY;
+        boolean bigMove = false;
+        boolean retractIsDone = true;
+        boolean pivotIsDone = true;
+        boolean extendIsDone = true;
         double newWristX = 288.500/25.4;// ~11.358in
         double newWristY = -288.500/25.4;
         boolean wristForward = true;
@@ -59,6 +64,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             else drive.setDegradedDrive(false);
 
             drive.mecanumDrive(fdrive, strafe, turn);
+            oldWristX = wristX;
+            oldWristY = wristY;
             newWristY = wristY + 0.1*(operator.rightTrigger-operator.leftTrigger);
             newWristX =wristX + 0.1*(-operator.rightStick_Y);
             wristX = newWristX;
@@ -74,8 +81,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
 
-            armPivot.triangulateTo(wristX, wristY);
-            slide.triangulateTo(wristX, wristY);
+
 
             if(operator.y.pressed()) {
                 wristX = -1;
@@ -87,6 +93,33 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
             /* ********************************************************/
             RotateAcuteAng = wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+            if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
+                {
+                bigMove = true;
+                retractIsDone = false;
+                pivotIsDone = false;
+                extendIsDone = false;
+
+            }
+
+            if (!bigMove) {
+                armPivot.triangulateTo(wristX, wristY);
+                slide.triangulateTo(wristX, wristY);
+            }
+            else {
+                if (!retractIsDone) {
+                    if (!slide.getBusy()) slide.setPosition(0);
+                    retractIsDone = slide.getBusy();
+                } else if (!pivotIsDone) {
+                    if (!armPivot.getBusy()) armPivot.triangulateTo(wristX, wristY);
+                    pivotIsDone = armPivot.getBusy();
+                } else if (!extendIsDone) {
+                    if (!slide.getBusy()) slide.triangulateTo(wristX, wristY);
+                    extendIsDone = slide.getBusy();
+                } else {
+                    bigMove = false;
+                }
+            }
 
             /* Output Telemtery Data to Driver Stations */
             telemetry.addData("GripServo: ", gripper.servoPos());

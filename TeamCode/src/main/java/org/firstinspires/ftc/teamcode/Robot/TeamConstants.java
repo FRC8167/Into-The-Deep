@@ -48,4 +48,8 @@ public interface TeamConstants {
     double WRIST_ROTATE_MAX    = 0.8; //counterclock
     double WRIST_ROTATE_CENTER = 0.5;
 
+
+    /*~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    double bigMoveTolerance = 15;
+
 }
