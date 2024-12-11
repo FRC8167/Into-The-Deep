@@ -21,14 +21,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         initializeRobot(new Pose2d(0,0,0));  //will need to chang
         double wristX = 288.500/25.4;// ~11.358in
         double wristY = -288.500/25.4;
-        double oldWristX = wristX;
-        double oldWristY = wristY;
+        double oldWristX;
+        double oldWristY;
         boolean bigMove = false;
         boolean retractIsDone = true;
         boolean pivotIsDone = true;
         boolean extendIsDone = true;
-        double newWristX = 288.500/25.4;// ~11.358in
-        double newWristY = -288.500/25.4;
+        double newWristX;// ~11.358in
+        double newWristY;
         boolean wristForward = true;
         // Looking from right side of robot
         // (0,0) at arm pivot
@@ -58,10 +58,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //                slide.triangulateTo(20, 10);
 //            }
 
-            if(driver.rightBumper.pressed()) {
-                drive.setDegradedDrive(true);
-            }
-            else drive.setDegradedDrive(false);
+            drive.setDegradedDrive(driver.rightBumper.pressed());
 
             drive.mecanumDrive(fdrive, strafe, turn);
             oldWristX = wristX;
@@ -74,7 +71,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristY = Functions.TriClampY(wristX, wristY);
 
             wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
-            RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*operator.leftStick_Y, operator.leftStick_X)));
             /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
 
