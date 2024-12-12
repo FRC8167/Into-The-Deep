@@ -50,6 +50,6 @@ public interface TeamConstants {
 
 
     /*~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    double bigMoveTolerance = 15;
+    double bigMoveTolerance = 1;
 
 }

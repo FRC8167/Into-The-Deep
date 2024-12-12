@@ -74,6 +74,7 @@ public class MotorPivotExp implements TeamConstants {
         motor.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setVelocity(4000);
+        //while (!motor.isBusy()){}
 
     }
 

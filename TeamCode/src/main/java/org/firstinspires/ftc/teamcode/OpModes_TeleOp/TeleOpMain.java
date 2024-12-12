@@ -63,13 +63,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             drive.mecanumDrive(fdrive, strafe, turn);
             oldWristX = wristX;
             oldWristY = wristY;
-            newWristY = wristY + 0.1*(operator.rightTrigger-operator.leftTrigger);
-            newWristX =wristX + 0.1*(-operator.rightStick_Y);
-            wristX = newWristX;
-            wristY = newWristY;
-            wristX = Functions.TriClampX(wristX,wristY);
-            wristY = Functions.TriClampY(wristX, wristY);
-
+            if (!bigMove) {
+                newWristY = wristY + 0.1 * (operator.rightTrigger - operator.leftTrigger);
+                newWristX = wristX + 0.1 * (-operator.rightStick_Y);
+                wristX = newWristX;
+                wristY = newWristY;
+                wristX = Functions.TriClampX(wristX, wristY);
+                wristY = Functions.TriClampY(wristX, wristY);
+            }
             wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
             /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
@@ -80,8 +81,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
             if(operator.y.pressed()) {
-                wristX = -1;
+                wristX = 5;
                 wristY = 34;
+            }
+            if(operator.x.pressed()) {
+                wristX = 23.5;
+                wristY = 0;
             }
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
@@ -104,14 +109,17 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
             else {
                 if (!retractIsDone) {
-                    if (!slide.getBusy()) slide.setPosition(0);
-                    retractIsDone = slide.getBusy();
+                    slide.setPosition(0);
+                    if (!slide.getBusy()){sleep(50);}
+                    retractIsDone = !slide.getBusy();
                 } else if (!pivotIsDone) {
-                    if (!armPivot.getBusy()) armPivot.triangulateTo(wristX, wristY);
-                    pivotIsDone = armPivot.getBusy();
+                    armPivot.triangulateTo(wristX, wristY);
+                    if (!armPivot.getBusy()){sleep(50);}
+                    pivotIsDone = !armPivot.getBusy();
                 } else if (!extendIsDone) {
-                    if (!slide.getBusy()) slide.triangulateTo(wristX, wristY);
-                    extendIsDone = slide.getBusy();
+                    if (!slide.getBusy()){sleep(50);}
+                    sleep(50);
+                    extendIsDone = !slide.getBusy();
                 } else {
                     bigMove = false;
                 }
@@ -134,7 +142,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
             telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
             telemetry.addData("ClassServoPos: ", (wristPivot.getServoPos()));
-            telemetry.addData("PivotBusy: ", (armPivot.getBusy()));
+            telemetry.addData("ClassServoPos: ", (bigMove));
+            telemetry.addData("retractDone: ", (retractIsDone));
+            telemetry.addData("pivotDone: ", (pivotIsDone));
+            telemetry.addData("extendDone: ", (extendIsDone));
+            telemetry.addData("bigMove: ", (bigMove));
+            telemetry.addData("Dist: ", (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY))));
+            telemetry.addData("armBusy: ", (armPivot.getBusy()));
+            telemetry.addData("slideBusy: ", (slide.getBusy()));
+
+
 
 //            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
 //

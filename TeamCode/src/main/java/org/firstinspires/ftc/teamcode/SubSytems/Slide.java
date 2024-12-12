@@ -54,6 +54,7 @@ public class Slide implements TeamConstants {
         motor.setTargetPosition(Range.clip(counts, SLIDE_MIN, SLIDE_MAX));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motor.setVelocity(3000);
+        //while (!motor.isBusy()){}
     }
 
 
