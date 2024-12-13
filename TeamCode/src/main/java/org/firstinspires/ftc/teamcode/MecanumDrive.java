@@ -89,6 +89,7 @@ public final class MecanumDrive {
         public double axialVelGain = 0.0;
         public double lateralVelGain = 0.0;
         public double headingVelGain = 1.0; // shared with turn
+
     }
 
     public static Params PARAMS = new Params();
@@ -142,6 +143,25 @@ public final class MecanumDrive {
 
         }
 
+
+//added by DMW
+public TrajectoryActionBuilder actionBuilder(Pose2d beginPose, PoseMap poseMap) {
+    return new TrajectoryActionBuilder(
+            TurnAction::new,
+            FollowTrajectoryAction::new,
+            new TrajectoryBuilderParams(
+                    1e-6,
+                    new ProfileParams(
+                            0.25, 0.1, 1e-2
+                    )
+            ),
+            beginPose, 0.0,
+            defaultTurnConstraints,
+            defaultVelConstraint, defaultAccelConstraint,
+            poseMap
+    );
+}
+
         @Override
         public Twist2dDual<Time> update() {
             PositionVelocityPair leftFrontPosVel = leftFront.getPositionAndVelocity();
@@ -171,6 +191,9 @@ public final class MecanumDrive {
                         DualNum.constant(0.0, 2)
                 );
             }
+
+
+
 
             double headingDelta = heading.minus(lastHeading);
             Twist2dDual<Time> twist = kinematics.forward(new MecanumKinematics.WheelIncrements<>(
