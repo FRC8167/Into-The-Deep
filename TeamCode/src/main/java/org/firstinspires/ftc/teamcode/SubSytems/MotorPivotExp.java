@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.SubSytems;
 
-import static android.os.SystemClock.sleep;
-
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -125,6 +122,10 @@ public class MotorPivotExp implements TeamConstants {
 
     public boolean getBusy(){
         return motor.isBusy();
+    }
+
+    public boolean closeEnough() {
+        return Math.abs(motor.getCurrentPosition() - motor.getTargetPosition()) * TeamConstants.DEGREES_PER_COUNT < TeamConstants.closeEnoughDegTol;
     }
 
 

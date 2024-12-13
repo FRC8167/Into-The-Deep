@@ -52,11 +52,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double fdrive = -gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
-//            if(operator.b.pressed()) {
-//                armPivot.triangulateTo(20, 10);}
-//            if(operator.x.pressed()) {
-//                slide.triangulateTo(20, 10);
-//            }
+
 
             drive.setDegradedDrive(driver.rightBumper.pressed());
 
@@ -88,6 +84,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = 23.5;
                 wristY = 0;
             }
+            if(operator.b.pressed()) {
+                wristX = 17;
+                wristY = 0;
+            }
+
+
 //            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
 //            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
@@ -110,16 +112,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             else {
                 if (!retractIsDone) {
                     slide.setPosition(0);
-                    if (!slide.getBusy()){sleep(50);}
-                    retractIsDone = !slide.getBusy();
+//                    if (!slide.getBusy()){sleep(50);}
+                    retractIsDone = slide.closeEnough();
                 } else if (!pivotIsDone) {
                     armPivot.triangulateTo(wristX, wristY);
-                    if (!armPivot.getBusy()){sleep(50);}
-                    pivotIsDone = !armPivot.getBusy();
+//                    if (!armPivot.getBusy()){sleep(50);}
+                    pivotIsDone = armPivot.closeEnough();
                 } else if (!extendIsDone) {
-                    if (!slide.getBusy()){sleep(50);}
-                    sleep(50);
-                    extendIsDone = !slide.getBusy();
+//                    if (!slide.getBusy()){sleep(50);}
+                    extendIsDone = slide.closeEnough();
                 } else {
                     bigMove = false;
                 }

@@ -39,6 +39,10 @@ public class Slide implements TeamConstants {
         setPositionCounts(newTarget);
     }
 
+    public boolean closeEnough() {
+        return Math.abs(motor.getCurrentPosition() - motor.getTargetPosition()) * TeamConstants.INCHES_PER_COUNT < TeamConstants.closeEnoughLenTol;
+    }
+
 
     public void manualMove(double leftTriggerValue, double rightTriggerValue) {
         setPositionCounts((int)((motor.getCurrentPosition() + 40*(rightTriggerValue-leftTriggerValue))));

@@ -51,5 +51,7 @@ public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     double bigMoveTolerance = 1;
+    double closeEnoughDegTol = 20;
+    double closeEnoughLenTol = 6;
 
 }
