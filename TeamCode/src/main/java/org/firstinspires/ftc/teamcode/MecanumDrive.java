@@ -144,23 +144,7 @@ public final class MecanumDrive {
         }
 
 
-//added by DMW
-public TrajectoryActionBuilder actionBuilder(Pose2d beginPose, PoseMap poseMap) {
-    return new TrajectoryActionBuilder(
-            TurnAction::new,
-            FollowTrajectoryAction::new,
-            new TrajectoryBuilderParams(
-                    1e-6,
-                    new ProfileParams(
-                            0.25, 0.1, 1e-2
-                    )
-            ),
-            beginPose, 0.0,
-            defaultTurnConstraints,
-            defaultVelConstraint, defaultAccelConstraint,
-            poseMap
-    );
-}
+
 
         @Override
         public Twist2dDual<Time> update() {
@@ -497,6 +481,26 @@ public TrajectoryActionBuilder actionBuilder(Pose2d beginPose, PoseMap poseMap) 
         c.strokePolyline(xPoints, yPoints);
     }
 
+    //added by DMW
+
+
+    public TrajectoryActionBuilder actionBuilder(Pose2d beginPose, PoseMap poseMap) {
+        return new TrajectoryActionBuilder(
+                TurnAction::new,
+                FollowTrajectoryAction::new,
+                new TrajectoryBuilderParams(
+                        1e-6,
+                        new ProfileParams(
+                                0.25, 0.1, 1e-2
+                        )
+                ),
+                beginPose, 0.0,
+                defaultTurnConstraints,
+                defaultVelConstraint, defaultAccelConstraint,
+                poseMap
+        );
+    }
+
     public TrajectoryActionBuilder actionBuilder(Pose2d beginPose) {
         return new TrajectoryActionBuilder(
                 TurnAction::new,
@@ -512,4 +516,8 @@ public TrajectoryActionBuilder actionBuilder(Pose2d beginPose, PoseMap poseMap) 
                 defaultVelConstraint, defaultAccelConstraint
         );
     }
+
+
+
+
 }
