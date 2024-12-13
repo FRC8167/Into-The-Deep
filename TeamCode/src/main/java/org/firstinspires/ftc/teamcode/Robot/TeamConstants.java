@@ -48,7 +48,10 @@ public interface TeamConstants {
     double WRIST_ROTATE_MAX    = 0.8; //counterclock
     double WRIST_ROTATE_CENTER = 0.5;
 
-
+    /*~~~~~~~~~~~~~~~~~~~~ Main Movement Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    double Wrist_X_MAX = 30; // required for extension constraint rule
+    double Wrist_X_MIN = 0; // required for extension constraint rule
+    double Wrist_Y_MIN = -8.6; // required for not hit ground TODO: Fine Tune Value
     /*~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     double bigMoveTolerance = 1;
     double closeEnoughDegTol = 20;

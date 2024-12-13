@@ -62,8 +62,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             if (!bigMove) {
                 newWristY = wristY + 0.1 * (operator.rightTrigger - operator.leftTrigger);
                 newWristX = wristX + 0.1 * (-operator.rightStick_Y);
-                wristX = newWristX;
-                wristY = newWristY;
+                wristX = Functions.TestNewX(wristX, wristY, newWristX, newWristY);
+                wristY = Functions.TestNewY(wristX, wristY, newWristX, newWristY);
                 wristX = Functions.TriClampX(wristX, wristY);
                 wristY = Functions.TriClampY(wristX, wristY);
             }
