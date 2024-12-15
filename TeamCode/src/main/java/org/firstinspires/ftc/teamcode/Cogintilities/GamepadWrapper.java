@@ -58,8 +58,8 @@ public class GamepadWrapper {
         start.update(gamepad.start);
         guide.update(gamepad.guide);
 
-        leftJoyMagnitude  = Math.sqrt(Math.pow(gamepad.left_stick_x, 2) + Math.pow(gamepad.left_stick_y, 2);
-        rightJoyMagnitude = Math.sqrt(Math.pow(gamepad.right_stick_x, 2) + Math.pow(gamepad.right_stick_y, 2);
+        leftJoyMagnitude  = Math.sqrt(Math.pow(gamepad.left_stick_x, 2) + Math.pow(gamepad.left_stick_y, 2));
+        rightJoyMagnitude = Math.sqrt(Math.pow(gamepad.right_stick_x, 2) + Math.pow(gamepad.right_stick_y, 2));
     }
 
 }
