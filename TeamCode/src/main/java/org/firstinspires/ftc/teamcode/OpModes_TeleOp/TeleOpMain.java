@@ -15,7 +15,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     GamepadWrapper driver;
     GamepadWrapper operator;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         initializeRobot(new Pose2d(0,0,0));  //will need to chang
