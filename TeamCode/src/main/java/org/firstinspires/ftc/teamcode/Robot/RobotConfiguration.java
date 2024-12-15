@@ -54,11 +54,11 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected VisionPortalObject atVision;
     protected VisionPortalObject colorVision;
     static protected ServoRotate        wristRotate;
-    static protected ServoPivot          wristPivot;
+    static protected ServoPivot         wristPivot;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
     static protected Slide              slide;
-    static protected Func              Functions;
+    static protected Func               Functions;
 
 
     /*---------------------- Vision Objects -------------------------*/

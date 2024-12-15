@@ -27,7 +27,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoBlueFarSub", group="Autonomous", preselectTeleOp = "TeleOp")
+@Autonomous(name="PoseTrials", group="Autonomous", preselectTeleOp = "TeleOp")
 public class PoseTrials extends RobotConfiguration implements TeamConstants {
 
 
@@ -40,10 +40,12 @@ public class PoseTrials extends RobotConfiguration implements TeamConstants {
 
 
 
-
-        Pose2d initialPose = new Pose2d(-14,60, -Math.PI/2);
-        initializeRobot(initialPose);
         setAlliance(AllianceColor.RED);
+        Pose2d initialPose = new Pose2d(-14,60, -Math.PI/2);
+
+        initializeRobot(initialPose);
+
+
         TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(initialPose, p-> new Pose2dDual<>(p.position.x.unaryMinus(), p.position.y.unaryMinus(), p.heading.inverse()))
                 .lineToY(36);
         TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(-14, 36, -Math.PI/2), p-> new Pose2dDual<>(p.position.x.unaryMinus(), p.position.y.unaryMinus(), p.heading.inverse()))
@@ -71,6 +73,7 @@ public class PoseTrials extends RobotConfiguration implements TeamConstants {
    
 
         waitForStart();
+
         if (isStopRequested()) return;
 
         Action goForward1 = forward1.build();

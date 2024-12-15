@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class ServoPivot extends Servo1D {
+
     double angle = 45;
     double distFromGround = 0;
     double servoPos = 0;
@@ -21,8 +22,8 @@ public class ServoPivot extends Servo1D {
 
 
     public void setServoAngToGround(double targetAng, double armAng){
-        servoPos= (90-armAng+targetAng)/240;
-        if (servoPos >=0){
+        servoPos= (90 - armAng + targetAng) / 240;
+        if (servoPos >= 0){
             servo.setPosition(servoPos);
         }
         else {

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class ServoRotate extends Servo1D {
+
     double RotateAcuteAng;
 
     public ServoRotate(Servo servo, double initPos, double min, double max) {

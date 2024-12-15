@@ -29,6 +29,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double newWristX;// ~11.358in
         double newWristY;
         boolean wristForward = true;
+        double RotateAcuteAng;
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
@@ -43,7 +44,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
-        double RotateAcuteAng;
         waitForStart();
 
         while (opModeIsActive()) {
@@ -64,6 +64,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = Functions.TriClampY(wristX, wristY);
             }
             wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
+
             /* ********* Created for wrist proof of concept ********* */
             if(operator.a.pressed()) gripper.toggleGripper();
 
@@ -91,14 +92,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
 //            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
             /* ********************************************************/
+
             RotateAcuteAng = wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
-                {
+            {
                 bigMove = true;
                 retractIsDone = false;
                 pivotIsDone = false;
                 extendIsDone = false;
-
             }
 
             if (!bigMove) {

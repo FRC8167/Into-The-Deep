@@ -22,6 +22,7 @@ public class GamepadWrapper {
     public DigitalInput rightBumper = new DigitalInput(false, false);
 
     public double leftStick_X, leftStick_Y, rightStick_X, rightStick_Y, leftTrigger, rightTrigger;
+    public double leftJoyMagnitude, rightJoyMagnitude;
 
     private Gamepad gamepad;
 
@@ -53,9 +54,12 @@ public class GamepadWrapper {
         dpadRight.update(gamepad.dpad_right);
         leftBumper.update(gamepad.left_bumper);
         rightBumper.update(gamepad.right_bumper);
-        start.update(gamepad.start);
         back.update(gamepad.back);
+        start.update(gamepad.start);
         guide.update(gamepad.guide);
+
+        leftJoyMagnitude  = Math.sqrt(Math.pow(gamepad.left_stick_x, 2) + Math.pow(gamepad.left_stick_y, 2);
+        rightJoyMagnitude = Math.sqrt(Math.pow(gamepad.right_stick_x, 2) + Math.pow(gamepad.right_stick_y, 2);
     }
 
 }
