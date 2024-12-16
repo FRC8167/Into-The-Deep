@@ -15,11 +15,11 @@ public class ServoRotate extends Servo1D {
 
 
     public void moveTrig(double joyX,double joyY){
-        rotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*joyY, joyX)));
+        rotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1 * joyY, joyX)));
         if (joyY == 0 && joyX == 0)
             setPosition(TeamConstants.WRIST_ROTATE_CENTER);
-        else if (joyY<= 0)
-            setPosition(((((rotateAcuteAng)/(300))+.2)));
+        else if (joyY <= 0)
+            setPosition(rotateAcuteAng / 300 + 0.2);
     }
 
 
