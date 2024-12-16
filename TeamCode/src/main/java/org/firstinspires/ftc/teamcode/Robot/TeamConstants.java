@@ -29,10 +29,10 @@ public interface TeamConstants {
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    int SLIDE_MIN = 0;
-    int SLIDE_MAX = 2060;  // 460 mm actual calculated is 2186 counts for 488 mm
+    int    SLIDE_MIN = 0;
+    int    SLIDE_MAX = 2060;  // 460 mm actual calculated is 2186 counts for 488 mm
     double INCHES_PER_COUNT = 0.00879;
-    int SLIDE_SCORE_HIGH = 1;
+    int    SLIDE_SCORE_HIGH = 1;
 
 
     /*~~~~~~~~~~~~~~~~~~~~~ Wrist Pivot Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~*/
@@ -45,13 +45,16 @@ public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~ Wrist Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~*/
     double WRIST_ROTATE_MIN    = 0.2; // clockwise
-    double WRIST_ROTATE_MAX    = 0.8; //counterclock
+    double WRIST_ROTATE_MAX    = 0.8; // counterclock
     double WRIST_ROTATE_CENTER = 0.5;
+
 
     /*~~~~~~~~~~~~~~~~~~~~ Main Movement Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     double Wrist_X_MAX = 30; // required for extension constraint rule
     double Wrist_X_MIN = 0; // required for extension constraint rule
     double Wrist_Y_MIN = -8.6; // required for not hit ground TODO: Fine Tune Value
+
+
     /*~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     double bigMoveTolerance = 1;
     double closeEnoughDegTol = 20;

@@ -78,7 +78,7 @@ public class MecanumDriveBasic implements TeamConstants {
      * @param rotationPosition Current arm rotation position
      */
     public void periodic(double slidePosition, double rotationPosition) {
-        degradedMode = (slidePosition > DEGRADED_SLIDE_EXTENDED || rotationPosition > DEGRADED_ARM_ROTATION);
+//        degradedMode = (slidePosition > DEGRADED_SLIDE_EXTENDED || rotationPosition > DEGRADED_ARM_ROTATION);
     }
 
 

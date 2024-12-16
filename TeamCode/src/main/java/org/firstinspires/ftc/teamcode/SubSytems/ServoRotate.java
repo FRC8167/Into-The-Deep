@@ -6,20 +6,25 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class ServoRotate extends Servo1D {
-    double RotateAcuteAng;
+
+    double rotateAcuteAng;
 
     public ServoRotate(Servo servo, double initPos, double min, double max) {
         super(servo, initPos, min, max);
     }
 
 
-    public double moveTrig(double joyX,double joyY){
+    public void moveTrig(double joyX,double joyY){
+        rotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1 * joyY, joyX)));
+        if (joyY == 0 && joyX == 0)
+            setPosition(TeamConstants.WRIST_ROTATE_CENTER);
+        else if (joyY <= 0)
+            setPosition(rotateAcuteAng / 300 + 0.2);
+    }
 
-        RotateAcuteAng = Math.abs(Math.toDegrees(Math.atan2(-1*joyY, joyX)));
-        if (joyY == 0 && joyX == 0) setPosition(TeamConstants.WRIST_ROTATE_CENTER);
-        else if (joyY<= 0) setPosition(((((RotateAcuteAng)/(300))+.2)));
-        return RotateAcuteAng;
 
+    public double getRotateAcuteAng() {
+        return rotateAcuteAng;
     }
 
 

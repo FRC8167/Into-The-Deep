@@ -51,14 +51,14 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*----------- Define all Module Classes (SubSystems) ------------*/
     static protected MecanumDriveBasic  drive;
     static protected MecanumDrive       autoDrive;
-    protected VisionPortalObject atVision;
-    protected VisionPortalObject colorVision;
+    protected VisionPortalObject        atVision;
+    protected VisionPortalObject        colorVision;
     static protected ServoRotate        wristRotate;
-    static protected ServoPivot          wristPivot;
+    static protected ServoPivot         wristPivot;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
     static protected Slide              slide;
-    static protected Func              Functions;
+    static protected Func               Functions;
 
 
     /*---------------------- Vision Objects -------------------------*/
@@ -66,6 +66,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
     protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
     protected ColorProcessor yelSamps = new ColorProcessor(ColorRange.YELLOW);
     protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
+
+
     /**
      * initializeRobot:
      * Initialize robot with a specified start pose (used by Road Runner. This function should be
@@ -147,6 +149,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     public static String ctrlHubV() {
         return String.format(Locale.getDefault(), "%.3f V", ctrlHubs.get(0).getInputVoltage(VoltageUnit.VOLTS));
     }
+
 
     public static String expHubV() {
         return String.format(Locale.getDefault(), "%.3f V", ctrlHubs.get(1).getInputVoltage(VoltageUnit.VOLTS));
