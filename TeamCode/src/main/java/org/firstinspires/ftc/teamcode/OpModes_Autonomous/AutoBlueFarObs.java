@@ -38,7 +38,7 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
                 .strafeTo(new Vector2d(0,50));
         TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(new Pose2d(0, 50, -Math.PI/2))
                 .lineToY(30);
-        TrajectoryActionBuilder back1 = autoDrive.actionBuilder(new Pose2d(0, 30, -Math.PI/2))
+        TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
                 .lineToY(60);
         TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(0, 60, -Math.PI/2))
                  .strafeTo(new Vector2d(50,36));

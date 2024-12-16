@@ -101,7 +101,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
 //            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
             /* ********************************************************/
-            RotateAcuteAng = wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+            wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
                 {
                 bigMove = true;
@@ -137,8 +137,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
             telemetry.addData("WristPivot: ", wristPivot.servoPos());
             telemetry.addData("Pivot Encoder", armPivot.getPosition());
-            telemetry.addData("RotateTest: ", (((((RotateAcuteAng)/(300))+.2))));
-            telemetry.addData("Ang: ", RotateAcuteAng);
             telemetry.addData("LX: ", operator.leftStick_X);
             telemetry.addData("LY: ", operator.leftStick_Y);
             telemetry.addData("RY: ", operator.rightStick_Y);
