@@ -49,21 +49,27 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         waitForStart();
 
         while (opModeIsActive()) {
-            double fdrive = -gamepad1.left_stick_y;
-            double strafe = gamepad1.left_stick_x;
-            double turn = gamepad1.right_stick_x;
 
 
-            drive.setDegradedDrive(driver.rightBumper.pressed());
+            double fdrive = -driver.leftStick_Y;
+            double strafe = driver.leftStick_X + 0.25* operator.rightStick_X;
+            double turn = driver.rightStick_X ;
 
+//            drive.setDegradedDrive(driver.rightBumper.whilePressed());
+            if (driver.rightBumper.whilePressed() || wristY > 25) {
+                drive.setDegradedDrive(true);
+            } else {
+                drive.setDegradedDrive(false);
+            }
             drive.mecanumDrive(fdrive, strafe, turn);
+
             oldWristX = wristX;
             oldWristY = wristY;
             if (!bigMove) {
                 newWristY = wristY + 0.1 * (operator.rightTrigger - operator.leftTrigger);
                 newWristX = wristX + 0.1 * (-operator.rightStick_Y);
-                wristX = Functions.TestNewX(wristX, wristY, newWristX, newWristY);
-                wristY = Functions.TestNewY(wristX, wristY, newWristX, newWristY);
+                wristX = newWristX;
+                wristY = newWristY;
                 wristX = Functions.TriClampX(wristX, wristY);
                 wristY = Functions.TriClampY(wristX, wristY);
             }

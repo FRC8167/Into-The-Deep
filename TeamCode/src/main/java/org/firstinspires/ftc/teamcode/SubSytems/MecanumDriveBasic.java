@@ -48,9 +48,9 @@ public class MecanumDriveBasic implements TeamConstants {
      */
     public void mecanumDrive(double driveCmd, double strafeCmd, double turnCmd) {
 
-        drive  = (degradedMode) ? driveCmd  * DEGRADED_DRIVE_LIMIT  : driveCmd;
-        strafe = (degradedMode) ? strafeCmd * DEGRADED_STRAFE_LIMIT : strafeCmd;
-        turn   = (degradedMode) ? turnCmd   * DEGRADED_TURN_LIMIT   : turnCmd;
+        drive  = (degradedMode) ? driveCmd  * DEGRADED_DRIVE_LIMIT  : driveCmd * 0.8;
+        strafe = (degradedMode) ? strafeCmd * DEGRADED_STRAFE_LIMIT : strafeCmd * 0.8;
+        turn   = (degradedMode) ? turnCmd   * DEGRADED_TURN_LIMIT   : turnCmd * 0.8;
 
         double denominator = Math.max(Math.abs(driveCmd) + Math.abs(strafeCmd) + Math.abs(turnCmd), 1);
         double frontLeftPower  = (drive + strafe + turn) / denominator;

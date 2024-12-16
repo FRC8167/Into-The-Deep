@@ -46,7 +46,7 @@ public class Func implements TeamConstants {
         wristX = returnWristX;
         wristY = returnWristY;
         if (wristX < TeamConstants.Wrist_X_MIN){
-            returnWristX = TeamConstants.Wrist_X_MAX;
+            returnWristX = TeamConstants.Wrist_X_MIN;
             returnWristY = wristY;
         }
         wristX = returnWristX;
@@ -54,6 +54,8 @@ public class Func implements TeamConstants {
         return wristX;
 
     }
+
+
     public double TriClampY(double x, double y) {
         double wristX = x;
         double wristY = y;
@@ -71,15 +73,12 @@ public class Func implements TeamConstants {
         }
         wristX = returnWristX;
         wristY = returnWristY;
-        if (wristY < TeamConstants.Wrist_Y_MIN){
-            returnWristX = wristX;
-            returnWristY = TeamConstants.Wrist_Y_MIN;
-        }
-        wristX = returnWristX;
-        wristY = returnWristY;
+
         return wristY;
 
     }
+
+
     public double TestNewX(double x,double y, double newx, double newy){
 
         if ((Math.toDegrees(-Math.atan2(newx, newy))+135) < 45){
@@ -90,6 +89,8 @@ public class Func implements TeamConstants {
         }
 
     }
+
+
     public double TestNewY(double x,double y, double newx, double newy){
 
         if ((Math.toDegrees(-Math.atan2(newx, newy))+135) < 45){
