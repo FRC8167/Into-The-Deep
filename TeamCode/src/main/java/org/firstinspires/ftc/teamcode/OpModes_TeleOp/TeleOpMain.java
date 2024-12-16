@@ -51,7 +51,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             if(driver.rightBumper.pressed()) drive.setDegradedDrive(true);
             if(driver.rightBumper.released()) drive.setDegradedDrive(false);
-//            drive.setDegradedDrive(driver.rightBumper.pressed());
             drive.mecanumDrive(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
             oldWristX = wristX;
@@ -72,6 +71,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
 
+
+    int tolerance = 20;
+    int minRotationCounts;
+    double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
+    double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
+    //double lmin = 408 / 25.4;
+    //initialize position = 45; degrees;
 
 
             if(operator.y.pressed()) {

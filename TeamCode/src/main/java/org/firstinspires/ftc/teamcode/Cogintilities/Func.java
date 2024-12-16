@@ -20,28 +20,33 @@ public class Func implements TeamConstants {
         double wristY = y;
         double returnWristX = wristX;
         double returnWristY = wristY;
+
         if (Math.sqrt(wristX*wristX+wristY*wristY) < (408/25.4)){
             returnWristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
             returnWristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
         if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))){
             returnWristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
             returnWristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
         if (wristX > TeamConstants.Wrist_X_MAX){
             returnWristX = TeamConstants.Wrist_X_MAX;
             returnWristY = wristY;
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
         if (wristX < TeamConstants.Wrist_X_MIN){
             returnWristX = TeamConstants.Wrist_X_MAX;
             returnWristY = wristY;
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
         return wristX;
