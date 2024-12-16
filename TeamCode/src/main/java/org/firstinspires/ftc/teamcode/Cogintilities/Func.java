@@ -15,13 +15,6 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 public class Func implements TeamConstants {
 
 
-    int tolerance = 20;
-    int minRotationCounts;
-    double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
-    double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
-    //double lmin = 408 / 25.4;
-    //initialize position = 45; degrees;
-
     public double TriClampX(double x, double y) {
         double wristX = x;
         double wristY = y;
@@ -54,35 +47,44 @@ public class Func implements TeamConstants {
         return wristX;
 
     }
+
+
     public double TriClampY(double x, double y) {
         double wristX = x;
         double wristY = y;
         double returnWristX = wristX;
         double returnWristY = wristY;
-        if (Math.sqrt(wristX*wristX+wristY*wristY) < (408/25.4)){
-            returnWristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
-            returnWristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(408/25.4));
+
+        if (Math.sqrt(wristX*wristX+wristY*wristY) < (408 / 25.4)){
+            returnWristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(408 / 25.4));
+            returnWristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(408 / 25.4));
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
-        if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))){
-            returnWristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
-            returnWristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4)));
+        if (Math.sqrt(wristX*wristX+wristY*wristY) > (TeamConstants.SLIDE_MAX * TeamConstants.INCHES_PER_COUNT+(408/25.4))){
+            returnWristX = wristX/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408 / 25.4)));
+            returnWristY = wristY/(Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408 / 25.4)));
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
         if (wristY < TeamConstants.Wrist_Y_MIN){
             returnWristX = wristX;
             returnWristY = TeamConstants.Wrist_Y_MIN;
         }
+
         wristX = returnWristX;
         wristY = returnWristY;
+
         return wristY;
 
     }
+
+
     public double TestNewX(double x,double y, double newx, double newy){
 
-        if ((Math.toDegrees(-Math.atan2(newx, newy))+135) < 45){
+        if ((Math.toDegrees(-Math.atan2(newx, newy)) + 135) < 45){
             return x;
         }
         else {
@@ -90,9 +92,11 @@ public class Func implements TeamConstants {
         }
 
     }
+
+
     public double TestNewY(double x,double y, double newx, double newy){
 
-        if ((Math.toDegrees(-Math.atan2(newx, newy))+135) < 45){
+        if ((Math.toDegrees(-Math.atan2(newx, newy)) + 135.0) < 45){
             return y;
         }
         else {
