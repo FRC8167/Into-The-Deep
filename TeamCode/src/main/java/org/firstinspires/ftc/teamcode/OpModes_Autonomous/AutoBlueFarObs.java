@@ -36,23 +36,23 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
                 .strafeTo(new Vector2d(0,50));
-        TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(new Pose2d(0, 50, -Math.PI/2))
+        TrajectoryActionBuilder forward1 = centerX.endTrajectory().fresh()
                 .lineToY(30);
-        TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
+        TrajectoryActionBuilder back1 = forward1.endTrajectory().fresh()
                 .lineToY(60);
-        TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(0, 60, -Math.PI/2))
+        TrajectoryActionBuilder block1 = back1.endTrajectory().fresh()
                  .strafeTo(new Vector2d(50,36));
-        TrajectoryActionBuilder basket1 = autoDrive.actionBuilder(new Pose2d(50, 36, -Math.PI/2))
+        TrajectoryActionBuilder basket1 = block1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
-        TrajectoryActionBuilder block2 = autoDrive.actionBuilder(new Pose2d(55, 55, Math.toRadians(45)))
+        TrajectoryActionBuilder block2 = basket1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(57.5,38),Math.toRadians(-90));
-        TrajectoryActionBuilder basket2 = autoDrive.actionBuilder(new Pose2d(57.5, 38, Math.toRadians(-90)))
-                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
-        TrajectoryActionBuilder block3 = autoDrive.actionBuilder(new Pose2d(55, 55, Math.toRadians(45)))
+        TrajectoryActionBuilder basket2 = block2.endTrajectory().fresh()
+        .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
+        TrajectoryActionBuilder block3 = basket2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(55,25),Math.toRadians(0));
-        TrajectoryActionBuilder basket3 = autoDrive.actionBuilder(new Pose2d(55, 25, 0))
+        TrajectoryActionBuilder basket3 = block3.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
-        TrajectoryActionBuilder park = autoDrive.actionBuilder(new Pose2d(55, 55, Math.toRadians(45)))
+        TrajectoryActionBuilder park = basket3.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-62,60),Math.toRadians(90));
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
