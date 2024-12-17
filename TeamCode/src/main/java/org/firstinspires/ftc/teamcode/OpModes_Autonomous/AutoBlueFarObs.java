@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
@@ -25,7 +26,7 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Pose2d initialPose = new Pose2d(-12,60, -Math.PI/2);
+        Pose2d initialPose = new Pose2d(-12,63.5, -Math.PI/2);
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
 
@@ -33,40 +34,43 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         slide.resetEncoders();
 
        // ************************TRAJECTORIES****************************
+        TrajectoryActionBuilder wait1 = autoDrive.actionBuilder(initialPose)
+                .waitSeconds(0.5);
+
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,50));
-        TrajectoryActionBuilder forward1 = centerX.endTrajectory().fresh()
-                .lineToY(30);
-        TrajectoryActionBuilder back1 = forward1.endTrajectory().fresh()
-                .lineToY(60);
-        TrajectoryActionBuilder block1 = back1.endTrajectory().fresh()
-                 .strafeTo(new Vector2d(50,36));
-        TrajectoryActionBuilder basket1 = block1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
-        TrajectoryActionBuilder block2 = basket1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(57.5,38),Math.toRadians(-90));
-        TrajectoryActionBuilder basket2 = block2.endTrajectory().fresh()
-        .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
-        TrajectoryActionBuilder block3 = basket2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(55,25),Math.toRadians(0));
-        TrajectoryActionBuilder basket3 = block3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(55,55),Math.toRadians(45));
-        TrajectoryActionBuilder park = basket3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-62,60),Math.toRadians(90));
+                .strafeTo(new Vector2d(0,33.5));
+
+        TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
+                .strafeTo(new Vector2d(-20,55));
+        TrajectoryActionBuilder toSample1 = back1.endTrajectory().fresh()
+                .setTangent(Math.toRadians(0))
+                .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
+                .strafeToSplineHeading(new Vector2d(-46, 30), Math.toRadians(170))
+                .strafeToSplineHeading(new Vector2d(-45, 62), Math.toRadians(90))
+                .strafeToSplineHeading(new Vector2d(-46, 30.5), Math.toRadians(180))
+                .strafeToSplineHeading(new Vector2d(-56, 30.5), Math.toRadians(170))
+                .strafeToSplineHeading(new Vector2d(-55, 62), Math.toRadians(90))
+                .strafeToSplineHeading(new Vector2d(-55, 30), Math.toRadians(90))
+                .strafeToSplineHeading(new Vector2d(-55, 48), Math.toRadians(90));
+        TrajectoryActionBuilder hangEnd = toSample1.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(0,50), Math.toRadians(270))
+                .strafeTo(new Vector2d(0,33.5));
+        TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
+                .strafeTo(new Vector2d(0,55));
+
+
+
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
-        Action goForward1 = forward1.build();
         Action goCenterX = centerX.build();
-        Action goBack1 = back1.build();
-        Action goBlock1 = block1.build();
-        Action goBasket1 = basket1.build();
-        Action goBlock2 = block2.build();
-        Action goBasket2 = basket2.build();
-        Action goBlock3 = block3.build();
-        Action goBasket3 = basket3.build();
-        Action goPark = park.build();
+        Action goToSample1 = toSample1.build();
+        Action goback1 = back1.build();
+        Action goWait1 = wait1.build();
+        Action goback2 = back2.build();
+        Action goendHang = hangEnd.build();
+
 
 
         waitForStart();
@@ -79,15 +83,36 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,3.5),
-                        slide.slideTrig(20,3.5),
-                        wristPivot.wristTrig(20,3.5, true),
+                        armPivot.armTrig(20,3.2),
+                        slide.slideTrig(20,3.2),
+                        wristPivot.wristTrig(20,3.2, true),
                         goCenterX,
-                        goForward1,
-                        armPivot.armTrig(20,7),// change to 6?
-                        slide.slideTrig(20,7),
-                        wristPivot.wristTrig(20,7, true),
-                        goBack1
+                        armPivot.armTrig(20,6.5),
+                        slide.slideTrig(20,6.5),
+                        wristPivot.wristTrig(20,6.5, true),
+                        goback1,
+                        new ParallelAction(
+                                goToSample1,
+                                armPivot.armTrig(16.1,0),
+                                slide.slideTrig(16.1,0),
+                                wristPivot.wristTrig(16.1,0, true),
+                                gripper.toggle()
+                        ),
+                        armPivot.armTrig(20,-5.8),
+                        slide.slideTrig(20,-5.8),
+                        wristPivot.wristTrig(20,-5.8, true),
+                        goWait1,
+                        gripper.toggle(),
+                        goWait1,
+                        armPivot.armTrig(20,3.2),
+                        slide.slideTrig(20,3.2),
+                        wristPivot.wristTrig(20,3.2, true),
+                        goendHang,
+                        armPivot.armTrig(20,6.5),
+                        slide.slideTrig(20,6.5),
+                        wristPivot.wristTrig(20,6.5, true),
+                        goback2
+
 
 //                        goBlock1,
 //                        goBasket1,
