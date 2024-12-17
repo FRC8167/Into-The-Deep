@@ -39,9 +39,7 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(new Pose2d(0, 50, -Math.PI/2))
                 .lineToY(30);
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
-                .lineToY(60);//this builder is incorrect.  You always start a pose from the end pose.
-        //.endTrajectory ends the builder
-        //.fresh is when you want to re-use a trajectory
+                .lineToY(60);
         TrajectoryActionBuilder block1 = autoDrive.actionBuilder(new Pose2d(0, 60, -Math.PI/2))
                  .strafeTo(new Vector2d(50,36));
         TrajectoryActionBuilder basket1 = autoDrive.actionBuilder(new Pose2d(50, 36, -Math.PI/2))
