@@ -82,11 +82,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
 
-            if(operator.y.pressed()) {
+            if(operator.rightBumper.pressed()) {
                 wristX = 5;
                 wristY = 34;
             }
-            if(operator.x.pressed()) {
+            if(operator.leftBumper.pressed()) {
                 wristX = 23.5;
                 wristY = 0;
             }

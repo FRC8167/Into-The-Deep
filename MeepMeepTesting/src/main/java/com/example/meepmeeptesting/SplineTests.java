@@ -23,7 +23,7 @@ public class SplineTests {
 //                .build());
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0, 55, Math.toRadians(-90)))
                 .setTangent(Math.toRadians(160))
-                .splineToSplineHeading(new Pose2d(-48, 24, Math.toRadians(90)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-48, 24, Math.toRadians(-90)), Math.toRadians(180))
                 .build());
         //1) bot heading at start
         //2)  start direction of spline
