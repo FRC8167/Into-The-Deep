@@ -155,6 +155,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Dist: ", (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY))));
             telemetry.addData("armBusy: ", (armPivot.getBusy()));
             telemetry.addData("slideBusy: ", (slide.getBusy()));
+            telemetry.addData("rotateAng: ", (wristRotate.getRotateAcuteAng()));
 
 
 

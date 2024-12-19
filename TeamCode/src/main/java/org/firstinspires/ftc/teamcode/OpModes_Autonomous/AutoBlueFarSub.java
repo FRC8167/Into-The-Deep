@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.TrajectoryBuilderParams;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
@@ -21,7 +22,7 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.opencv.core.RotatedRect;
 
-//@Disabled
+@Disabled
 @Autonomous(name="AutoBlueFarSub", group="Autonomous", preselectTeleOp = "TeleOp")
 public class AutoBlueFarSub extends RobotConfiguration implements TeamConstants {
 

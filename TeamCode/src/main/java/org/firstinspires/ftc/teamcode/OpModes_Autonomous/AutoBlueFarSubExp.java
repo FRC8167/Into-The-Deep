@@ -15,14 +15,14 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoBlueFarObs", group="Autonomous", preselectTeleOp = "TeleOp")
-public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants {
+@Autonomous(name="AutoBlueFarSub", group="Autonomous", preselectTeleOp = "TeleOp")
+public class AutoBlueFarSubExp extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Pose2d initialPose = new Pose2d(-12,63.5, -Math.PI/2);
+        Pose2d initialPose = new Pose2d(12,63.5, -Math.PI/2);
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
 
@@ -42,25 +42,12 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
                 .strafeTo(new Vector2d(0,33.5));
 
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
-                .strafeTo(new Vector2d(-20,55));
-        TrajectoryActionBuilder toSample1 = back1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
-                .strafeToSplineHeading(new Vector2d(-46, 30), Math.toRadians(170))
-//                .strafeToSplineHeading(new Vector2d(-45, 62), Math.toRadians(90))
-//                .strafeToSplineHeading(new Vector2d(-46, 30.5), Math.toRadians(180))
-//                .strafeToSplineHeading(new Vector2d(-56, 30.5), Math.toRadians(170))
-                .strafeToSplineHeading(new Vector2d(-55, 62), Math.toRadians(90))
-                .strafeToSplineHeading(new Vector2d(-55, 30), Math.toRadians(90));
-        TrajectoryActionBuilder grab = toSample1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90));
-        TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(0,50), Math.toRadians(270))
-                .strafeTo(new Vector2d(0,33.5));
-        TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
-                .strafeTo(new Vector2d(0,55));
-        TrajectoryActionBuilder park = back2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-55, 60), Math.toRadians(270));
+                .strafeTo(new Vector2d(20,55));
+        TrajectoryActionBuilder sample1 = back1.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(48, 44), Math.toRadians(270));
+        TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(58, 59), Math.toRadians(45));
+
 
 
 
@@ -68,15 +55,12 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
         Action goCenterX = centerX.build();
-        Action goToSample1 = toSample1.build();
         Action goback1 = back1.build();
         Action goWaitPlayer = waitPlay.build();
         Action goWait1 = wait1.build();
         Action goWait2 = wait2.build();
-        Action goGrab = grab.build();
-        Action goback2 = back2.build();
-        Action goendHang = hangEnd.build();
-        Action goPark = park.build();
+        Action goSample1 = sample1.build();
+        Action goDrop1 = drop1.build();
 
 
 
@@ -99,29 +83,31 @@ public class AutoBlueFarObs extends RobotConfiguration implements TeamConstants 
                         wristPivot.wristTrig(20,5.5, true),
                         goback1,
                         new ParallelAction(
-                                goToSample1,
+                                goSample1,
                                 armPivot.armTrig(16.1,0),
                                 slide.slideTrig(16.1,0),
                                 wristPivot.wristTrig(16.1,0, true),
+//                                wristRotate.rotateTrig(0),
                                 gripper.toggle()
                         ),
-                        goWaitPlayer,
-                        goGrab,
-                        armPivot.armTrig(20,-5.5),
-                        slide.slideTrig(20,-5.5),
-                        wristPivot.wristTrig(20,-5.5, true),
+                        armPivot.armTrig(22,-6.5),
+                        slide.slideTrig(22,-6.5),
+                        wristPivot.wristTrig(22,-6.5, true),
                         goWait1,
                         gripper.toggle(),
                         goWait2,
-                        armPivot.armTrig(20,3.2),
-                        slide.slideTrig(20,3.2),
-                        wristPivot.wristTrig(20,3.2, true),
-                        goendHang,
-                        armPivot.armTrig(20,5.5),
-                        slide.slideTrig(20,5.5),
-                        wristPivot.wristTrig(20,5.5, true),
-                        goback2,
-                        goPark
+                        armPivot.armTrig(9.4,33),
+                        slide.slideTrig(9.4,33),
+                        wristPivot.wristTrig(9.4,33, true),
+                        goDrop1,
+                        gripper.toggle(),
+                        goWait2
+//                        goendHang,
+//                        armPivot.armTrig(20,5.5),
+//                        slide.slideTrig(20,5.5),
+//                        wristPivot.wristTrig(20,5.5, true)
+//                        goback2,
+//                        goPark
 
 
 //                        goBlock1,
