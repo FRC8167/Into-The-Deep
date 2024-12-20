@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoRedFarObs", group="Autonomous", preselectTeleOp = "TeleOp")
+@Autonomous(name="AutoRedObs", group="Autonomous", preselectTeleOp = "TeleOp")
 public class AutoRedFarObs extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
@@ -60,7 +60,7 @@ public class AutoRedFarObs extends RobotConfiguration implements TeamConstants {
         TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
                 .strafeTo(new Vector2d(0,-55));
         TrajectoryActionBuilder park = back2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(55, 060), Math.toRadians(90));
+                .strafeToSplineHeading(new Vector2d(55, -60), Math.toRadians(90));
 
 
 

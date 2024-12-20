@@ -62,7 +62,7 @@ public class AutoBlueSubExp extends RobotConfiguration implements TeamConstants 
         TrajectoryActionBuilder prepTouch = drop3.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(48, 12), Math.toRadians(180));
         TrajectoryActionBuilder touch = prepTouch.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(26, 12), Math.toRadians(180));
+                .strafeToSplineHeading(new Vector2d(24, 12), Math.toRadians(180));
 
 
 
@@ -143,9 +143,9 @@ public class AutoBlueSubExp extends RobotConfiguration implements TeamConstants 
                         slide.slideTrig(16,11.4),
                         wristPivot.wristTrig(16,11.4, true),
                         goTouch,
-                        armPivot.armTrig(16,9.4),
-                        slide.slideTrig(16,9.4),
-                        wristPivot.wristTrig(16,9.4, true)
+                        armPivot.armTrig(16,7.4),
+                        slide.slideTrig(16,7.4),
+                        wristPivot.wristTrig(16,7.4, true)
 //                        goSample3Back,
 //                        wristRotate.rotateTrig(0),
 //                        slide.slideTrig(24,-4.2),

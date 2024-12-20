@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoBlueFarObs", group="Autonomous", preselectTeleOp = "TeleOp")
+@Autonomous(name="AutoBlueObs", group="Autonomous", preselectTeleOp = "TeleOp")
 public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
