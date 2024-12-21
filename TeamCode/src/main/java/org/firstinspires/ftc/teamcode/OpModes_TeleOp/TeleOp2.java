@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 
-//@Disabled
+@Disabled
 @TeleOp(name="TeleOp2", group="Competition")
 public class TeleOp2 extends RobotConfiguration implements TeamConstants {
 

@@ -137,7 +137,8 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 
 
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
-
+        AutoWristX = 20;
+        AutoWristY = 5.5;
         telemetry.update();
 
         }

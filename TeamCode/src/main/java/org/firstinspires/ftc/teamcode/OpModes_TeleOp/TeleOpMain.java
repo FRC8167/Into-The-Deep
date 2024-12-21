@@ -19,8 +19,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
         initializeRobot(new Pose2d(0,0,0));  //will need to chang
-        double wristX = 288.500/25.4;// ~11.358in
-        double wristY = -288.500/25.4;
+        double wristX = AutoWristX; //288.500/25.4;// ~11.358in
+        double wristY = AutoWristY; //-288.500/25.4;
         double oldWristX;
         double oldWristY;
         boolean bigMove = false;
@@ -37,8 +37,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         telemetry.update();
 
         /* For starting directly in TeleOp only */
-        armPivot.resetEncoders();
-        slide.resetEncoders();
+//        armPivot.resetEncoders();
+//        slide.resetEncoders();
         /* ************************************ */
 
         driver   = new GamepadWrapper(gamepad1);

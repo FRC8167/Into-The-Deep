@@ -15,14 +15,14 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoBlueSub", group="Autonomous", preselectTeleOp = "TeleOp")
-public class AutoBlueSubExp extends RobotConfiguration implements TeamConstants {
+@Autonomous(name="AutoRedSub", group="Autonomous", preselectTeleOp = "TeleOp")
+public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Pose2d initialPose = new Pose2d(12,63.5, -Math.PI/2);
+        Pose2d initialPose = new Pose2d(-12,-63.5, Math.PI/2);
         initializeRobot(initialPose);
         setAlliance(AllianceColor.BLUE);
 
@@ -41,28 +41,28 @@ public class AutoBlueSubExp extends RobotConfiguration implements TeamConstants 
 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,33.5));
+                .strafeTo(new Vector2d(0,-33.5));
 
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
-                .strafeTo(new Vector2d(20,55));
+                .strafeTo(new Vector2d(-20,-55));
         TrajectoryActionBuilder sample1 = back1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(48, 47), Math.toRadians(270));
+                .strafeToSplineHeading(new Vector2d(-48, -47), Math.toRadians(90));
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
+                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(225));
         TrajectoryActionBuilder sample2 = drop1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 47), Math.toRadians(270));
+                .strafeToSplineHeading(new Vector2d(-58, -47), Math.toRadians(90));
         TrajectoryActionBuilder drop2 = sample2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
+                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(-135));
         TrajectoryActionBuilder sample3Back = drop2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(38, 29), Math.toRadians(0));
+                .strafeToSplineHeading(new Vector2d(-38, -29), Math.toRadians(180));
         TrajectoryActionBuilder sample3 = sample3Back.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(50, 29), Math.toRadians(0));
+                .strafeToSplineHeading(new Vector2d(-50, -29), Math.toRadians(180));
         TrajectoryActionBuilder drop3 = sample3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
+                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(-135));
         TrajectoryActionBuilder prepTouch = drop3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(48, 12), Math.toRadians(180));
+                .strafeToSplineHeading(new Vector2d(-48, -12), Math.toRadians(0));
         TrajectoryActionBuilder touch = prepTouch.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(24, 12), Math.toRadians(180));
+                .strafeToSplineHeading(new Vector2d(-24, -12), Math.toRadians(0));
 
 
 
@@ -143,9 +143,9 @@ public class AutoBlueSubExp extends RobotConfiguration implements TeamConstants 
                         slide.slideTrig(16,11.4),
                         wristPivot.wristTrig(16,11.4, true),
                         goTouch,
-                        armPivot.armTrig(16,7.4),
-                        slide.slideTrig(16,7.4),
-                        wristPivot.wristTrig(16,7.4, true)
+                        armPivot.armTrig(16,7),
+                        slide.slideTrig(16,7),
+                        wristPivot.wristTrig(16,7, true)
 //                        goSample3Back,
 //                        wristRotate.rotateTrig(0),
 //                        slide.slideTrig(24,-4.2),

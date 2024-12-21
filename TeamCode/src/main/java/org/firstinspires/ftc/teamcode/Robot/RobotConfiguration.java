@@ -38,11 +38,11 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
     /*------------ Public Class Variables - Frowned Upon ------------*/
     public enum AllianceColor { RED, BLUE }
-
     public int[] myPortalIDs;
     public int aTPortalID;
     public int colorPortalID;
-
+    public static double AutoWristX;
+    public static double AutoWristY;
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;
     static List<LynxModule> ctrlHubs;

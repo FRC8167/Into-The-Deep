@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
 @Autonomous(name="AutoRedObs", group="Autonomous", preselectTeleOp = "TeleOp")
-public class AutoRedFarObs extends RobotConfiguration implements TeamConstants {
+public class AutoRedObs extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -137,7 +137,8 @@ public class AutoRedFarObs extends RobotConfiguration implements TeamConstants {
 
 
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
-
+        AutoWristX = 20;
+        AutoWristY = 5.5;
         telemetry.update();
 
         }
