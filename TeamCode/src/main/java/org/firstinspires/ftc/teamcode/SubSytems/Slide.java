@@ -30,10 +30,14 @@ public class Slide implements TeamConstants {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
+    public void setDirection() {
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
 
     public boolean getBusy(){
         return motor.isBusy();
     }
+
     public void triangulateTo(double x, double y) {
         int newTarget = (int)((Math.sqrt(x*x+y*y)-(408/25.4))/TeamConstants.INCHES_PER_COUNT);
         setPositionCounts(newTarget);
@@ -75,7 +79,9 @@ public class Slide implements TeamConstants {
     public int inchesToCounts(double inches){
         return (int)(inches * TeamConstants.INCHES_PER_COUNT);
     }
-
+    public int getPosition(){
+        return(motor.getCurrentPosition());
+    }
 
     public double countsToInches(double counts) {
         return (counts * 1/TeamConstants.INCHES_PER_COUNT);

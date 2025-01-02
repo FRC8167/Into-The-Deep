@@ -24,6 +24,8 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
         Pose2d initialPose = new Pose2d(-12,-63.5, Math.PI/2);
         initializeRobot(initialPose);
+        AutoWristX = 288.500/25.4;
+        AutoWristY = -288.500/25.4;
         setAlliance(AllianceColor.BLUE);
 
         armPivot.resetEncoders();

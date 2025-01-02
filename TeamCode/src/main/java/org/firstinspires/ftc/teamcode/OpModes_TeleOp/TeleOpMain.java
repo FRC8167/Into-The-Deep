@@ -15,11 +15,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     GamepadWrapper driver;
     GamepadWrapper operator;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
-
         initializeRobot(new Pose2d(0,0,0));  //will need to chang
-
+        slide.setDirection();
         double wristX = AutoWristX; //288.500/25.4;// ~11.358in
         double wristY = AutoWristY; //-288.500/25.4;
         double oldWristX;
@@ -31,7 +31,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double newWristX;// ~11.358in
         double newWristY;
         boolean wristForward = true;
-
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
@@ -46,10 +45,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
+
         double RotateAcuteAng;
         waitForStart();
 
         while (opModeIsActive()) {
+
 
             double fdrive = -driver.leftStick_Y;
             double strafe = driver.leftStick_X + 0.25* operator.rightStick_X;
@@ -156,6 +157,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("armBusy: ", (armPivot.getBusy()));
             telemetry.addData("slideBusy: ", (slide.getBusy()));
             telemetry.addData("rotateAng: ", (wristRotate.getRotateAcuteAng()));
+            telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
+            telemetry.addData("SLideEncoders: ", (slide.getPosition()));
 
 
 

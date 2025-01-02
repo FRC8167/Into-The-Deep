@@ -25,6 +25,10 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         Pose2d initialPose = new Pose2d(-14,60, -Math.PI/2);
 
         initializeRobot(initialPose);
+        AutoWristX = 288.500/25.4;
+        AutoWristY = -288.500/25.4;
+        armPivot.resetEncoders();
+        slide.resetEncoders();
         setAlliance(AllianceColor.BLUE);
 
         TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(initialPose)
