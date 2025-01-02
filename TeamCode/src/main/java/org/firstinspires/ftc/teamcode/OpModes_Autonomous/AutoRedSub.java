@@ -91,8 +91,6 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         if (isStopRequested()) return;
 
 
-
-
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
@@ -192,7 +190,7 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
 
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
-        AutoWristX = 16;
+        AutoWristX = 16.0;
         AutoWristY = 7.4;
         telemetry.update();
 
