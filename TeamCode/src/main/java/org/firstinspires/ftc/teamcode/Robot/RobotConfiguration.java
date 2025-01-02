@@ -111,19 +111,19 @@ public abstract class RobotConfiguration extends LinearOpMode {
         slide = new Slide(slideMotor);
         Functions = new Func();
 
-        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
-        aTPortalID = myPortalIDs[1];
-        colorPortalID = myPortalIDs[0];
-
-//        atVision    = new VisionPortalObject.Builder(webCam1, aTPortalID)
+//        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+//        aTPortalID = myPortalIDs[1];
+//        colorPortalID = myPortalIDs[0];
+//
+//        atVision    = new VisionPortalObject.Builder(webCam2, aTPortalID)
 //                .addProcessor(aprilTags.getProcessor())
 //                .build();
-//        colorVision =  new VisionPortalObject.Builder(webCam2, colorPortalID)
+//        colorVision =  new VisionPortalObject.Builder(webCam1, colorPortalID)
 //                .addProcessor(bluSamps.colorProcessor())
 //                .addProcessor(redSamps.colorProcessor())
 //                .addProcessor((yelSamps.colorProcessor()))
 //                .build();
-    }
+//    }
 
 
     /**

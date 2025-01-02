@@ -80,7 +80,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
-
+            if(operator.x.whilePressed()) {
+                telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
+            }
+            else{
+                //telemetry.addData("Sample Angle Detected", 90);
+            }
 
 
             if(operator.rightBumper.pressed()) {

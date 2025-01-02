@@ -84,14 +84,14 @@ public class ColorProcessor {
     {
         blobData(ColorProcessor.Filter.NONE);
 
-        if (alpha < 45.0 & height > width)
+        if (height > width)
         {
             return (90 - alpha);
         }
-        else if (alpha > 45.0 & width > height) {
-            return -alpha;
+        else if (width > height) {
+            return (90 + alpha);
         }
-        else {return 0.0;}
+        else {return 90.0;}
     }
 
 }

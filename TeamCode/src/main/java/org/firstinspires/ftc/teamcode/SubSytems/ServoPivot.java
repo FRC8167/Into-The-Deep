@@ -41,8 +41,8 @@ public class ServoPivot extends Servo1D {
         } else if (angle <= 90) {
             setServoAngToGround(0, angle);
             return true;
-        } else if (y<= 15) {
-            setServoAngToGround(165, angle);
+        } else if (y<= 17) {
+            setServoAngToGround(90, angle);
             return true;
         } else if (angle < 170) {
             setServoAngToGround(90, angle);
