@@ -49,8 +49,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
-//        Pose2d basketScorePos = new Pose2d(58,61, Math.toRadians(45));
-//        Pose2d subPickupPos   = new Pose2d(24,12, Math.toRadians(180));
 //
 //        TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
 //                .setTangent(Math.toRadians(0))

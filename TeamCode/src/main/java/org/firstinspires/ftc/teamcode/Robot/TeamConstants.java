@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
+import com.acmerobotics.roadrunner.Pose2d;
+
 public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~~ MecanumDrive Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~*/
@@ -8,6 +10,10 @@ public interface TeamConstants {
     double DEGRADED_TURN_LIMIT     = 0.25;
     double DEGRADED_SLIDE_EXTENDED = 10000; // TODO: update when the slide install is complete
     double DEGRADED_ARM_ROTATION   = 10000; // TODO: update when the arm install is complete
+
+    /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Field Positions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    Pose2d basketScorePos = new Pose2d(58,61, Math.toRadians(45));
+    Pose2d subPickupPos   = new Pose2d(24,12, Math.toRadians(180));
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
