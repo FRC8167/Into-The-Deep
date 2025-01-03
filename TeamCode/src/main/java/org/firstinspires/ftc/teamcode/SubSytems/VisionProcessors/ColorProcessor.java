@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 import org.firstinspires.ftc.vision.opencv.ImageRegion;
+import org.opencv.core.Point;
 import org.opencv.core.RotatedRect;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class ColorProcessor {
     double alpha;
     double height;
     double width;
+    Point[] corners = new Point[4];
 
     public ColorProcessor(ColorRange color) {
         this.color = color;
@@ -60,27 +62,37 @@ public class ColorProcessor {
         /* Do we have to loop through all the blobs? Is the largest the last blob since that is
         what sets the size (list order)? */
         if(!blobs.isEmpty()) {
-            for (ColorBlobLocatorProcessor.Blob b : getBlobs()) {
-                boxFit = b.getBoxFit();
-            }
+//            for (ColorBlobLocatorProcessor.Blob b : getBlobs()) {
+//                boxFit = b.getBoxFit();
+//            }
+            boxFit = getBlobs().get(0).getBoxFit();
         } else boxFit = new RotatedRect();
 
-        height = boxFit.boundingRect().height;
-        width = boxFit.boundingRect().width;
-        alpha = 90 - boxFit.angle;
+
+//        height = boxFit.boundingRect().height;
+//        width = boxFit.boundingRect().width;
+        boxFit.points(corners);
+
+        height = Math.sqrt((corners[1].x-corners[0].x)*(corners[1].x-corners[0].x) + (corners[1].y-corners[0].y)*(corners[1].y-corners[0].y));
+        width = Math.sqrt((corners[2].x-corners[1].x)*(corners[2].x-corners[1].x) + (corners[2].y-corners[1].y)*(corners[2].y-corners[1].y));
+
+
+        alpha = boxFit.angle;
 
         return boxFit;
     }
 
+
     public Boolean ReadyForPickup()
     {
         blobData(ColorProcessor.Filter.NONE);
-        if ((alpha < 45.0 & height > width) || (alpha > 45.0 & width > height))
+        if ((height > width) || (width > height))
         {
             return false;
         }
         else return true;
     }
+
 
     public double CalcWristAngleDegrees()
     {
@@ -91,9 +103,32 @@ public class ColorProcessor {
             return (90 - alpha);
         }
         else if (width > height) {
-            return (90 + alpha);
+            return (180 - alpha);
         }
         else {return 90.0;}
     }
+
+
+    public double getAlpha()
+    {
+        return alpha;
+    }
+
+
+    public double getHeight()
+    {
+        return height;
+    }
+
+
+    public double getWidth()
+    {
+        return width;
+    }
+    public Point[] getPoint()
+    {
+        return corners;
+    }
+
 
 }

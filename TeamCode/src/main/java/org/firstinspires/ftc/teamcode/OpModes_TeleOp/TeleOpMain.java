@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
-import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -20,8 +19,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
         initializeRobot(new Pose2d(0,0,0));  //will need to chang
         slide.setDirection();
-        double wristX = AutoWristX; //288.500/25.4;// ~11.358in
-        double wristY = AutoWristY; //-288.500/25.4;
+        double wristX;
+        double wristY;
+        if (InitAuto) {
+            wristX = AutoWristX; //288.500/25.4;// ~11.358in
+            wristY = AutoWristY; //-288.500/25.4;
+        }
+        else{
+            wristX = 288.500/25.4;// ~11.358in
+            wristY = -288.500/25.4;
+        }
         double oldWristX;
         double oldWristY;
         boolean bigMove = false;
@@ -79,12 +86,21 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 //            wristPivot.setPosition(operator.rightStick_X+.85);
 
-            if(operator.x.whilePressed()) {
-                telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
+
+            telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
+            telemetry.addData("Sample Angle Raw", bluSamps.getAlpha());
+            telemetry.addData("Width", bluSamps.getWidth());
+            telemetry.addData("Height", bluSamps.getHeight());
+            for (int i = 0; i <4; i++)
+            {
+                telemetry.addLine(String.format("%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
             }
-            else{
-                //telemetry.addData("Sample Angle Detected", 90);
-            }
+
+
+//            }
+//            else{
+//                //telemetry.addData("Sample Angle Detected", 90);
+//            }
 
 
             if(operator.rightBumper.pressed()) {
@@ -106,7 +122,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
 //            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
             /* ********************************************************/
-            wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+            if(operator.x.whilePressed()) {
+                wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
+            }
+            else {
+                wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+            }
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
                 {
                 bigMove = true;

@@ -26,6 +26,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         initializeRobot(initialPose);
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
+        InitAuto = true;
         setAlliance(AllianceColor.BLUE);
 
         armPivot.resetEncoders();
@@ -38,13 +39,15 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                 .waitSeconds(0.5);
         TrajectoryActionBuilder wait2 = autoDrive.actionBuilder(initialPose)
                 .waitSeconds(1);
+        TrajectoryActionBuilder wait3 = autoDrive.actionBuilder(initialPose)
+                .waitSeconds(1.5);
 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,33.5));
+                .strafeTo(new Vector2d(-4,33.5+15));
 
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
-                .strafeTo(new Vector2d(-20,55));
+                .strafeTo(new Vector2d(-10,55));
         TrajectoryActionBuilder toSample1 = back1.endTrajectory().fresh()
                 .setTangent(Math.toRadians(0))
                 .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
@@ -57,10 +60,10 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         TrajectoryActionBuilder grab = toSample1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90));
         TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(0,50), Math.toRadians(270))
-                .strafeTo(new Vector2d(0,33.5));
+                .strafeToSplineHeading(new Vector2d(-8,55), Math.toRadians(270))
+                .strafeTo(new Vector2d(-8,33.5+15));
         TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
-                .strafeTo(new Vector2d(0,55));
+                .strafeTo(new Vector2d(-8,55));
         TrajectoryActionBuilder park = back2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-55, 60), Math.toRadians(270));
 
@@ -75,6 +78,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         Action goWaitPlayer = waitPlay.build();
         Action goWait1 = wait1.build();
         Action goWait2 = wait2.build();
+        Action goWait3 = wait3.build();
         Action goGrab = grab.build();
         Action goback2 = back2.build();
         Action goendHang = hangEnd.build();
@@ -92,36 +96,43 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,3.2),
-                        slide.slideTrig(20,3.2),
-                        wristPivot.wristTrig(20,3.2, true),
+                        armPivot.armTrig(20,13),
+                        slide.slideTrig(20,13),
+                        wristPivot.wristTrig(20,13, true),
                         goCenterX,
-                        armPivot.armTrig(20,5.5),
-                        slide.slideTrig(20,5.5),
-                        wristPivot.wristTrig(20,5.5, true),
+                        goWait1,
+                        armPivot.armTrig(20,10),
+                        slide.slideTrig(20,10),
+                        wristPivot.wristTrig(20,10, true),
+                        goWait2,
+                        gripper.toggle(),
+                        goWait1,
                         goback1,
                         new ParallelAction(
                                 goToSample1,
                                 armPivot.armTrig(16.1,0),
                                 slide.slideTrig(16.1,0),
-                                wristPivot.wristTrig(16.1,0, true),
-                                gripper.toggle()
+                                wristPivot.wristTrig(16.1,0, true)
+//                                wristRotate.rotateTrig(0),
                         ),
                         goWaitPlayer,
                         goGrab,
-                        armPivot.armTrig(20,-5.5),
-                        slide.slideTrig(20,-5.5),
-                        wristPivot.wristTrig(20,-5.5, true),
-                        goWait1,
+                        armPivot.armTrig(21,-6),
+                        slide.slideTrig(21,-6),
+                        wristPivot.wristTrig(21,-6, true),
+                        goWait3,
                         gripper.toggle(),
-                        goWait2,
-                        armPivot.armTrig(20,3.2),
-                        slide.slideTrig(20,3.2),
-                        wristPivot.wristTrig(20,3.2, true),
+                        goWait3,
+                        armPivot.armTrig(20,13),
+                        slide.slideTrig(20,13),
+                        wristPivot.wristTrig(20,13, true),
                         goendHang,
-                        armPivot.armTrig(20,5.5),
-                        slide.slideTrig(20,5.5),
-                        wristPivot.wristTrig(20,5.5, true),
+                        armPivot.armTrig(20,10),
+                        slide.slideTrig(20,10),
+                        wristPivot.wristTrig(20,10, true),
+                        goWait2,
+                        gripper.toggle(),
+                        goWait1,
                         goback2,
                         goPark
 

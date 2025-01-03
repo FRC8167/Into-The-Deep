@@ -44,6 +44,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
 
     public static double AutoWristX;
     public static double AutoWristY;
+    public static boolean InitAuto = false;
 
 
     /*------------- Private Class Variables - Preferred -------------*/

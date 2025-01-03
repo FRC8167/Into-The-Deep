@@ -26,6 +26,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         initializeRobot(initialPose);
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
+        InitAuto = true;
         setAlliance(AllianceColor.BLUE);
 
         armPivot.resetEncoders();
@@ -108,7 +109,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(20,10),
                         wristPivot.wristTrig(20,10, true),
                         goWait2,
-                                gripper.toggle(),
+                        gripper.toggle(),
                         goWait1,
                         new ParallelAction(
                                 goSample1,
