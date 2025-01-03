@@ -37,7 +37,7 @@ public class VisionPortalObject {
     public VisionPortalObject(Builder builder) throws InterruptedException {
         this.camera = builder.camera;
         processors  = builder.processors;
-        portalID = builder.portalID;
+        portalID    = builder.portalID;
         buildVisionPortal();
     }
 
