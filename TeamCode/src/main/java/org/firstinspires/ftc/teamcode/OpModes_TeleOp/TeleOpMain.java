@@ -51,9 +51,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         while (opModeIsActive()) {
 
-
             double fdrive = -driver.leftStick_Y;
-            double strafe = driver.leftStick_X + 0.25* operator.rightStick_X;
+            double strafe = driver.leftStick_X + 0.25 * operator.rightStick_X;
             double turn = driver.rightStick_X ;
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());

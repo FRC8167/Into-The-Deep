@@ -64,9 +64,11 @@ public class ColorProcessor {
                 boxFit = b.getBoxFit();
             }
         } else boxFit = new RotatedRect();
+
         height = boxFit.boundingRect().height;
         width = boxFit.boundingRect().width;
         alpha = 90 - boxFit.angle;
+
         return boxFit;
     }
 

@@ -105,14 +105,14 @@ public abstract class RobotConfiguration extends LinearOpMode {
         WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
 
         /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
-        drive = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
-        autoDrive = new MecanumDrive(hardwareMap, startPose);
+        drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
+        autoDrive   = new MecanumDrive(hardwareMap, startPose);
         wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);
-        wristPivot = new ServoPivot(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
-        gripper = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
-        armPivot = new MotorPivotExp(armMotor);
-        slide = new Slide(slideMotor);
-        Functions = new Func();
+        wristPivot  = new ServoPivot(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
+        gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
+        armPivot    = new MotorPivotExp(armMotor);
+        slide       = new Slide(slideMotor);
+        Functions   = new Func();
 
 //        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
 //        aTPortalID = myPortalIDs[1];
@@ -121,12 +121,13 @@ public abstract class RobotConfiguration extends LinearOpMode {
 //        atVision    = new VisionPortalObject.Builder(webCam2, aTPortalID)
 //                .addProcessor(aprilTags.getProcessor())
 //                .build();
-//        colorVision =  new VisionPortalObject.Builder(webCam1, colorPortalID)
-//                .addProcessor(bluSamps.colorProcessor())
-//                .addProcessor(redSamps.colorProcessor())
-//                .addProcessor((yelSamps.colorProcessor()))
-//                .build();
-//    }
+
+        colorVision =  new VisionPortalObject.Builder(webCam1, colorPortalID)
+                .addProcessor(bluSamps.colorProcessor())
+                .addProcessor(redSamps.colorProcessor())
+                .addProcessor((yelSamps.colorProcessor()))
+                .build();
+    }
 
 
     /**
