@@ -60,9 +60,11 @@ public class ColorProcessor {
         /* Do we have to loop through all the blobs? Is the largest the last blob since that is
         what sets the size (list order)? */
         if(!blobs.isEmpty()) {
-            for (ColorBlobLocatorProcessor.Blob b : getBlobs()) {
-                boxFit = b.getBoxFit();
-            }
+//            for (ColorBlobLocatorProcessor.Blob b : getBlobs()) {
+//                boxFit = b.getBoxFit();
+//            }
+            boxFit = getBlobs().get(0).getBoxFit();
+
         } else boxFit = new RotatedRect();
 
         height = boxFit.boundingRect().height;
@@ -72,15 +74,24 @@ public class ColorProcessor {
         return boxFit;
     }
 
+
     public Boolean ReadyForPickup()
     {
         blobData(ColorProcessor.Filter.NONE);
-        if ((alpha < 45.0 & height > width) || (alpha > 45.0 & width > height))
-        {
-            return false;
-        }
-        else return true;
+        return (!(alpha < 45.0 & height > width)) && (!(alpha > 45.0 & width > height));
     }
+
+
+    public Boolean wholePixelInView() {
+
+        boolean found = false;
+        double aspectRatio;
+
+        aspectRatio = height/width;
+        found = (aspectRatio > 0.28 && aspectRatio < .38) || (aspectRatio > 2.5 && aspectRatio < 3.5);
+        return found;
+    }
+
 
     public double CalcWristAngleDegrees()
     {
@@ -91,7 +102,7 @@ public class ColorProcessor {
             return (90 - alpha);
         }
         else if (width > height) {
-            return (90 + alpha);
+            return (180 - alpha);
         }
         else {return 90.0;}
     }

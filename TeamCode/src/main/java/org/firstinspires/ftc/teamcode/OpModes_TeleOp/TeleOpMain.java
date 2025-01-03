@@ -1,8 +1,12 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -18,8 +22,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         initializeRobot(new Pose2d(0,0,0));  //will need to chang
         slide.setDirection();
+
         double wristX = AutoWristX; //288.500/25.4;// ~11.358in
         double wristY = AutoWristY; //-288.500/25.4;
         double oldWristX;
@@ -35,8 +41,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         // (0,0) at arm pivot
         // Units in inches
 
-        telemetry.update();
-
         /* For starting directly in TeleOp only */
 //        armPivot.resetEncoders();
 //        slide.resetEncoders();
@@ -45,8 +49,21 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
+//        Pose2d basketScorePos = new Pose2d(58,61, Math.toRadians(45));
+//        Pose2d subPickupPos   = new Pose2d(24,12, Math.toRadians(180));
+//
+//        TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+//                .setTangent(Math.toRadians(0))
+//                .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+//
+//        TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+//                .setTangent(Math.toRadians(0))
+//                .splineToSplineHeading(subPickupPos, Math.toRadians(45));
+//
+//        Action toTheBaskets = driveToBaskets.build();
+//        Action toTheSub = driveToSub.build();
 
-        double RotateAcuteAng;
+
         waitForStart();
 
         while (opModeIsActive()) {
@@ -62,6 +79,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 drive.setDegradedDrive(false);
             }
             drive.mecanumDrive(fdrive, strafe, turn);
+
+//            /* Robot Pose to Score Baskets  x=58, y=61, theta=45 */
+//            if(driver.x.pressed()) {
+//                Actions.runBlocking(toTheBaskets);
+//            }
+//
+//            /* Robot Pose to Submersible x=24, y=12, theta=180 */
+//            if(driver.b.pressed()) {
+//                Actions.runBlocking(toTheSub);
+//            }
 
             oldWristX = wristX;
             oldWristY = wristY;
@@ -86,15 +113,19 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 //telemetry.addData("Sample Angle Detected", 90);
             }
 
-
+            /* Score High Basket */
             if(operator.rightBumper.pressed()) {
                 wristX = 5;
                 wristY = 34;
             }
+
+            /* Grab Specimen in Submersible */
             if(operator.leftBumper.pressed()) {
                 wristX = 23.5;
                 wristY = 0;
             }
+
+            /* Stow Position */
             if(operator.b.pressed()) {
                 wristX = 17;
                 wristY = 0;
@@ -200,6 +231,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     private void periodicCalls() {
         driver.update();
         operator.update();
+        autoDrive.updatePoseEstimate();
 //        armPivot.periodic(18);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
     }
