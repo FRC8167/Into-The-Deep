@@ -127,6 +127,7 @@ public class AprilTagProcessorObject {
                 break;  // don't look any further.
             }
         }
+
         return tag;
     }
 
