@@ -132,16 +132,16 @@ public class AprilTagProcessorObject {
         return tag;
     }
 
-    public Pose2d AprilTagUpdatePose {
-        Pose2d currentTagPose;
-        AprilTagDetection currentTag;
-        scanForAprilTags();
-        if (currentDetections.size() > 0) {
-            currentTag = currentDetections.get(0);
-            currentTagPose = currentTag.rawPose.x, currentTag.y, currentTag.rawPose.x;
-        }
-        return
-    }
+//    public double AprilTagUpdatePose {
+//        Pose2d currentTagPose = new Pose2d((0, 0, 0);
+//        AprilTagDetection currentTag;
+//        scanForAprilTags();
+//        if (currentDetections.size() > 0) {
+//            currentTag = currentDetections.get(0);
+//            currentTagPose = (currentTag.robotPose.getPosition().x, currentTag.robotPose.getPosition().y), currentTag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES);
+//        }
+//        return currentTagPose;
+//    }
 
 
 }
