@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
@@ -51,6 +54,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
+        TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+
+        TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                .setTangent(Math.toRadians(0))
+                .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
+
+        Action toTheBaskets = driveToBaskets.build();
+        Action toTheSub = driveToSub.build();
 
         waitForStart();
 
@@ -67,6 +80,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 drive.setDegradedDrive(false, 0.8);
             }
             drive.mecanumDrive(fdrive, strafe, turn);
+
+            //Robot Pose to Score Baskets x = 58, y = 61, theta = 45
+            if(driver.x.pressed()) {
+                Actions.runBlocking(toTheBaskets);
+            }
+
+            //Robot Pose to Submersible x = 24, y = 12, theta = 180
+            if (driver.b.pressed()) {
+                Actions.runBlocking(toTheSub);
+            }
 
             oldWristX = wristX;
             oldWristY = wristY;
@@ -186,6 +209,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     private void periodicCalls() {
         driver.update();
         operator.update();
+        autoDrive.updatePoseEstimate();
 //        armPivot.periodic(18);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
     }
