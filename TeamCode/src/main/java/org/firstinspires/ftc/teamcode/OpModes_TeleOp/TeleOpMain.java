@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode.OpModes_TeleOp;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
+import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -22,7 +26,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        initializeRobot(new Pose2d(0,0,0));  //will need to chang
+        initializeRobot(new Pose2d(24,12,Math.toRadians(180)));  //will need to chang
         slide.setDirection();
         double wristX;
         double wristY;
@@ -60,16 +64,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
-        TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(basketScorePos, Math.toRadians(45));
 
-        TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                .setTangent(Math.toRadians(0))
-                .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
-
-        Action toTheBaskets = driveToBaskets.build();
-        Action toTheSub = driveToSub.build();
 
         waitForStart();
 
@@ -89,11 +84,21 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             //Robot Pose to Score Baskets x = 58, y = 61, theta = 45
             if (driver.x.pressed()) {
+                TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                        .setTangent(Math.toRadians(0))
+                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+
+                Action toTheBaskets = driveToBaskets.build();
+
                 Actions.runBlocking(toTheBaskets);
             }
 
             //Robot Pose to Submersible x = 24, y = 12, theta = 180
             if (driver.b.pressed()) {
+                TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                        .setTangent(Math.toRadians(-90))
+                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
+                Action toTheSub = driveToSub.build();
                 Actions.runBlocking(toTheSub);
             }
 
@@ -140,14 +145,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //                telemetry.addLine(String.format(Locale.ROOT,"%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
 //            }
 
-            if(driver.a.pressed())  {
+            if(driver.a.whilePressed() && aprilTags.AprilTagUpdatePose()!=null)  {
 
                 double atX = aprilTags.AprilTagUpdatePose()[0];
                 double atY = aprilTags.AprilTagUpdatePose()[1];
                 double atH = aprilTags.AprilTagUpdatePose()[2];
                 Pose2d atPose = new Pose2d(atX, atY, atH);
                 Pose2d initialPose = atPose;
-
+                telemetry.addData("X: ", atX);
+                telemetry.addData("Y: ", atY);
+                telemetry.addData("H: ", atH);
             }
 
 
@@ -220,7 +227,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("rotateAng: ", (wristRotate.getRotateAcuteAng()));
             telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
             telemetry.addData("SLideEncoders: ", (slide.getPosition()));
-
+            TelemetryPacket packet = new TelemetryPacket();
+            packet.fieldOverlay().setStroke("#3F51B5");
+            Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
+            FtcDashboard.getInstance().sendTelemetryPacket(packet);
 
 
 //             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
