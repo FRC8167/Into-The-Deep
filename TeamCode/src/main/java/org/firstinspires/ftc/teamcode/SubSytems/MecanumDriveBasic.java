@@ -49,9 +49,9 @@ public class MecanumDriveBasic implements TeamConstants {
      */
     public void mecanumDrive(double driveCmd, double strafeCmd, double turnCmd) {
 
-        drive  = (degradedMode && degradedMultiplier<=0.8) ? driveCmd  * degradedMultiplier     : driveCmd * 0.8;
-        strafe = (degradedMode && degradedMultiplier<=0.8) ? strafeCmd * degradedMultiplier-0.1 : strafeCmd * 0.8;
-        turn   = (degradedMode && degradedMultiplier<=0.8) ? turnCmd   * degradedMultiplier-0.2 : turnCmd * 0.8;
+        drive  = (degradedMode) ? driveCmd  * (degradedMultiplier/0.45*0.45) : driveCmd * 0.8;
+        strafe = (degradedMode) ? strafeCmd * (degradedMultiplier/0.45*0.35) : strafeCmd * 0.8;
+        turn   = (degradedMode) ? turnCmd   * (degradedMultiplier/0.45*0.25) : turnCmd * 0.8;
 
         double denominator = Math.max(Math.abs(driveCmd) + Math.abs(strafeCmd) + Math.abs(turnCmd), 1);
         double frontLeftPower  = (drive + strafe + turn) / denominator;
@@ -70,7 +70,7 @@ public class MecanumDriveBasic implements TeamConstants {
     public void setDegradedDrive(boolean condition, double multiplyer) {
         // 0.45 default
         degradedMode = condition;
-        degradedMultiplier = multiplyer;
+        degradedMultiplier = Math.min(multiplyer, 0.8);
     }
 
 

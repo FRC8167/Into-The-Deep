@@ -23,7 +23,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     GamepadWrapper driver;
     GamepadWrapper operator;
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         initializeRobot(new Pose2d(24,12,Math.toRadians(180)));  //will need to chang
@@ -77,6 +76,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
                 drive.setDegradedDrive(true, 0.45);
+            } else if (wristY > 25) {
+                drive.setDegradedDrive(true, 0.6);
             } else {
                 drive.setDegradedDrive(false, 0.8);
             }
