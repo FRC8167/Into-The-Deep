@@ -10,7 +10,7 @@ import java.util.List;
 
 public class ColorProcessor {
 
-    public enum Filter {NONE, AREA, ASPECT};
+    public enum Filter {NONE, AREA, ASPECT}
     ColorBlobLocatorProcessor colorProcessor;
     ColorRange color;
     double alpha;
@@ -73,8 +73,8 @@ public class ColorProcessor {
 //        width = boxFit.boundingRect().width;
         boxFit.points(corners);
 
-        height = Math.sqrt((corners[1].x-corners[0].x)*(corners[1].x-corners[0].x) + (corners[1].y-corners[0].y)*(corners[1].y-corners[0].y));
-        width = Math.sqrt((corners[2].x-corners[1].x)*(corners[2].x-corners[1].x) + (corners[2].y-corners[1].y)*(corners[2].y-corners[1].y));
+        height = Math.hypot(corners[1].x - corners[0].x, corners[1].y - corners[0].y);
+        width = Math.hypot(corners[2].x - corners[1].x, corners[2].y - corners[1].y);
 
 
         alpha = boxFit.angle;
@@ -82,15 +82,10 @@ public class ColorProcessor {
         return boxFit;
     }
 
-
     public Boolean ReadyForPickup()
     {
         blobData(ColorProcessor.Filter.NONE);
-        if ((height > width) || (width > height))
-        {
-            return false;
-        }
-        else return true;
+        return (!(height > width)) && (!(width > height));
     }
 
 

@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
+import java.util.Locale;
+
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
 public class TeleOpMain extends RobotConfiguration implements TeamConstants {
@@ -28,6 +30,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         else{
             wristX = 288.500/25.4;// ~11.358in
             wristY = -288.500/25.4;
+            armPivot.resetEncoders();
+            slide.resetEncoders();
         }
         double oldWristX;
         double oldWristY;
@@ -44,16 +48,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         telemetry.update();
 
-        /* For starting directly in TeleOp only */
-//        armPivot.resetEncoders();
-//        slide.resetEncoders();
-        /* ************************************ */
-
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
 
 
-        double RotateAcuteAng;
         waitForStart();
 
         while (opModeIsActive()) {
@@ -63,10 +61,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             double turn = driver.rightStick_X ;
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
-            if (driver.rightBumper.whilePressed() || wristY > 25) {
-                drive.setDegradedDrive(true);
+            if (driver.rightBumper.whilePressed()) { // || wristY > 25
+                drive.setDegradedDrive(true, 0.45);
             } else {
-                drive.setDegradedDrive(false);
+                drive.setDegradedDrive(false, 0.8);
             }
             drive.mecanumDrive(fdrive, strafe, turn);
 
@@ -81,10 +79,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = Functions.TriClampY(wristX, wristY);
             }
             wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
-            /* ********* Created for wrist proof of concept ********* */
-            if(operator.a.pressed()) gripper.toggleGripper();
 
-//            wristPivot.setPosition(operator.rightStick_X+.85);
+            if(operator.a.pressed()) gripper.toggleGripper();
 
 
             telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
@@ -93,14 +89,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Height", bluSamps.getHeight());
             for (int i = 0; i <4; i++)
             {
-                telemetry.addLine(String.format("%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
+                telemetry.addLine(String.format(Locale.ROOT,"%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
             }
-
-
-//            }
-//            else{
-//                //telemetry.addData("Sample Angle Detected", 90);
-//            }
 
 
             if(operator.rightBumper.pressed()) {
@@ -116,11 +106,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = 0;
             }
 
-
-//            //wristRotate.setPosition(-operator.leftStick_X* 0.5 + 0.5);//* 0.5 + 0.5
-//            wristPivot.setPosition(-operator.rightStick_Y * 0.5 + 0.5);
-//            if (operator.leftStick_Y == 0 && operator.leftStick_X == 0) wristRotate.setPosition(TeamConstants.WRIST_ROTATE_CENTER);
-//            else if (operator.leftStick_Y<= 0) wristRotate.setPosition(((((RotateAcuteAng)/(300))+.2)));
             /* ********************************************************/
             if(operator.x.whilePressed()) {
                 wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
@@ -144,14 +129,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             else {
                 if (!retractIsDone) {
                     slide.setPosition(0);
-//                    if (!slide.getBusy()){sleep(50);}
                     retractIsDone = slide.closeEnough();
                 } else if (!pivotIsDone) {
                     armPivot.triangulateTo(wristX, wristY);
-//                    if (!armPivot.getBusy()){sleep(50);}
                     pivotIsDone = armPivot.closeEnough();
                 } else if (!extendIsDone) {
-//                    if (!slide.getBusy()){sleep(50);}
                     extendIsDone = slide.closeEnough();
                 } else {
                     bigMove = false;
@@ -187,14 +169,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
 
-//            drive.mecanumDrive(-driver.leftStick_Y, driver.leftStick_X, driver.rightStick_X);
-//
-//            /* ********* Created for wrist proof of concept ********* */
-//            if(operator.a.pressed()) gripper.toggleGripper();
-//            wristRotate.setPosition(-operator.leftStick_Y * 0.5 + 0.5);
-//            wristPivot.setPosition(-operator.leftStick_X  * 0.5 + 0.5);
-//            /* ********************************************************/
-
 //             if(operator.rightStick_Y > 0.1 || operator.rightStick_Y < -0.1) {
 //                armPivot.manualMove(operator.rightStick_Y);
 //             }
@@ -202,15 +176,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //             if (operator.rightTrigger > 0.0 || operator.leftTrigger > 0.0)  {
 //                 slide.manualMove(operator.leftTrigger, operator.rightTrigger);
 //             }
-
-//            /* Output Telemetry Data to Driver Stations */
-//            telemetry.addData("Left Motor Pos: ", armPivot.getLmotorPos());
-//            telemetry.addData("Right Motor Pos: ", armPivot.getRmotorPos());
-//            telemetry.addData("GripServo: ", gripper.servoPos());
-//            telemetry.addData("WristRotate: ", wristRotate.servoPos());
-//            telemetry.addData("Pose X: ", autoDrive.pose.position.x);
-//            telemetry.addData("Pose X: ", autoDrive.pose.position.y);
-//            telemetry.addData("Pose Heading: ", autoDrive.pose.heading);
 
             telemetry.update();
             periodicCalls();

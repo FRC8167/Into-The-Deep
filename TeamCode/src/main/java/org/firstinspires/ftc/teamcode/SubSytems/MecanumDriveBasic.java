@@ -9,6 +9,7 @@ public class MecanumDriveBasic implements TeamConstants {
     private final DcMotorEx leftFront, leftRear, rightFront, rightRear;
     private double drive, strafe, turn;
     boolean degradedMode;
+    double degradedMultiplier = 0.45;
 
     /**
      * CONSTRUCTOR Create a mecanum drive object using four motors
@@ -48,9 +49,9 @@ public class MecanumDriveBasic implements TeamConstants {
      */
     public void mecanumDrive(double driveCmd, double strafeCmd, double turnCmd) {
 
-        drive  = (degradedMode) ? driveCmd  * DEGRADED_DRIVE_LIMIT  : driveCmd * 0.8;
-        strafe = (degradedMode) ? strafeCmd * DEGRADED_STRAFE_LIMIT : strafeCmd * 0.8;
-        turn   = (degradedMode) ? turnCmd   * DEGRADED_TURN_LIMIT   : turnCmd * 0.8;
+        drive  = (degradedMode && degradedMultiplier<=0.8) ? driveCmd  * degradedMultiplier     : driveCmd * 0.8;
+        strafe = (degradedMode && degradedMultiplier<=0.8) ? strafeCmd * degradedMultiplier-0.1 : strafeCmd * 0.8;
+        turn   = (degradedMode && degradedMultiplier<=0.8) ? turnCmd   * degradedMultiplier-0.2 : turnCmd * 0.8;
 
         double denominator = Math.max(Math.abs(driveCmd) + Math.abs(strafeCmd) + Math.abs(turnCmd), 1);
         double frontLeftPower  = (drive + strafe + turn) / denominator;
@@ -66,8 +67,10 @@ public class MecanumDriveBasic implements TeamConstants {
      * Limit applied power to the motors.  Degraded power levels are set in TeamConstants
      * @param condition Drive power will be degraded when true
      */
-    public void setDegradedDrive(boolean condition) {
+    public void setDegradedDrive(boolean condition, double multiplyer) {
+        // 0.45 default
         degradedMode = condition;
+        degradedMultiplier = multiplyer;
     }
 
 
