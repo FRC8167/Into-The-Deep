@@ -132,16 +132,38 @@ public class AprilTagProcessorObject {
         return tag;
     }
 
-//    public double AprilTagUpdatePose {
-//        Pose2d currentTagPose = new Pose2d((0, 0, 0);
-//        AprilTagDetection currentTag;
-//        scanForAprilTags();
-//        if (currentDetections.size() > 0) {
-//            currentTag = currentDetections.get(0);
-//            currentTagPose = (currentTag.robotPose.getPosition().x, currentTag.robotPose.getPosition().y), currentTag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES);
-//        }
-//        return currentTagPose;
-//    }
+
+    //public class ReturnThreeItems {
+    //
+    //    public static int[] getThreeItems() {
+    //        return new int[]{1, 2, 3};
+    //    }
+    //
+    //    public static void main(String[] args) {
+    //        int[] result = getThreeItems();
+    //        for (int item : result) {
+    //            System.out.println(item);
+    //        }
+    //    }
+    //}
+
+
+    public double[] AprilTagUpdatePose() {
+        AprilTagDetection currentTag;
+        double newX = 0.0;
+        double newY = 0.0;
+        double newH = 0.0;
+        scanForAprilTags();
+        double[] currentTagPose = null;
+        if (currentDetections.size() > 0) {
+            currentTag = currentDetections.get(0);
+            newX = currentTag.robotPose.getPosition().x;
+            newY = currentTag.robotPose.getPosition().y;
+            newH = currentTag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES);
+            currentTagPose = new double[]{newX, newY, newH};
+        }
+        return currentTagPose;
+    }
 
 
 }

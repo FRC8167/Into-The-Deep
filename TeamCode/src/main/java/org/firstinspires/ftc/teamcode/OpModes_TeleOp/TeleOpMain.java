@@ -127,6 +127,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                     wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
                 }
 
+
+
 //            telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
 //            telemetry.addData("Sample Angle Raw", bluSamps.getAlpha());
 //            telemetry.addData("Width", bluSamps.getWidth());
@@ -135,6 +137,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            {
 //                telemetry.addLine(String.format(Locale.ROOT,"%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
 //            }
+
+            if(driver.a.pressed())  {
+
+                double atX = aprilTags.AprilTagUpdatePose()[0];
+                double atY = aprilTags.AprilTagUpdatePose()[1];
+                double atH = aprilTags.AprilTagUpdatePose()[2];
+                Pose2d atPose = new Pose2d(atX, atY, atH);
+                Pose2d initialPose = atPose;
+
+            }
 
 
             if(operator.rightBumper.pressed()) {
