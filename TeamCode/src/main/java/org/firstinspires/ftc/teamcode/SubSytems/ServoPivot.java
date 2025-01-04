@@ -33,8 +33,8 @@ public class ServoPivot extends Servo1D {
 
 
     public boolean moveByPos(double x,double y, boolean forward){
-        angle = ((180-(Math.toDegrees(Math.atan2(x, y)))))-7;
-        distFromGround = 380.09193/25.4 + y- 3.37;
+        angle = ((180-(Math.toDegrees(Math.atan2(x, y)))));
+        distFromGround = 380.09193/25.4 + y - 3.37;
         if (angle <= 65){
             setPosition(TeamConstants.WRIST_PIVOT_MAX);
             return true;

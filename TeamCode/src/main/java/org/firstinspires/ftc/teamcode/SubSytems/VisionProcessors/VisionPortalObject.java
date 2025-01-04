@@ -21,8 +21,8 @@ public class VisionPortalObject {
 
     /** WebCam1 Camera Settings **/
     WebcamName camera = null;
-    private final long CAMERA_EXPOSURE = 6; //15;
-    private final int  CAMERA_GAIN = 245;
+    private final long CAMERA_EXPOSURE = 3; //15;
+    private final int  CAMERA_GAIN = 160;
 
     /** The variable to store our instance of the vision portal **/
     private VisionPortal visionPortal = null;

@@ -26,15 +26,21 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         slide.setDirection();
         double wristX;
         double wristY;
-        if (InitAuto) {
+
+        if (InitAuto && !InitTele) {
             wristX = AutoWristX; //288.500/25.4;// ~11.358in
             wristY = AutoWristY; //-288.500/25.4;
-        }
-        else{
+            InitTele = true;
+        } else if (!InitTele) {
             wristX = 288.500/25.4;// ~11.358in
             wristY = -288.500/25.4;
             armPivot.resetEncoders();
             slide.resetEncoders();
+            InitTele = true;
+            setAlliance(AllianceColor.BLUE);
+        } else{
+            wristX = 17;
+            wristY = 0;
         }
         double oldWristX;
         double oldWristY;
@@ -71,7 +77,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             double fdrive = -driver.leftStick_Y;
             double strafe = driver.leftStick_X + 0.25 * operator.rightStick_X;
-            double turn = driver.rightStick_X ;
+            double turn = driver.rightStick_X;
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
@@ -82,7 +88,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             drive.mecanumDrive(fdrive, strafe, turn);
 
             //Robot Pose to Score Baskets x = 58, y = 61, theta = 45
-            if(driver.x.pressed()) {
+            if (driver.x.pressed()) {
                 Actions.runBlocking(toTheBaskets);
             }
 
@@ -101,19 +107,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = Functions.TriClampX(wristX, wristY);
                 wristY = Functions.TriClampY(wristX, wristY);
             }
-            wristForward = wristPivot.moveByPos(wristX,wristY,wristForward);
+            wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
 
-            if(operator.a.pressed()) gripper.toggleGripper();
+            if (operator.a.pressed()) gripper.toggleGripper();
 
-            if(operator.y.whilePressed()) {
+            if (operator.y.whilePressed()) {
                 wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
             }
-            else {
-                wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
-            }
 
-
-                if(operator.x.whilePressed()) {
+            else if(operator.x.whilePressed()) {
                 switch (getAlliance()) {
                     case RED:
                         wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
@@ -160,6 +162,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             }
 
+
             if (!bigMove) {
                 armPivot.triangulateTo(wristX, wristY);
                 slide.triangulateTo(wristX, wristY);
@@ -179,6 +182,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             /* Output Telemtery Data to Driver Stations */
+            telemetry.addData("Blob Area", bluSamps.getArea());
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
             telemetry.addData("WristPivot: ", wristPivot.servoPos());
