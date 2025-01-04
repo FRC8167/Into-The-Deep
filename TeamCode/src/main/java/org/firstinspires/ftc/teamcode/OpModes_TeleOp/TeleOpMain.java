@@ -105,15 +105,36 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             if(operator.a.pressed()) gripper.toggleGripper();
 
-
-            telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
-            telemetry.addData("Sample Angle Raw", bluSamps.getAlpha());
-            telemetry.addData("Width", bluSamps.getWidth());
-            telemetry.addData("Height", bluSamps.getHeight());
-            for (int i = 0; i <4; i++)
-            {
-                telemetry.addLine(String.format(Locale.ROOT,"%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
+            if(operator.y.whilePressed()) {
+                wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
             }
+            else {
+                wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+            }
+
+
+                if(operator.x.whilePressed()) {
+                switch (getAlliance()) {
+                    case RED:
+                        wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
+                        break;
+                    case BLUE:
+                        wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
+                        break;
+                }
+            }
+            else {
+                    wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+                }
+
+//            telemetry.addData("Sample Angle Detected", bluSamps.CalcWristAngleDegrees());
+//            telemetry.addData("Sample Angle Raw", bluSamps.getAlpha());
+//            telemetry.addData("Width", bluSamps.getWidth());
+//            telemetry.addData("Height", bluSamps.getHeight());
+//            for (int i = 0; i <4; i++)
+//            {
+//                telemetry.addLine(String.format(Locale.ROOT,"%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
+//            }
 
 
             if(operator.rightBumper.pressed()) {
@@ -129,13 +150,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = 0;
             }
 
-            /* ********************************************************/
-            if(operator.x.whilePressed()) {
-                wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
-            }
-            else {
-                wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
-            }
+
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
                 {
                 bigMove = true;
