@@ -37,7 +37,7 @@ public class AprilTagProcessorObject {
     private final double LENS_INTRINSICS_CY = 411.6;
 
     private Position cameraPosition = new Position(DistanceUnit.INCH,-1, 9, 5.5, 0);
-    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  0, 0, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  -90, 0, 0);
 
     /**
      * Create an processor for April Tag detections
