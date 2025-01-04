@@ -52,10 +52,10 @@ public class ColorProcessor {
                 break;
 
             case AREA:
-                ColorBlobLocatorProcessor.Util.filterByArea(1000, 20000, blobs);  //was 10000
+                ColorBlobLocatorProcessor.Util.filterByArea(12000, 40000, blobs);  //was 10000
                 break;
             case ASPECT:
-                ColorBlobLocatorProcessor.Util.filterByAspectRatio(1.8, 3.2, blobs);
+                ColorBlobLocatorProcessor.Util.filterByAspectRatio(2.8, 3.2, blobs);
                 break;
         }
 
@@ -74,7 +74,7 @@ public class ColorProcessor {
         boxFit.points(corners);
 
         height = Math.hypot(corners[1].x - corners[0].x, corners[1].y - corners[0].y);
-        width = Math.hypot(corners[2].x - corners[1].x, corners[2].y - corners[1].y);
+        width  = Math.hypot(corners[2].x - corners[1].x, corners[2].y - corners[1].y);
 
 
         alpha = boxFit.angle;
@@ -89,18 +89,21 @@ public class ColorProcessor {
     }
 
 
-    public double CalcWristAngleDegrees()
-    {
-        blobData(ColorProcessor.Filter.NONE);
+    public double CalcWristAngleDegrees() {
 
-        if (height > width)
-        {
-            return (90 - alpha);
+        double angle = 90;
+        blobData(Filter.NONE);
+
+        if(getBlobs().size() > 0) {
+            if (height > width) {
+                angle = (90 - alpha);
+            } else if (width > height) {
+                angle = (180 - alpha);
+            }
         }
-        else if (width > height) {
-            return (180 - alpha);
-        }
-        else {return 90.0;}
+        else { angle =  90.0; }
+
+        return angle;
     }
 
 
@@ -120,10 +123,15 @@ public class ColorProcessor {
     {
         return width;
     }
+
+
     public Point[] getPoint()
     {
         return corners;
     }
 
 
+    public double getArea() {
+        return height * width;
+    }
 }

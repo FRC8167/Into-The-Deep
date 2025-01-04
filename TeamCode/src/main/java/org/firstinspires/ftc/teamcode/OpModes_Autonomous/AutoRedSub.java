@@ -26,7 +26,7 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         initializeRobot(initialPose);
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
-        setAlliance(AllianceColor.BLUE);
+        setAlliance(AllianceColor.RED);
 
         armPivot.resetEncoders();
         slide.resetEncoders();

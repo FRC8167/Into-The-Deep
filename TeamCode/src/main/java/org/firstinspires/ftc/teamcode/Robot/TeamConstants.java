@@ -11,6 +11,7 @@ public interface TeamConstants {
     double DEGRADED_SLIDE_EXTENDED = 10000; // TODO: update when the slide install is complete
     double DEGRADED_ARM_ROTATION   = 10000; // TODO: update when the arm install is complete
 
+
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Field Positions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     Pose2d basketScorePos = new Pose2d(58,61, Math.toRadians(45));
     Pose2d subPickupPos   = new Pose2d(24,12, Math.toRadians(180));
@@ -24,10 +25,9 @@ public interface TeamConstants {
 
 
     /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/
-
-    double DEGREES_PER_COUNT =  360.0/10766;//360/4062.8; //worm gear
+    double DEGREES_PER_COUNT =  1/32.0833333; //360.0/10766;//360/4062.8; //worm gear
             //4062.8 PPR
-    double COUNTS_PER_DEGREE = 10766/360.0;
+    double COUNTS_PER_DEGREE = 32.0833333; //10766/360.0;
 //    double DEGREES_PER_COUNT = 0.252614; // This for 1425.1ppr, 50.9:1 GBX Ratio, 117 RPM motor
     int MIN_POSITION_COUNTS = 0;    // TODO: update when the arm install is complete
     int MAX_POSITION_COUNTS = 9000; // TODO: update when the arm install is complete

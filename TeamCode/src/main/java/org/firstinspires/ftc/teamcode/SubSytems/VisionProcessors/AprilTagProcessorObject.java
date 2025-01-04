@@ -1,6 +1,8 @@
 
 package org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors;
 
+import com.acmerobotics.roadrunner.Pose2d;
+
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Position;
@@ -129,6 +131,39 @@ public class AprilTagProcessorObject {
         }
 
         return tag;
+    }
+
+
+    //public class ReturnThreeItems {
+    //
+    //    public static int[] getThreeItems() {
+    //        return new int[]{1, 2, 3};
+    //    }
+    //
+    //    public static void main(String[] args) {
+    //        int[] result = getThreeItems();
+    //        for (int item : result) {
+    //            System.out.println(item);
+    //        }
+    //    }
+    //}
+
+
+    public double[] AprilTagUpdatePose() {
+        AprilTagDetection currentTag;
+        double newX = 0.0;
+        double newY = 0.0;
+        double newH = 0.0;
+        scanForAprilTags();
+        double[] currentTagPose = null;
+        if (currentDetections.size() > 0) {
+            currentTag = currentDetections.get(0);
+            newX = currentTag.robotPose.getPosition().x;
+            newY = currentTag.robotPose.getPosition().y;
+            newH = currentTag.robotPose.getOrientation().getYaw(AngleUnit.DEGREES);
+            currentTagPose = new double[]{newX, newY, newH};
+        }
+        return currentTagPose;
     }
 
 
