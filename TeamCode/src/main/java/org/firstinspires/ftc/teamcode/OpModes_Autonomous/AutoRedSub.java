@@ -26,6 +26,7 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         initializeRobot(initialPose);
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
+        InitAuto = true;
         setAlliance(AllianceColor.RED);
 
         armPivot.resetEncoders();
@@ -43,35 +44,33 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,-33.5));
+                .strafeTo(new Vector2d(0,-33.5+15));
 
-        TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
-                .strafeTo(new Vector2d(-20,-55));
-        TrajectoryActionBuilder sample1 = back1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-48, -47), Math.toRadians(90));
+        TrajectoryActionBuilder sample1 = centerX.endTrajectory().fresh()
+                .setTangent(Math.toRadians(80+180))
+                .splineToLinearHeading(new Pose2d(-48,-44.5, Math.toRadians(-90+180)), Math.toRadians(-20+180));
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(225));
+                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(45+180));
         TrajectoryActionBuilder sample2 = drop1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58, -47), Math.toRadians(90));
+                .strafeToSplineHeading(new Vector2d(-58, -44.5), Math.toRadians(270+180));
         TrajectoryActionBuilder drop2 = sample2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(-135));
+                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(45+180));
         TrajectoryActionBuilder sample3Back = drop2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-38, -29), Math.toRadians(180));
         TrajectoryActionBuilder sample3 = sample3Back.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-50, -29), Math.toRadians(180));
         TrajectoryActionBuilder drop3 = sample3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(-135));
+                .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(45+180));
         TrajectoryActionBuilder prepTouch = drop3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-48, -12), Math.toRadians(0));
+                .strafeToSplineHeading(new Vector2d(-48, -12), Math.toRadians(180+180));
         TrajectoryActionBuilder touch = prepTouch.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-24, -12), Math.toRadians(0));
+                .strafeToSplineHeading(new Vector2d(-24, -12), Math.toRadians(180+180));
 
 
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
         Action goCenterX = centerX.build();
-        Action goback1 = back1.build();
         Action goWaitPlayer = waitPlay.build();
         Action goWait1 = wait1.build();
         Action goWait2 = wait2.build();
@@ -97,27 +96,32 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         Actions.runBlocking(
                 new SequentialAction(
                         armPivot.armTrig(20,3.2),
-                        slide.slideTrig(20,3.2),
-                        wristPivot.wristTrig(20,3.2, true),
+//                        slide.slideTrig(20,3.2),
+//                        wristPivot.wristTrig(20,3.2, true),
+                        armPivot.armTrig(20,13),
+                        slide.slideTrig(20,13),
+                        wristPivot.wristTrig(20,13, true),
                         goCenterX,
-                        armPivot.armTrig(20,5.5),
-                        slide.slideTrig(20,5.5),
-                        wristPivot.wristTrig(20,5.5, true),
-                        goback1,
+                        goWait1,
+                        armPivot.armTrig(20,10),
+                        slide.slideTrig(20,10),
+                        wristPivot.wristTrig(20,10, true),
+                        goWait2,
+                        gripper.toggle(),
+                        goWait1,
                         new ParallelAction(
                                 goSample1,
                                 armPivot.armTrig(16.1,0),
                                 slide.slideTrig(16.1,0),
-                                wristPivot.wristTrig(16.1,0, true),
+                                wristPivot.wristTrig(16.1,0, true)
 //                                wristRotate.rotateTrig(0),
-                                gripper.toggle()
                         ),
                         armPivot.armTrig(24,-6.5),
                         slide.slideTrig(24,-6.5),
                         wristPivot.wristTrig(24,-6.5, true),
-                        goWait2,
+                        goWait3,
                         gripper.toggle(),
-                        goWait1,
+                        goWait2,
                         armPivot.armTrig(9.4,33),
                         slide.slideTrig(9.4,33),
                         wristPivot.wristTrig(9.4,33, true),
@@ -128,24 +132,24 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(24,-6.5),
                         armPivot.armTrig(24,-6.5),
                         wristPivot.wristTrig(24,-6.5, true),
-                        goWait2,
-                        gripper.toggle(),
                         goWait3,
+                        gripper.toggle(),
+                        goWait1,
                         armPivot.armTrig(9.4,33),
                         slide.slideTrig(9.4,33),
                         wristPivot.wristTrig(9.4,33, true),
                         goDrop2,
                         goWait3,
                         gripper.toggle(),
-                        goWaitPlayer,
+                        goWait2,
                         goPrepTouch,
                         armPivot.armTrig(16,11.4),
                         slide.slideTrig(16,11.4),
                         wristPivot.wristTrig(16,11.4, true),
                         goTouch,
-                        armPivot.armTrig(16,7),
-                        slide.slideTrig(16,7),
-                        wristPivot.wristTrig(16,7, true)
+                        armPivot.armTrig(16,7.4),
+                        slide.slideTrig(16,7.4),
+                        wristPivot.wristTrig(16,7.4, true)
 //                        goSample3Back,
 //                        wristRotate.rotateTrig(0),
 //                        slide.slideTrig(24,-4.2),

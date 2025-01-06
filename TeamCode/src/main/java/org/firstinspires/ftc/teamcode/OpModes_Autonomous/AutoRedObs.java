@@ -27,7 +27,7 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
         setAlliance(AllianceColor.RED);
-
+        InitAuto = true;
         armPivot.resetEncoders();
         slide.resetEncoders();
 
@@ -38,31 +38,33 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
                 .waitSeconds(0.5);
         TrajectoryActionBuilder wait2 = autoDrive.actionBuilder(initialPose)
                 .waitSeconds(1);
+        TrajectoryActionBuilder wait3 = autoDrive.actionBuilder(initialPose)
+                .waitSeconds(1.5);
 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,-33.5));
+                .strafeTo(new Vector2d(4,-(33.5+15)));
 
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
-                .strafeTo(new Vector2d(20,-55));
+                .strafeTo(new Vector2d(10,-55));
         TrajectoryActionBuilder toSample1 = back1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .strafeToSplineHeading(new Vector2d(43, -30), Math.toRadians(0))
-                .strafeToSplineHeading(new Vector2d(46, -30), Math.toRadians(-10))
+                .setTangent(Math.toRadians(180))
+                .strafeToSplineHeading(new Vector2d(43, -30), Math.toRadians(180+180))
+                .strafeToSplineHeading(new Vector2d(46, -30), Math.toRadians(170+180))
 //                .strafeToSplineHeading(new Vector2d(-45, 62), Math.toRadians(90))
 //                .strafeToSplineHeading(new Vector2d(-46, 30.5), Math.toRadians(180))
 //                .strafeToSplineHeading(new Vector2d(-56, 30.5), Math.toRadians(170))
-                .strafeToSplineHeading(new Vector2d(55, -62), Math.toRadians(-90))
-                .strafeToSplineHeading(new Vector2d(55, -30), Math.toRadians(-90));
+                .strafeToSplineHeading(new Vector2d(55, -62), Math.toRadians(90+180))
+                .strafeToSplineHeading(new Vector2d(55, -30), Math.toRadians(90+180));
         TrajectoryActionBuilder grab = toSample1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(55, -47.5), Math.toRadians(-90));
+                .strafeToSplineHeading(new Vector2d(55, -47.5), Math.toRadians(90+180));
         TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(0,-50), Math.toRadians(90))
-                .strafeTo(new Vector2d(0,-33.5));
+                .strafeToSplineHeading(new Vector2d(8,-55), Math.toRadians(270+180))
+                .strafeTo(new Vector2d(8,-(33.5+15)));
         TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
-                .strafeTo(new Vector2d(0,-55));
+                .strafeTo(new Vector2d(8,-55));
         TrajectoryActionBuilder park = back2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(55, -60), Math.toRadians(90));
+                .strafeToSplineHeading(new Vector2d(55, -60), Math.toRadians(270+180));
 
 
 

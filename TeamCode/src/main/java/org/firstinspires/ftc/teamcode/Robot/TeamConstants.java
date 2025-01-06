@@ -8,8 +8,6 @@ public interface TeamConstants {
     double DEGRADED_DRIVE_LIMIT    = 0.45;
     double DEGRADED_STRAFE_LIMIT   = 0.35;
     double DEGRADED_TURN_LIMIT     = 0.25;
-    double DEGRADED_SLIDE_EXTENDED = 10000; // TODO: update when the slide install is complete
-    double DEGRADED_ARM_ROTATION   = 10000; // TODO: update when the arm install is complete
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Field Positions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

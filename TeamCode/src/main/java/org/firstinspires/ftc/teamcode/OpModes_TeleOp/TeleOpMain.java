@@ -35,11 +35,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristY = AutoWristY; //-288.500/25.4;
             InitTele = true;
         } else if (!InitTele) {
-            wristX = 288.500/25.4;// ~11.358in
-            wristY = -288.500/25.4;
             armPivot.resetEncoders();
             slide.resetEncoders();
             InitTele = true;
+            wristX = 288.500/25.4;// ~11.358in
+            wristY = -288.500/25.4;
             setAlliance(AllianceColor.BLUE);
         } else{
             wristX = 17;
@@ -54,6 +54,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double newWristX;// ~11.358in
         double newWristY;
         boolean wristForward = true;
+        double trigMoveMultiplier = 1;
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
@@ -106,8 +107,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             oldWristX = wristX;
             oldWristY = wristY;
             if (!bigMove) {
-                newWristY = wristY + 0.1 * (operator.rightTrigger - operator.leftTrigger);
-                newWristX = wristX + 0.1 * (-operator.rightStick_Y);
+                newWristY = wristY + 0.2 * trigMoveMultiplier * (operator.rightTrigger - operator.leftTrigger);
+                newWristX = wristX + 0.2 * trigMoveMultiplier * (-operator.rightStick_Y);
                 wristX = newWristX;
                 wristY = newWristY;
                 wristX = Functions.TriClampX(wristX, wristY);
@@ -170,6 +171,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             if(operator.b.pressed()) {
                 wristX = 17;
                 wristY = 0;
+            }
+            if(operator.dpadDown.whilePressed()){
+                trigMoveMultiplier = 0.5;
+            } else if (operator.dpadUp.whilePressed()) {
+                trigMoveMultiplier = 2;
+            }
+            else {
+                trigMoveMultiplier = 1;
             }
 
 
