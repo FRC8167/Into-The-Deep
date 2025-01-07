@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -33,14 +34,6 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         slide.resetEncoders();
 
        // ************************TRAJECTORIES****************************
-        TrajectoryActionBuilder waitPlay = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(2);
-        TrajectoryActionBuilder wait1 = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(0.5);
-        TrajectoryActionBuilder wait2 = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(1);
-        TrajectoryActionBuilder wait3 = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(1.5);
 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
@@ -52,9 +45,6 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                 .setTangent(Math.toRadians(0))
                 .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
                 .strafeToSplineHeading(new Vector2d(-46, 30), Math.toRadians(170))
-//                .strafeToSplineHeading(new Vector2d(-45, 62), Math.toRadians(90))
-//                .strafeToSplineHeading(new Vector2d(-46, 30.5), Math.toRadians(180))
-//                .strafeToSplineHeading(new Vector2d(-56, 30.5), Math.toRadians(170))
                 .strafeToSplineHeading(new Vector2d(-55, 62), Math.toRadians(90))
                 .strafeToSplineHeading(new Vector2d(-55, 30), Math.toRadians(90));
         TrajectoryActionBuilder grab = toSample1.endTrajectory().fresh()
@@ -75,10 +65,6 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         Action goCenterX = centerX.build();
         Action goToSample1 = toSample1.build();
         Action goback1 = back1.build();
-        Action goWaitPlayer = waitPlay.build();
-        Action goWait1 = wait1.build();
-        Action goWait2 = wait2.build();
-        Action goWait3 = wait3.build();
         Action goGrab = grab.build();
         Action goback2 = back2.build();
         Action goendHang = hangEnd.build();
@@ -100,13 +86,13 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(20,13),
                         wristPivot.wristTrig(20,13, true),
                         goCenterX,
-                        goWait1,
+                        new SleepAction(0.5),
                         armPivot.armTrig(20,10),
                         slide.slideTrig(20,10),
                         wristPivot.wristTrig(20,10, true),
-                        goWait2,
+                        new SleepAction(1),
                         gripper.toggle(),
-                        goWait1,
+                        new SleepAction(0.5),
                         goback1,
                         new ParallelAction(
                                 goToSample1,
@@ -115,14 +101,14 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                                 wristPivot.wristTrig(16.1,0, true)
 //                                wristRotate.rotateTrig(0),
                         ),
-                        goWaitPlayer,
+                        new SleepAction(2),
                         goGrab,
                         armPivot.armTrig(21,-6),
                         slide.slideTrig(21,-6),
                         wristPivot.wristTrig(21,-6, true),
-                        goWait3,
+                        new SleepAction(1.5),
                         gripper.toggle(),
-                        goWait3,
+                        new SleepAction(1.5),
                         armPivot.armTrig(20,13),
                         slide.slideTrig(20,13),
                         wristPivot.wristTrig(20,13, true),
@@ -130,9 +116,9 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(20,10),
                         slide.slideTrig(20,10),
                         wristPivot.wristTrig(20,10, true),
-                        goWait2,
+                        new SleepAction(1.5),
                         gripper.toggle(),
-                        goWait1,
+                        new SleepAction(0.5),
                         goback2,
                         goPark
 

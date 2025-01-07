@@ -37,15 +37,6 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         slide.resetEncoders();
 
        // ************************TRAJECTORIES****************************
-        TrajectoryActionBuilder waitPlay = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(2);
-        TrajectoryActionBuilder wait1 = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(0.5);
-        TrajectoryActionBuilder wait2 = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(1);
-        TrajectoryActionBuilder wait3 = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(1.5);
-
         TrajectoryActionBuilder blank = autoDrive.actionBuilder(initialPose)
                 .waitSeconds(0);
 
@@ -77,10 +68,6 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
         Action goCenterX = centerX.build();
-        Action goWaitPlayer = waitPlay.build();
-        Action goWait1 = wait1.build();
-        Action goWait2 = wait2.build();
-        Action goWait3 = wait3.build();
         Action goSample1 = sample1.build();
         Action goDrop1 = drop1.build();
         Action goSample2 = sample2.build();
@@ -104,20 +91,17 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-//                        armPivot.armTrig(20,3.2),
-//                        slide.slideTrig(20,3.2),
-//                        wristPivot.wristTrig(20,3.2, true),
                         armPivot.armTrig(20,13),
                         slide.slideTrig(20,13),
                         wristPivot.wristTrig(20,13, true),
                         goCenterX,
-                        goWait1,
+                        new SleepAction(0.5),
                         armPivot.armTrig(20,10),
                         slide.slideTrig(20,10),
                         wristPivot.wristTrig(20,10, true),
-                        goWait2,
+                        new SleepAction(1),
                         gripper.toggle(),
-                        goWait1,
+                        new SleepAction(1),
                         new ParallelAction(
                                 goSample1,
                                 armPivot.armTrig(16.1,0),
@@ -128,10 +112,9 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(24,-6.5),
                         slide.slideTrig(24,-6.5),
                         wristPivot.wristTrig(24,-6.5, true),
-                        goWait3,
+                        new SleepAction(1.5),
                         new SequentialAction(
                                 gripper.toggle(),
-                                goWait3,
                                 new SleepAction(2)
                         ),
                         armPivot.armTrig(13,33),
@@ -139,12 +122,12 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         wristPivot.wristTrig(13,33, true),
                         goDrop1,
                         gripper.toggle(),
-                        goWait2,
+                        new SleepAction(1),
                         goSample2,
                         slide.slideTrig(24,-6.5),
                         armPivot.armTrig(24,-6.5),
                         wristPivot.wristTrig(24,-6.5, true),
-                        goWait2,
+                        new SleepAction(1),
                         new SequentialAction(
                             gripper.toggle(),
                             new SleepAction(2)
@@ -153,9 +136,9 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(13,33),
                         wristPivot.wristTrig(13,33, true),
                         goDrop2,
-                        goWait3,
+                        new SleepAction(1.5),
                         gripper.toggle(),
-                        goWait2,
+                        new SleepAction(1),
                         goPrepTouch,
                         new ParallelAction(
                             armPivot.armTrig(16,11.4),
@@ -166,46 +149,6 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(16,7),
                         slide.slideTrig(16,7),
                         wristPivot.wristTrig(16,7, true)
-//                        goSample3Back,
-//                        wristRotate.rotateTrig(0),
-//                        slide.slideTrig(24,-4.2),
-//                        armPivot.armTrig(24,-4.2),
-//                        wristPivot.wristTrig(24,-4.2, true),
-//                        goWait2,
-//                        goSample3,
-//                        wristRotate.rotateTrig(0),
-//                        slide.slideTrig(24,-65),
-//                        armPivot.armTrig(24,-6.5),
-//                        wristPivot.wristTrig(24,-6.5, true),
-//                        goWait2,
-//                        gripper.toggle(),
-//                        goWait2,
-//                        goWait2,
-//                        armPivot.armTrig(9.4,33),
-//                        wristRotate.rotateTrig(90),
-//                        slide.slideTrig(9.4,33),
-//                        wristPivot.wristTrig(9.4,33, true),
-//                        goDrop3,
-//                        goWait2,
-//                        gripper.toggle(),
-//                        goWaitPlayer,
-//                        goWaitPlayer
-
-//                        goendHang,
-//                        armPivot.armTrig(20,5.5),
-//                        slide.slideTrig(20,5.5),
-//                        wristPivot.wristTrig(20,5.5, true)
-//                        goback2,
-//                        goPark
-
-
-//                        goBlock1,
-//                        goBasket1,
-//                        goBlock2,
-//                        goBasket2,
-//                        goBlock3,
-//                        goBasket3,
-//                        goPark
                 )
         );
 
