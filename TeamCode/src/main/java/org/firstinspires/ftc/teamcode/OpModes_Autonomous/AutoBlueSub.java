@@ -3,9 +3,13 @@ package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Action;
+import com.acmerobotics.roadrunner.DisplacementTrajectory;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
+import com.acmerobotics.roadrunner.Time;
+import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -42,17 +46,19 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         TrajectoryActionBuilder wait3 = autoDrive.actionBuilder(initialPose)
                 .waitSeconds(1.5);
 
+        TrajectoryActionBuilder blank = autoDrive.actionBuilder(initialPose)
+                .waitSeconds(0);
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(0,33.5+15));
+                .strafeTo(new Vector2d(8,33.5+15));
 
         TrajectoryActionBuilder sample1 = centerX.endTrajectory().fresh()
-                .setTangent(Math.toRadians(80))
-                .splineToLinearHeading(new Pose2d(48,44.5, Math.toRadians(-90)), Math.toRadians(-20));
+                .setTangent(Math.toRadians(60))
+                .splineToLinearHeading(new Pose2d(50,46, Math.toRadians(-90)), Math.toRadians(-20));
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder sample2 = drop1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 44.5), Math.toRadians(270));
+                .strafeToSplineHeading(new Vector2d(58, 46), Math.toRadians(270));
         TrajectoryActionBuilder drop2 = sample2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder sample3Back = drop2.endTrajectory().fresh()
@@ -84,6 +90,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         Action goDrop3 = drop3.build();
         Action goPrepTouch = prepTouch.build();
         Action goTouch = touch.build();
+
 
 
 
@@ -122,11 +129,14 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(24,-6.5),
                         wristPivot.wristTrig(24,-6.5, true),
                         goWait3,
-                        gripper.toggle(),
-                        goWait2,
-                        armPivot.armTrig(9.4,33),
-                        slide.slideTrig(9.4,33),
-                        wristPivot.wristTrig(9.4,33, true),
+                        new SequentialAction(
+                                gripper.toggle(),
+                                goWait3,
+                                new SleepAction(2)
+                        ),
+                        armPivot.armTrig(13,33),
+                        slide.slideTrig(13,33),
+                        wristPivot.wristTrig(13,33, true),
                         goDrop1,
                         gripper.toggle(),
                         goWait2,
@@ -134,24 +144,28 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(24,-6.5),
                         armPivot.armTrig(24,-6.5),
                         wristPivot.wristTrig(24,-6.5, true),
-                        goWait3,
-                        gripper.toggle(),
-                        goWait1,
-                        armPivot.armTrig(9.4,33),
-                        slide.slideTrig(9.4,33),
-                        wristPivot.wristTrig(9.4,33, true),
+                        goWait2,
+                        new SequentialAction(
+                            gripper.toggle(),
+                            new SleepAction(2)
+                        ),
+                        armPivot.armTrig(13,33),
+                        slide.slideTrig(13,33),
+                        wristPivot.wristTrig(13,33, true),
                         goDrop2,
                         goWait3,
                         gripper.toggle(),
                         goWait2,
                         goPrepTouch,
-                        armPivot.armTrig(16,11.4),
-                        slide.slideTrig(16,11.4),
-                        wristPivot.wristTrig(16,11.4, true),
-                        goTouch,
-                        armPivot.armTrig(16,7.4),
-                        slide.slideTrig(16,7.4),
-                        wristPivot.wristTrig(16,7.4, true)
+                        new ParallelAction(
+                            armPivot.armTrig(16,11.4),
+                            slide.slideTrig(16,11.4),
+                            wristPivot.wristTrig(16,11.4, true),
+                            goTouch
+                        ),
+                        armPivot.armTrig(16,7),
+                        slide.slideTrig(16,7),
+                        wristPivot.wristTrig(16,7, true)
 //                        goSample3Back,
 //                        wristRotate.rotateTrig(0),
 //                        slide.slideTrig(24,-4.2),

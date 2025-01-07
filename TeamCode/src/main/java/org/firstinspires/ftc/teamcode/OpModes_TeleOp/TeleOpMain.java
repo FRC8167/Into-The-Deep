@@ -51,10 +51,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         boolean retractIsDone = true;
         boolean pivotIsDone = true;
         boolean extendIsDone = true;
-        double newWristX;// ~11.358in
-        double newWristY;
+        double newWristX = 288.500/25.4;// ~11.358in
+        double newWristY = -288.500/25.4;
         boolean wristForward = true;
         double trigMoveMultiplier = 1;
+
+        boolean debugMode = false; //runs default commands for debugging purposes
+        // true: back+a false: back+b
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
@@ -71,7 +74,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         while (opModeIsActive()) {
 
             double fdrive = -driver.leftStick_Y;
-            double strafe = driver.leftStick_X + 0.25 * operator.rightStick_X;
+            double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.25 * operator.rightStick_X);
             double turn = driver.rightStick_X;
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
@@ -115,8 +118,18 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = Functions.TriClampY(wristX, wristY);
             }
             wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
-
+            if (debugMode){
+                wristPivot.setPosition(TeamConstants.WRIST_PIVOT_MIN);
+                wristX = 17;
+                wristY = 0;
+            }
             if (operator.a.pressed()) gripper.toggleGripper();
+            if ((operator.back.whilePressed()&& operator.a.pressed()) || (driver.back.whilePressed()&& driver.a.pressed())){
+                debugMode = true;
+            }
+            else if ((operator.back.whilePressed()&& operator.b.pressed()) || (driver.back.whilePressed()&& driver.b.pressed())){
+                debugMode = false;
+            }
 
             if (operator.y.whilePressed()) {
                 wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
@@ -161,12 +174,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
             if(operator.rightBumper.pressed()) {
-                wristX = 5;
-                wristY = 34;
+                wristX = 13;
+                wristY = 31;
             }
             if(operator.leftBumper.pressed()) {
-                wristX = 23.5;
-                wristY = 0;
+                wristX = 20;
+                wristY = -3.5;
             }
             if(operator.b.pressed()) {
                 wristX = 17;

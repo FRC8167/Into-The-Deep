@@ -22,7 +22,7 @@ public class ServoPivot extends Servo1D {
 
 
     public void setServoAngToGround(double targetAng, double armAng){
-        servoPos= (90 - armAng + targetAng) / 240;
+        servoPos= (90 - armAng + targetAng) / 270;
         if (servoPos >= 0){
             servo.setPosition(servoPos);
         }
