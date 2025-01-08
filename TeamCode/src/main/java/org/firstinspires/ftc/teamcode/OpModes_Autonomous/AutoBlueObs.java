@@ -46,9 +46,10 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                 .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
                 .strafeToSplineHeading(new Vector2d(-46, 30), Math.toRadians(170))
                 .strafeToSplineHeading(new Vector2d(-55, 62), Math.toRadians(90))
-                .strafeToSplineHeading(new Vector2d(-55, 30), Math.toRadians(90));
+                .strafeToSplineHeading(new Vector2d(-56, 30), Math.toRadians(90));
         TrajectoryActionBuilder grab = toSample1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90));
+                //.strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90));
+                .strafeToSplineHeading(new Vector2d(-56, 56.5), Math.toRadians(90));
         TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-8,55), Math.toRadians(270))
                 .strafeTo(new Vector2d(-8,33.5+15));
@@ -82,15 +83,16 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,13),
-                        slide.slideTrig(20,13),
-                        wristPivot.wristTrig(20,13, true),
-                        goCenterX,
+                        armPivot.armTrig(20,11),
+                        new ParallelAction(
+                                slide.slideTrig(20,11),
+                                wristPivot.wristTrig(20,11, true),
+                                goCenterX
+                        ),
                         new SleepAction(0.5),
-                        armPivot.armTrig(20,10),
-                        slide.slideTrig(20,10),
-                        wristPivot.wristTrig(20,10, true),
-                        new SleepAction(1),
+                        armPivot.armTrig(20,7),
+                        slide.slideTrig(20,7),
+                        wristPivot.wristTrig(20,7, true),
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goback1,
@@ -102,10 +104,10 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 //                                wristRotate.rotateTrig(0),
                         ),
                         new SleepAction(2),
+                        armPivot.armTrig(18,-4),
+                        slide.slideTrig(18,-4),
+                        wristPivot.wristTrigFlat(18,-4, true),
                         goGrab,
-                        armPivot.armTrig(21,-6),
-                        slide.slideTrig(21,-6),
-                        wristPivot.wristTrig(21,-6, true),
                         new SleepAction(1.5),
                         gripper.toggle(),
                         new SleepAction(1.5),
@@ -113,10 +115,16 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(20,13),
                         wristPivot.wristTrig(20,13, true),
                         goendHang,
-                        armPivot.armTrig(20,10),
-                        slide.slideTrig(20,10),
-                        wristPivot.wristTrig(20,10, true),
-                        new SleepAction(1.5),
+                        armPivot.armTrig(20,11),
+                        new ParallelAction(
+                                slide.slideTrig(20,11),
+                                wristPivot.wristTrig(20,11, true),
+                                goCenterX
+                        ),
+                        new SleepAction(0.5),
+                        armPivot.armTrig(20,7),
+                        slide.slideTrig(20,7),
+                        wristPivot.wristTrig(20,7, true),
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goback2,
