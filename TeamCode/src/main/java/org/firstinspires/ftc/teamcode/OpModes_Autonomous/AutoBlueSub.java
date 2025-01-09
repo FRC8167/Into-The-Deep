@@ -3,13 +3,10 @@ package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.DisplacementTrajectory;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
-import com.acmerobotics.roadrunner.Time;
-import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
@@ -177,6 +174,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 16;
         AutoWristY = 7.4;
+        EndPos = new Pose2d(new Vector2d(26, 12), Math.toRadians(180));
         telemetry.update();
 
         }

@@ -25,25 +25,29 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        initializeRobot(new Pose2d(24,12,Math.toRadians(180)));  //will need to chang
+          //will need to chang
         slide.setDirection();
         double wristX;
         double wristY;
-
         if (InitAuto && !InitTele) {
+            initializeRobot(EndPos);
             wristX = AutoWristX; //288.500/25.4;// ~11.358in
             wristY = AutoWristY; //-288.500/25.4;
             InitTele = true;
         } else if (!InitTele) {
+            initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
             armPivot.resetEncoders();
             slide.resetEncoders();
             InitTele = true;
             wristX = 288.500/25.4;// ~11.358in
             wristY = -288.500/25.4;
             setAlliance(AllianceColor.BLUE);
+            EndPos = null;
         } else{
+            initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
             wristX = 17;
             wristY = 0;
+            EndPos = null;
         }
         double oldWristX;
         double oldWristY;
