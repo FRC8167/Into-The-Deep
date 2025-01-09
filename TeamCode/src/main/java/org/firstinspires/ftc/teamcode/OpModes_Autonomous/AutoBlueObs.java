@@ -51,8 +51,8 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                 //.strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90));
                 .strafeToSplineHeading(new Vector2d(-56, 56.5), Math.toRadians(90));
         TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(-8,55), Math.toRadians(270))
-                .strafeTo(new Vector2d(-8,33.5+15));
+                .setTangent(Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(-8,33.5+15, Math.toRadians(270)), Math.toRadians(-90));
         TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
                 .strafeTo(new Vector2d(-8,55));
         TrajectoryActionBuilder park = back2.endTrajectory().fresh()
@@ -93,6 +93,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(20,7),
                         slide.slideTrig(20,7),
                         wristPivot.wristTrig(20,7, true),
+                        new SleepAction(0.1),
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goback1,
@@ -125,6 +126,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(20,7),
                         slide.slideTrig(20,7),
                         wristPivot.wristTrig(20,7, true),
+                        new SleepAction(0.1),
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goback2,

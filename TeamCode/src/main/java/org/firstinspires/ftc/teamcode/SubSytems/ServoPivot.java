@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -79,7 +80,15 @@ public class ServoPivot extends Servo1D {
     public double getServoPos() {
             return servoPos*240;
     }
-
+    public void disable(){
+        ((ServoImplEx)servo).setPwmDisable();
+    }
+    public void enable(){
+        ((ServoImplEx)servo).setPwmEnable();
+    }
+    public boolean isEnabled(){
+       return ((ServoImplEx)servo).isPwmEnabled();
+    }
 
     public class WristTrig implements Action {
 

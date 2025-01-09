@@ -7,6 +7,7 @@ import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
@@ -26,7 +27,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     @Override
     public void runOpMode() throws InterruptedException {
           //will need to chang
-        slide.setDirection();
         double wristX;
         double wristY;
         if (InitAuto && !InitTele) {
@@ -49,6 +49,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristY = 0;
             EndPos = null;
         }
+        slide.setDirection();
         double oldWristX;
         double oldWristY;
         boolean bigMove = false;
@@ -121,7 +122,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = Functions.TriClampX(wristX, wristY);
                 wristY = Functions.TriClampY(wristX, wristY);
             }
-            wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
+            if (wristPivot.isEnabled())  wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
             if (debugMode){
                 wristPivot.setPosition(TeamConstants.WRIST_PIVOT_MIN);
                 wristX = 17;
@@ -185,7 +186,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = 20;
                 wristY = -3.5;
             }
+            
+            if(armPivot.closeEnough() && slide.closeEnough() && !wristPivot.isEnabled()){
+                wristPivot.enable();
+            }
+
             if(operator.b.pressed()) {
+                if (wristY >= 29) wristPivot.disable();
                 wristX = 17;
                 wristY = 0;
             }
@@ -197,6 +204,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             else {
                 trigMoveMultiplier = 1;
             }
+
 
 
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
@@ -254,6 +262,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("rotateAng: ", (wristRotate.getRotateAcuteAng()));
             telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
             telemetry.addData("SLideEncoders: ", (slide.getPosition()));
+            telemetry.addData("WristEnabled: ", (wristPivot.isEnabled()));
             TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
