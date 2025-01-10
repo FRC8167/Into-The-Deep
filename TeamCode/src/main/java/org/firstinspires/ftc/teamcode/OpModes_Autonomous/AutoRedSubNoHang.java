@@ -16,8 +16,8 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoRedSub", group="Autonomous", preselectTeleOp = "TeleOp")
-public class AutoRedSub extends RobotConfiguration implements TeamConstants {
+@Autonomous(name="AutoRedSubNoHang", group="Autonomous", preselectTeleOp = "TeleOp")
+public class AutoRedSubNoHang extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
     @Override
@@ -37,12 +37,13 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         TrajectoryActionBuilder blank = autoDrive.actionBuilder(initialPose)
                 .waitSeconds(0);
 
-        TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(-8,(-33.5+15)));
+        TrajectoryActionBuilder dropStart = autoDrive.actionBuilder(initialPose)
+                .setTangent(Math.toRadians(-45+180))
+                .splineToLinearHeading(new Pose2d(-58, -61, Math.toRadians(45+180)), Math.toRadians(45+180));
 
-        TrajectoryActionBuilder sample1 = centerX.endTrajectory().fresh()
-                .setTangent(Math.toRadians(60+180))
-                .splineToLinearHeading(new Pose2d(-49,-46, Math.toRadians(-90+180)), Math.toRadians(-50+180));
+        TrajectoryActionBuilder sample1 = dropStart.endTrajectory().fresh()
+                .setTangent(Math.toRadians(-135+180))
+                .splineToLinearHeading(new Pose2d(-48,-46, Math.toRadians(-90+180)), Math.toRadians(-100+180));
 
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(45+180));
@@ -65,7 +66,7 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
-        Action goCenterX = centerX.build();
+        Action goDropStart = dropStart.build();
         Action goSample1 = sample1.build();
         Action goDrop1 = drop1.build();
         Action goSample2 = sample2.build();
@@ -89,42 +90,29 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,11),
                         new ParallelAction(
-                                slide.slideTrig(20,11),
-                                wristPivot.wristTrig(20,11, true),
-                                goCenterX
+                                new SequentialAction(
+                                        armPivot.armTrig(14,33),
+                                        new SleepAction(0.5),
+                                        slide.slideTrig(14,33),
+                                        wristPivot.wristTrig(16,33, true)
+                                ),
+                                goDropStart
                         ),
                         new SleepAction(0.5),
-                        armPivot.armTrig(20,7),
-                        slide.slideTrig(20,7),
-                        wristPivot.wristTrig(20,7, true),
-                        new SleepAction(0.1),
                         gripper.toggle(),
                         new SleepAction(0.5),
-//                        new ParallelAction(
+
                         goSample1,
-//                                armPivot.armTrig(16.1,0),
-//                                slide.slideTrig(16.1,0),
-//                                wristPivot.wristTrig(16.1,0, true)
-////                                wristRotate.rotateTrig(0),
-//                        ),
+
                         slide.slideToPosition(0),
-                        armPivot.armTrig(28,-2),
-                        wristPivot.wristTrig(28,-6.8, true),
-                        new SleepAction(1),
+                        armPivot.armTrig(28,0),
+                        new SleepAction(0.5),
                         slide.slideTrig(28,0),
                         slide.slideTrig(24,-6.8),
                         armPivot.armTrig(24,-6.8),
                         wristPivot.wristTrig(24,-6.8, true),
-
-//                        slide.slideTrig(28,0),
-//                        armPivot.armTrig(28,0),
-//                        wristPivot.wristTrig(28,-6.8, true),
-//                        armPivot.armTrig(24,-6.8),
-//                        slide.slideTrig(24,-6.8),
-//                        wristPivot.wristTrig(24,-6.8, true),
-                        new SleepAction(0.5),//1.5
+                        new SleepAction(0.5), // 1
                         gripper.toggle(),
                         new SleepAction(0.5),
                         armPivot.armTrig(14,33),
@@ -174,11 +162,9 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 16;
         AutoWristY = 7.4;
-        EndPos = new Pose2d(new Vector2d(-26, -12), Math.toRadians(360));
+        EndPos = new Pose2d(new Vector2d(26, 12), Math.toRadians(180+180));
         telemetry.update();
-
-
-    }
+        }
 
     }
 

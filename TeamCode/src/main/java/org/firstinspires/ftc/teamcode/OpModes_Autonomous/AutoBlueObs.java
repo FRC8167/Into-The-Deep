@@ -148,7 +148,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 20;
         AutoWristY = 5.5;
-        EndPos = new Pose2d(new Vector2d(26, 12), Math.toRadians(180));
+        EndPos = new Pose2d(new Vector2d(-55, 60), Math.toRadians(270));
         telemetry.update();
 
         }
