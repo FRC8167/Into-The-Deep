@@ -33,7 +33,7 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
         slide.resetEncoders();
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(4,-(33.5+15)));
+                .strafeTo(new Vector2d(4,-(33.5+14)));
 
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
                 .strafeTo(new Vector2d(10,-55));
@@ -48,7 +48,7 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
                 .strafeToSplineHeading(new Vector2d(56, -56.5), Math.toRadians(90+180));
         TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90+180))
-                .splineToLinearHeading(new Pose2d(8,-(33.5+15), Math.toRadians(270+180)), Math.toRadians(-90+180));
+                .splineToLinearHeading(new Pose2d(8,-(33.5+14), Math.toRadians(270+180)), Math.toRadians(-90+180));
         TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
                 .strafeTo(new Vector2d(8,-55));
         TrajectoryActionBuilder park = back2.endTrajectory().fresh()
@@ -89,7 +89,7 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(20,7),
                         slide.slideTrig(20,7),
                         wristPivot.wristTrig(20,7, true),
-                        new SleepAction(0.1),
+                        new SleepAction(0.2),
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goback1,

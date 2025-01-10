@@ -4,6 +4,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
+import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -79,7 +81,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         while (opModeIsActive()) {
 
             double fdrive = -driver.leftStick_Y;
-            double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.25 * operator.rightStick_X);
+            double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X);
             double turn = driver.rightStick_X;
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
@@ -103,6 +105,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 Actions.runBlocking(toTheBaskets);
             }
 
+
             //Robot Pose to Submersible x = 24, y = 12, theta = 180
             if (driver.b.pressed()) {
                 TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
@@ -115,14 +118,17 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             oldWristX = wristX;
             oldWristY = wristY;
             if (!bigMove) {
-                newWristY = wristY + 0.2 * trigMoveMultiplier * (operator.rightTrigger - operator.leftTrigger);
-                newWristX = wristX + 0.2 * trigMoveMultiplier * (-operator.rightStick_Y);
+                newWristY = wristY + 0.4 * trigMoveMultiplier * (operator.rightTrigger - operator.leftTrigger);
+                newWristX = wristX + 0.4 * trigMoveMultiplier * (-operator.rightStick_Y);
                 wristX = newWristX;
                 wristY = newWristY;
                 wristX = Functions.TriClampX(wristX, wristY);
                 wristY = Functions.TriClampY(wristX, wristY);
             }
-            if (wristPivot.isEnabled())  wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
+            if (wristPivot.isEnabled())  {
+                if (!operator.dpadLeft.whilePressed()) wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
+                else wristForward = wristPivot.moveByPosFlat(wristX, wristY, wristForward);
+            }
             if (debugMode){
                 wristPivot.setPosition(TeamConstants.WRIST_PIVOT_MIN);
                 wristX = 17;
@@ -132,6 +138,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             if ((operator.back.whilePressed()&& operator.a.pressed()) || (driver.back.whilePressed()&& driver.a.pressed())){
                 debugMode = true;
             }
+
             else if ((operator.back.whilePressed()&& operator.b.pressed()) || (driver.back.whilePressed()&& driver.b.pressed())){
                 debugMode = false;
             }
@@ -196,16 +203,29 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = 17;
                 wristY = 0;
             }
-            if(operator.dpadDown.whilePressed()){
-                trigMoveMultiplier = 0.5;
-            } else if (operator.dpadUp.whilePressed()) {
+            if (operator.dpadRight.whilePressed()) {
                 trigMoveMultiplier = 2;
             }
             else {
                 trigMoveMultiplier = 1;
             }
 
-
+            if (operator.dpadUp.pressed()){
+                wristX = 20;
+                wristY = 11;
+            } else if (operator.dpadDown.pressed()) {
+                Actions.runBlocking(
+                        new SequentialAction(
+                        armPivot.armTrig(wristX,wristY-5),
+                        slide.slideTrig(wristX,wristY-5),
+                        wristPivot.wristTrig(wristX,wristY-5, true),
+                        new SleepAction(0.4),
+                        gripper.toggle()
+                        )
+                );
+                wristX = 18;
+                wristY = 11;
+            }
 
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
                 {

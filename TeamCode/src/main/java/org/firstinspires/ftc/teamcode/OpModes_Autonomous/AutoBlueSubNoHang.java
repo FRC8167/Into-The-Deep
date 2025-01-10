@@ -48,16 +48,10 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder sample2 = drop1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 46), Math.toRadians(270));
+                .strafeToSplineHeading(new Vector2d(58, 45), Math.toRadians(270));
         TrajectoryActionBuilder drop2 = sample2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
-        TrajectoryActionBuilder sample3Back = drop2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(38, 29), Math.toRadians(0));
-        TrajectoryActionBuilder sample3 = sample3Back.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(50, 29), Math.toRadians(0));
-        TrajectoryActionBuilder drop3 = sample3.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
-        TrajectoryActionBuilder prepTouch = drop3.endTrajectory().fresh()
+        TrajectoryActionBuilder prepTouch = drop2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(48, 12), Math.toRadians(180));
         TrajectoryActionBuilder touch = prepTouch.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(26, 12), Math.toRadians(180));
@@ -71,9 +65,7 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
         Action goDrop1 = drop1.build();
         Action goSample2 = sample2.build();
         Action goDrop2 = drop2.build();
-        Action goSample3 = sample3.build();
-        Action goSample3Back = sample3Back.build();
-        Action goDrop3 = drop3.build();
+
         Action goPrepTouch = prepTouch.build();
         Action goTouch = touch.build();
 
@@ -92,14 +84,14 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
                 new SequentialAction(
                         new ParallelAction(
                                 new SequentialAction(
-                                        armPivot.armTrig(14,33),
+                                        armPivot.armTrig(16,33),
                                         new SleepAction(0.5),
-                                        slide.slideTrig(14,33),
+                                        slide.slideTrig(16,33),
                                         wristPivot.wristTrig(16,33, true)
                                 ),
                                 goDropStart
                         ),
-                        new SleepAction(0.5),
+                        new SleepAction(1),
                         gripper.toggle(),
                         new SleepAction(0.5),
 
@@ -109,15 +101,15 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
                         armPivot.armTrig(28,0),
                         new SleepAction(0.5),
                         slide.slideTrig(28,0),
-                        slide.slideTrig(24,-6.8),
-                        armPivot.armTrig(24,-6.8),
-                        wristPivot.wristTrig(24,-6.8, true),
+                        slide.slideTrig(22.5,-7.2),
+                        armPivot.armTrig(22.5,-7.2),
+                        wristPivot.wristTrig(22.5,-7.2, true),
                         new SleepAction(0.5), // 1
                         gripper.toggle(),
                         new SleepAction(0.5),
-                        armPivot.armTrig(14,33),
+                        armPivot.armTrig(16,33),
                         new ParallelAction(
-                                slide.slideTrig(14,33),
+                                slide.slideTrig(16,33),
                                 wristPivot.wristTrig(16,33, true),
                                 goDrop1
                                 ),
@@ -129,15 +121,15 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
                         armPivot.armTrig(28,0),
                         new SleepAction(0.5),
                         slide.slideTrig(28,0),
-                        slide.slideTrig(24,-6.8),
-                        armPivot.armTrig(24,-6.8),
-                        wristPivot.wristTrig(24,-6.8, true),
+                        slide.slideTrig(22.5,-7.2),
+                        armPivot.armTrig(22.5,-7.2),
+                        wristPivot.wristTrig(22.5,-7.2, true),
                         new SleepAction(0.5), // 1
                             gripper.toggle(),
                         new SleepAction(0.5),
-                        armPivot.armTrig(14,33),
+                        armPivot.armTrig(16,33),
                         new ParallelAction(
-                                slide.slideTrig(14,33),
+                                slide.slideTrig(16,33),
                                 wristPivot.wristTrig(16,33, true),
                                 goDrop2
                                 ),

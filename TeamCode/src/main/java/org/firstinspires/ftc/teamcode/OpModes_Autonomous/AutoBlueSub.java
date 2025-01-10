@@ -42,7 +42,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 
         TrajectoryActionBuilder sample1 = centerX.endTrajectory().fresh()
                 .setTangent(Math.toRadians(60))
-                .splineToLinearHeading(new Pose2d(49,46, Math.toRadians(-90)), Math.toRadians(-50));
+                .splineToLinearHeading(new Pose2d(48,46, Math.toRadians(-90)), Math.toRadians(-50));
 
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
@@ -95,7 +95,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         wristPivot.wristTrig(20,11, true),
                         goCenterX
                                 ),
-                        new SleepAction(0.5),
+                        new SleepAction(0.8),
                         armPivot.armTrig(20,7),
                         slide.slideTrig(20,7),
                         wristPivot.wristTrig(20,7, true),
@@ -111,12 +111,12 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 //                        ),
                         slide.slideToPosition(0),
                         armPivot.armTrig(28,-2),
-                        wristPivot.wristTrig(28,-6.8, true),
+                        wristPivot.wristTrig(28,-7.2, true),
                         new SleepAction(1),
                         slide.slideTrig(28,0),
-                        slide.slideTrig(24,-6.8),
-                        armPivot.armTrig(24,-6.8),
-                        wristPivot.wristTrig(24,-6.8, true),
+                        slide.slideTrig(24,-7.2),
+                        armPivot.armTrig(24,-7.2),
+                        wristPivot.wristTrig(24,-7.2, true),
 
 //                        slide.slideTrig(28,0),
 //                        armPivot.armTrig(28,0),
@@ -127,9 +127,9 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         new SleepAction(0.5),//1.5
                         gripper.toggle(),
                         new SleepAction(0.5),
-                        armPivot.armTrig(14,33),
+                        armPivot.armTrig(16,33),
                         new ParallelAction(
-                                slide.slideTrig(14,33),
+                                slide.slideTrig(16,33),
                                 wristPivot.wristTrig(16,33, true),
                                 goDrop1
                                 ),
@@ -141,16 +141,16 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         armPivot.armTrig(28,0),
                         new SleepAction(0.5),
                         slide.slideTrig(28,0),
-                        slide.slideTrig(24,-6.8),
-                        armPivot.armTrig(24,-6.8),
-                        wristPivot.wristTrig(24,-6.8, true),
+                        slide.slideTrig(24,-7.2),
+                        armPivot.armTrig(24,-7.2),
+                        wristPivot.wristTrig(24,-7.2, true),
                         new SleepAction(0.5), // 1
                             gripper.toggle(),
                         new SleepAction(0.5),
                         armPivot.armTrig(14,33),
                         new ParallelAction(
                                 slide.slideTrig(14,33),
-                                wristPivot.wristTrig(16,33, true),
+                                wristPivot.wristTrig(14,33, true),
                                 goDrop2
                                 ),
                         new SleepAction(0.5),//
