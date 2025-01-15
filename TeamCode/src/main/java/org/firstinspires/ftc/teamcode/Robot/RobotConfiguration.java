@@ -46,6 +46,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     public static double AutoWristY;
     public static boolean InitAuto = false;
     public static boolean InitTele = false;
+    public static Pose2d EndPos = null;
 
 
     /*------------- Private Class Variables - Preferred -------------*/
@@ -106,7 +107,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         WebcamName webCam1      = hardwareMap.get(WebcamName.class, "Webcam1");
         WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
 
-        /** Create an object of every module/subsystem needed for both autonomous and teleOp modes. **/
+        /* Create an object of every module/subsystem needed for both autonomous and teleOp modes. */
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive   = new MecanumDrive(hardwareMap, startPose);
         wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);

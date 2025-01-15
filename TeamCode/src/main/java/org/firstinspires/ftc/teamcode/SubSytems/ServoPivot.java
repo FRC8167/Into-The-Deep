@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
@@ -22,7 +23,7 @@ public class ServoPivot extends Servo1D {
 
 
     public void setServoAngToGround(double targetAng, double armAng){
-        servoPos= (90 - armAng + targetAng) / 240;
+        servoPos= (90 - armAng + targetAng) / 270;
         if (servoPos >= 0){
             servo.setPosition(servoPos);
         }
@@ -30,8 +31,12 @@ public class ServoPivot extends Servo1D {
             servo.setPosition(0);
         }
     }
-
-
+    public boolean moveByPosFlat(double x,double y, boolean forward) {
+        angle = ((180 - (Math.toDegrees(Math.atan2(x, y)))));
+        distFromGround = 380.09193 / 25.4 + y - 3.37;
+        setServoAngToGround(90, angle);
+        return forward;
+    }
     public boolean moveByPos(double x,double y, boolean forward){
         angle = ((180-(Math.toDegrees(Math.atan2(x, y)))));
         distFromGround = 380.09193/25.4 + y - 3.37;
@@ -75,7 +80,15 @@ public class ServoPivot extends Servo1D {
     public double getServoPos() {
             return servoPos*240;
     }
-
+    public void disable(){
+        ((ServoImplEx)servo).setPwmDisable();
+    }
+    public void enable(){
+        ((ServoImplEx)servo).setPwmEnable();
+    }
+    public boolean isEnabled(){
+       return ((ServoImplEx)servo).isPwmEnabled();
+    }
 
     public class WristTrig implements Action {
 
@@ -96,5 +109,23 @@ public class ServoPivot extends Servo1D {
 
     public Action wristTrig(double x, double y, boolean forward) {
         return new WristTrig(x,y,forward);
+    }
+    public class WristTrigFlat implements Action {
+
+        public double newx;
+        public double newy;
+        public boolean newforward;
+
+        public WristTrigFlat(double x, double y, boolean forward){newx = x; newy = y; newforward = forward;}
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            moveByPosFlat(newx, newy, newforward);
+            return false;
+        }
+
+    }
+    public Action wristTrigFlat(double x, double y, boolean forward) {
+        return new WristTrigFlat(x,y,forward);
     }
 }

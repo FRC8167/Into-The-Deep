@@ -100,7 +100,7 @@ public class Slide implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPositionCounts(position);
-            if(motor.isBusy()) return true;
+            if(!closeEnough()) return true;
             else return false;
         }
 

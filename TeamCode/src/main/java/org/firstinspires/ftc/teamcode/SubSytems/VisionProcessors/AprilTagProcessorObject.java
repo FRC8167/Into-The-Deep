@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -36,8 +37,8 @@ public class AprilTagProcessorObject {
     private final double LENS_INTRINSICS_CX = 692.607;
     private final double LENS_INTRINSICS_CY = 411.6;
 
-    private Position cameraPosition = new Position(DistanceUnit.INCH,-1, 9, 5.5, 0);
-    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  -90, 0, 0);
+    private Position cameraPosition = new Position(DistanceUnit.INCH,9, 9, 4.0, 0);
+    private YawPitchRollAngles cameraOrientation = new YawPitchRollAngles(AngleUnit.DEGREES,-90,  0, 0, 0);
 
     /**
      * Create an processor for April Tag detections

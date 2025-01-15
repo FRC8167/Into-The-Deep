@@ -82,13 +82,13 @@ public final class MecanumDrive {
         public double maxAngAccel = Math.PI;
 
         // path controller gains
-        public double axialGain = 12.0; //overshoot . . . align the circles longitudinally
-        public double lateralGain = 6.0; //left and right motion from the line
+        public double axialGain = 10.0; //overshoot . . . align the circles longitudinally
+        public double lateralGain = 10.0; //left and right motion from the line
         public double headingGain = 10.0; // shared with turn//imu direction give it a shove
 
-        public double axialVelGain = 0.0;
+        public double axialVelGain = 1.5;
         public double lateralVelGain = 0.0;
-        public double headingVelGain = 1.0; // shared with turn
+        public double headingVelGain = 1.2; // shared with turn
 
     }
 
