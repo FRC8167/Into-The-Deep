@@ -55,7 +55,7 @@ public interface TeamConstants {
 
     /*~~~~~~~~~~~~~~~~~~~~ Main Movement Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     double Wrist_X_MAX = 30; // required for extension constraint rule
-    double Wrist_X_MIN = 0; // required for extension constraint rule
+    double Wrist_X_MIN = 3; // required for extension constraint rule
     double Wrist_Y_MIN = -8.6; // required for not hit ground TODO: Fine Tune Value
 
 

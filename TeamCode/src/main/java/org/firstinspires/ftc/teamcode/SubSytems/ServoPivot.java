@@ -37,6 +37,12 @@ public class ServoPivot extends Servo1D {
         setServoAngToGround(90, angle);
         return forward;
     }
+    public boolean moveByPos90(double x,double y, boolean forward) {
+        angle = ((180 - (Math.toDegrees(Math.atan2(x, y)))));
+        distFromGround = 380.09193 / 25.4 + y - 3.37;
+        setServoAngToGround(0, angle);
+        return forward;
+    }
     public boolean moveByPos(double x,double y, boolean forward){
         angle = ((180-(Math.toDegrees(Math.atan2(x, y)))));
         distFromGround = 380.09193/25.4 + y - 3.37;
@@ -127,5 +133,23 @@ public class ServoPivot extends Servo1D {
     }
     public Action wristTrigFlat(double x, double y, boolean forward) {
         return new WristTrigFlat(x,y,forward);
+    }
+    public class WristTrig90 implements Action {
+
+        public double newx;
+        public double newy;
+        public boolean newforward;
+
+        public WristTrig90(double x, double y, boolean forward){newx = x; newy = y; newforward = forward;}
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            moveByPos90(newx, newy, newforward);
+            return false;
+        }
+
+    }
+    public Action wristTrig90(double x, double y, boolean forward) {
+        return new WristTrig90(x,y,forward);
     }
 }

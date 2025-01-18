@@ -16,6 +16,7 @@ import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
 
 import java.util.Locale;
 
@@ -147,16 +148,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
             }
 
-            else if(operator.x.whilePressed()) {
-                switch (getAlliance()) {
-                    case RED:
-                        wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
-                        break;
-                    case BLUE:
-                        wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
-                        break;
-                }
-            }
+//            else if(operator.x.whilePressed()) {
+//                switch (getAlliance()) {
+//                    case RED:
+//                        wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
+//                        break;
+//                    case BLUE:
+//                        wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
+//                        break;
+//                }
+//            }
             else {
                     wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
                 }
@@ -212,19 +213,46 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             if (operator.dpadUp.pressed()){
                 wristX = 20;
-                wristY = 11;
-            } else if (operator.dpadDown.pressed()) {
+                wristY = 15;
+            }
+
+            if (operator.x.pressed()) {
+
                 Actions.runBlocking(
                         new SequentialAction(
-                        armPivot.armTrig(wristX,wristY-5),
-                        slide.slideTrig(wristX,wristY-5),
-                        wristPivot.wristTrig(wristX,wristY-5, true),
-                        new SleepAction(0.4),
-                        gripper.toggle()
+                                armPivot.armTrig(17,-3),
+                                        slide.slideTrig(17,-3),
+                                new SleepAction(0.5),
+                                        wristPivot.wristTrig(17,0, true),
+                                new SleepAction(0.2),
+                                        gripper.spin(),
+                                new SleepAction(0.3),
+                                gripper.toggle(),
+                                gripper.toggle()
                         )
                 );
-                wristX = 18;
-                wristY = 11;
+                wristX = 17;
+                wristY = 0;
+//               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+
+            }
+            if (operator.dpadDown.pressed()) {
+
+                Actions.runBlocking(
+                        new SequentialAction(
+                                armPivot.armTrig(wristX-6,wristY),
+                                slide.slideTrig(wristX-6,wristY),
+                                wristPivot.wristTrig(wristX-6, wristY, wristForward),
+                                new SleepAction(0.5),
+                                gripper.toggle()
+                        )
+                );
+                wristX = 17;
+                wristY = 0;
+//               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+
+            } else if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
+                gripper.setToToggle();
             }
 
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
