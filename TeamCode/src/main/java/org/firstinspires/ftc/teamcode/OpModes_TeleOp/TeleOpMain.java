@@ -14,11 +14,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -215,6 +217,22 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            }
 
             if(driver.a.whilePressed() && aprilTags.AprilTagUpdatePose()!=null)  {
+//                for (AprilTagDetection detection : aprilTags.allAprilTagsDetected()) {
+//                    if (detection.metadata != null) {
+//                        telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+//                        telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+//                                detection.robotPose.getPosition().x,
+//                                detection.robotPose.getPosition().y,
+//                                detection.robotPose.getPosition().z));
+//                        telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+//                                detection.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
+//                                detection.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
+//                                detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
+//                    } else {
+//                        telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+//                        telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+//                    }
+//                }
                 double atX = aprilTags.AprilTagUpdatePose()[0];
                 double atY = aprilTags.AprilTagUpdatePose()[1];
                 double atH = aprilTags.AprilTagUpdatePose()[2];
