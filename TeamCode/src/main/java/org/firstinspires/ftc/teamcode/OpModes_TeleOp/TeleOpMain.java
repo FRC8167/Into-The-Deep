@@ -178,16 +178,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = 17;
                 wristY = 0;
             }
-            if (operator.a.pressed()) gripper.toggleGripper();
-            if ((operator.back.whilePressed()&& operator.a.pressed()) || (driver.back.whilePressed()&& driver.a.pressed())){
+            if (operator.a.pressed()) gripper.toggleGripper(); //open/close gripper
+            if ((operator.back.whilePressed()&& operator.a.pressed()) || (driver.back.whilePressed()&& driver.a.pressed())){ //debug mode on
                 debugMode = true;
             }
 
-            else if ((operator.back.whilePressed()&& operator.b.pressed()) || (driver.back.whilePressed()&& driver.b.pressed())){
+            else if ((operator.back.whilePressed()&& operator.b.pressed()) || (driver.back.whilePressed()&& driver.b.pressed())){ //debug mode off
                 debugMode = false;
             }
 
-            if (operator.y.whilePressed()) {
+            if (operator.y.whilePressed()) { //yellow sample camera
                 wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
             }
 
@@ -244,11 +244,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
 
-            if(operator.rightBumper.pressed()) {
+            if(operator.rightBumper.pressed()) { //score high basket
                 wristX = 13;
                 wristY = 31;
             }
-            if(operator.leftBumper.pressed()) {
+            if(operator.leftBumper.pressed()) { //score in submersible
                 wristX = 20;
                 wristY = -3.5;
             }
