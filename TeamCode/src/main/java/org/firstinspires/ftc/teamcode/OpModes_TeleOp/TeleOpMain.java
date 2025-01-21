@@ -99,14 +99,23 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             runningActions = newActions;
             dash.sendTelemetryPacket(packet);
 
-            if (driver.a.pressed()) {
+            if (driver.x.pressed()) {
+                TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                        .setTangent(Math.toRadians(0))
+                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+
+                Action toTheBaskets = driveToBaskets.build();
+                newActions.add(toTheBaskets);
+            }
+
+            if (driver.b.pressed()) {
                 TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                        .setTangent(Math.toRadians(45))
-                        .splineToSplineHeading(new Pose2d(36, 36, Math.toRadians(45)), Math.toRadians(45));
+                        .setTangent(Math.toRadians(-90))
+                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
                 Action toTheSub = driveToSub.build();
                 newActions.add(toTheSub);
             }
-            if (driver.b.pressed()) {
+            if (driver.a.pressed()) {
                 runningActions.clear();
                 autoDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
 
@@ -206,7 +215,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            }
 
             if(driver.a.whilePressed() && aprilTags.AprilTagUpdatePose()!=null)  {
-
                 double atX = aprilTags.AprilTagUpdatePose()[0];
                 double atY = aprilTags.AprilTagUpdatePose()[1];
                 double atH = aprilTags.AprilTagUpdatePose()[2];
