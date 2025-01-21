@@ -81,6 +81,25 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         while (opModeIsActive()) {
 
+            TelemetryPacket packet = new TelemetryPacket();
+            List<Action> newActions = new ArrayList<>();
+            for (Action action : runningActions) {
+                if (action.run(packet)) {
+                    newActions.add(action);
+                }
+            }
+            runningActions = newActions;
+            dash.sendTelemetryPacket(packet);
+
+            if (driver.a.pressed()) {
+                newActions.add(toTheSub);
+            }
+            if (driver.b.pressed()) {
+                runningActions.clear();
+                autoDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+
+            }
+
             double fdrive = -driver.leftStick_Y;
             double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X);
             double turn = driver.rightStick_X;
