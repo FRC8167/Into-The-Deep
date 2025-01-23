@@ -54,7 +54,14 @@ public class Func implements TeamConstants {
         return wristX;
 
     }
-
+    public double clamp(double min, double val, double max){
+        if (val > max){
+            return max;
+        } else if (val < min){
+            return min;
+        }
+        else return val;
+    }
 
     public double TriClampY(double x, double y) {
         double wristX = x;

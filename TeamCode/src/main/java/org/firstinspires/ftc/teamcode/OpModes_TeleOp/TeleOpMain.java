@@ -70,17 +70,25 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double newWristY = -288.500/25.4;
         boolean wristForward = true;
         double trigMoveMultiplier = 1;
-
         boolean debugMode = false; //runs default commands for debugging purposes
         // true: back+a false: back+b
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
 
-        telemetry.update();
-
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
+
+        double fdrive = -driver.leftStick_Y;
+        double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X);
+        double turn = driver.rightStick_X;
+        double oldFdrive;
+        double oldStrafe;
+        double oldTurn;
+
+        telemetry.update();
+
+
 
         FtcDashboard dash = FtcDashboard.getInstance();
         List<Action> runningActions = new ArrayList<>();
@@ -122,10 +130,27 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 autoDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
 
             }
-
-            double fdrive = -driver.leftStick_Y;
-            double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X);
-            double turn = driver.rightStick_X;
+            oldFdrive = fdrive;
+            oldStrafe = strafe;
+            oldTurn = turn;
+            if (driver.leftStick_Y != 0) {
+                fdrive = Functions.clamp(oldFdrive - TeamConstants.Accel_Limit, -driver.leftStick_Y, oldFdrive + TeamConstants.Accel_Limit);
+            }
+            else{
+                fdrive = Functions.clamp(oldFdrive - TeamConstants.Accel_Stop_Limit, -driver.leftStick_Y, oldFdrive + TeamConstants.Accel_Stop_Limit);
+            }
+            if (driver.leftStick_X != 0 || operator.rightStick_X != 0) {
+                strafe = Functions.clamp(oldStrafe - TeamConstants.Accel_Limit, (driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X)), oldStrafe + TeamConstants.Accel_Limit);
+            }
+            else {
+                strafe = Functions.clamp(oldStrafe - TeamConstants.Accel_Stop_Limit, (driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X)), oldStrafe + TeamConstants.Accel_Stop_Limit);
+            }
+            if (driver.rightStick_X != 0) {
+                turn = Functions.clamp(oldTurn - TeamConstants.Accel_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Limit);
+            }
+            else {
+                turn = Functions.clamp(oldTurn - TeamConstants.Accel_Stop_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Stop_Limit);
+            }
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
