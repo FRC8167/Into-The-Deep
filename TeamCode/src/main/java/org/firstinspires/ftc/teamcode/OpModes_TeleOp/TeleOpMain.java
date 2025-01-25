@@ -152,6 +152,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 turn = Functions.clamp(oldTurn - TeamConstants.Accel_Stop_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Stop_Limit);
             }
 
+
+            if (driver.y.pressed()) {
+                autoDrive.pose = new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, Math.toRadians(180));
+            }
+
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
                 drive.setDegradedDrive(true, 0.45);
@@ -394,6 +399,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
             telemetry.addData("SLideEncoders: ", (slide.getPosition()));
             telemetry.addData("WristEnabled: ", (wristPivot.isEnabled()));
+            telemetry.addData("X: ", (autoDrive.pose.position.x));
+            telemetry.addData("Y: ", (autoDrive.pose.position.y));
+            telemetry.addData("H: ", (Math.toDegrees(autoDrive.pose.heading.toDouble())));
 //            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
