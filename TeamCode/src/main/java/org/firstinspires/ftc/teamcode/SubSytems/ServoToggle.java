@@ -30,6 +30,14 @@ public class ServoToggle extends Servo1D {
         }
     }
 
+    public void setToToggle(){
+        toggleGripper();
+        toggleGripper();
+    }
+    public void spinSpecimin(){
+        setPosition(GRIPPER_CLOSE-0.025);
+    }
+
     /* ************************* Actions * *************************/
     public class Toggle implements Action {
 
@@ -44,6 +52,18 @@ public class ServoToggle extends Servo1D {
             return new Toggle();
         }
 
+    public class Spin implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            spinSpecimin();
+            return false;
+        }
+    }
+
+    public Action spin() {
+        return new Spin();
+    }
 
 
 }

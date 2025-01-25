@@ -4,19 +4,26 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.SequentialAction;
 import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
+import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 //@Disabled
@@ -25,6 +32,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
     GamepadWrapper driver;
     GamepadWrapper operator;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -62,17 +70,28 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double newWristY = -288.500/25.4;
         boolean wristForward = true;
         double trigMoveMultiplier = 1;
-
         boolean debugMode = false; //runs default commands for debugging purposes
         // true: back+a false: back+b
         // Looking from right side of robot
         // (0,0) at arm pivot
         // Units in inches
 
-        telemetry.update();
-
         driver   = new GamepadWrapper(gamepad1);
         operator = new GamepadWrapper(gamepad2);
+
+        double fdrive = -driver.leftStick_Y;
+        double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X);
+        double turn = driver.rightStick_X;
+        double oldFdrive;
+        double oldStrafe;
+        double oldTurn;
+
+        telemetry.update();
+
+
+
+        FtcDashboard dash = FtcDashboard.getInstance();
+        List<Action> runningActions = new ArrayList<>();
 
 
 
@@ -80,9 +99,58 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
         while (opModeIsActive()) {
 
-            double fdrive = -driver.leftStick_Y;
-            double strafe = driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X);
-            double turn = driver.rightStick_X;
+            TelemetryPacket packet = new TelemetryPacket();
+            List<Action> newActions = new ArrayList<>();
+            for (Action action : runningActions) {
+                if (action.run(packet)) {
+                    newActions.add(action);
+                }
+            }
+            runningActions = newActions;
+            dash.sendTelemetryPacket(packet);
+
+            if (driver.x.pressed()) {
+                TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                        .setTangent(Math.toRadians(0))
+                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+
+                Action toTheBaskets = driveToBaskets.build();
+                newActions.add(toTheBaskets);
+            }
+
+            if (driver.b.pressed()) {
+                TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+                        .setTangent(Math.toRadians(-90))
+                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
+                Action toTheSub = driveToSub.build();
+                newActions.add(toTheSub);
+            }
+            if (driver.a.pressed()) {
+                runningActions.clear();
+                autoDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+
+            }
+            oldFdrive = fdrive;
+            oldStrafe = strafe;
+            oldTurn = turn;
+            if (driver.leftStick_Y != 0) {
+                fdrive = Functions.clamp(oldFdrive - TeamConstants.Accel_Limit, -driver.leftStick_Y, oldFdrive + TeamConstants.Accel_Limit);
+            }
+            else{
+                fdrive = Functions.clamp(oldFdrive - TeamConstants.Accel_Stop_Limit, -driver.leftStick_Y, oldFdrive + TeamConstants.Accel_Stop_Limit);
+            }
+            if (driver.leftStick_X != 0 || operator.rightStick_X != 0) {
+                strafe = Functions.clamp(oldStrafe - TeamConstants.Accel_Limit, (driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X)), oldStrafe + TeamConstants.Accel_Limit);
+            }
+            else {
+                strafe = Functions.clamp(oldStrafe - TeamConstants.Accel_Stop_Limit, (driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X)), oldStrafe + TeamConstants.Accel_Stop_Limit);
+            }
+            if (driver.rightStick_X != 0) {
+                turn = Functions.clamp(oldTurn - TeamConstants.Accel_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Limit);
+            }
+            else {
+                turn = Functions.clamp(oldTurn - TeamConstants.Accel_Stop_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Stop_Limit);
+            }
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
@@ -92,28 +160,29 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             } else {
                 drive.setDegradedDrive(false, 0.8);
             }
-            drive.mecanumDrive(fdrive, strafe, turn);
-
-            //Robot Pose to Score Baskets x = 58, y = 61, theta = 45
-            if (driver.x.pressed()) {
-                TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                        .setTangent(Math.toRadians(0))
-                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
-
-                Action toTheBaskets = driveToBaskets.build();
-
-                Actions.runBlocking(toTheBaskets);
+            if (runningActions.isEmpty()) {
+                drive.mecanumDrive(fdrive, strafe, turn);
             }
+            //Robot Pose to Score Baskets x = 58, y = 61, theta = 45
+//            if (driver.x.pressed()) {
+//                TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+//                        .setTangent(Math.toRadians(0))
+//                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+//
+//                Action toTheBaskets = driveToBaskets.build();
+//
+//                Actions.runBlocking(toTheBaskets);
+//            }
 
 
             //Robot Pose to Submersible x = 24, y = 12, theta = 180
-            if (driver.b.pressed()) {
-                TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                        .setTangent(Math.toRadians(-90))
-                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
-                Action toTheSub = driveToSub.build();
-                Actions.runBlocking(toTheSub);
-            }
+//            if (driver.b.pressed()) {
+//                TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
+//                        .setTangent(Math.toRadians(-90))
+//                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
+//                Action toTheSub = driveToSub.build();
+//                Actions.runBlocking(toTheSub);
+//            }
 
             oldWristX = wristX;
             oldWristY = wristY;
@@ -134,29 +203,29 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = 17;
                 wristY = 0;
             }
-            if (operator.a.pressed()) gripper.toggleGripper();
-            if ((operator.back.whilePressed()&& operator.a.pressed()) || (driver.back.whilePressed()&& driver.a.pressed())){
+            if (operator.a.pressed()) gripper.toggleGripper(); //open/close gripper
+            if ((operator.back.whilePressed()&& operator.a.pressed()) || (driver.back.whilePressed()&& driver.a.pressed())){ //debug mode on
                 debugMode = true;
             }
 
-            else if ((operator.back.whilePressed()&& operator.b.pressed()) || (driver.back.whilePressed()&& driver.b.pressed())){
+            else if ((operator.back.whilePressed()&& operator.b.pressed()) || (driver.back.whilePressed()&& driver.b.pressed())){ //debug mode off
                 debugMode = false;
             }
 
-            if (operator.y.whilePressed()) {
+            if (operator.y.whilePressed()) { //yellow sample camera
                 wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
             }
 
-            else if(operator.x.whilePressed()) {
-                switch (getAlliance()) {
-                    case RED:
-                        wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
-                        break;
-                    case BLUE:
-                        wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
-                        break;
-                }
-            }
+//            else if(operator.x.whilePressed()) {
+//                switch (getAlliance()) {
+//                    case RED:
+//                        wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
+//                        break;
+//                    case BLUE:
+//                        wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
+//                        break;
+//                }
+//            }
             else {
                     wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
                 }
@@ -173,7 +242,22 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            }
 
             if(driver.a.whilePressed() && aprilTags.AprilTagUpdatePose()!=null)  {
-
+//                for (AprilTagDetection detection : aprilTags.allAprilTagsDetected()) {
+//                    if (detection.metadata != null) {
+//                        telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
+//                        telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)",
+//                                detection.robotPose.getPosition().x,
+//                                detection.robotPose.getPosition().y,
+//                                detection.robotPose.getPosition().z));
+//                        telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)",
+//                                detection.robotPose.getOrientation().getPitch(AngleUnit.DEGREES),
+//                                detection.robotPose.getOrientation().getRoll(AngleUnit.DEGREES),
+//                                detection.robotPose.getOrientation().getYaw(AngleUnit.DEGREES)));
+//                    } else {
+//                        telemetry.addLine(String.format("\n==== (ID %d) Unknown", detection.id));
+//                        telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
+//                    }
+//                }
                 double atX = aprilTags.AprilTagUpdatePose()[0];
                 double atY = aprilTags.AprilTagUpdatePose()[1];
                 double atH = aprilTags.AprilTagUpdatePose()[2];
@@ -185,11 +269,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
 
-            if(operator.rightBumper.pressed()) {
+            if(operator.rightBumper.pressed()) { //score high basket
                 wristX = 13;
                 wristY = 31;
             }
-            if(operator.leftBumper.pressed()) {
+            if(operator.leftBumper.pressed()) { //score in submersible
                 wristX = 20;
                 wristY = -3.5;
             }
@@ -212,19 +296,46 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             if (operator.dpadUp.pressed()){
                 wristX = 20;
-                wristY = 11;
-            } else if (operator.dpadDown.pressed()) {
+                wristY = 15;
+            }
+
+            if (operator.x.pressed()) {
+
                 Actions.runBlocking(
                         new SequentialAction(
-                        armPivot.armTrig(wristX,wristY-5),
-                        slide.slideTrig(wristX,wristY-5),
-                        wristPivot.wristTrig(wristX,wristY-5, true),
-                        new SleepAction(0.4),
-                        gripper.toggle()
+                                armPivot.armTrig(17,-3),
+                                        slide.slideTrig(17,-3),
+                                new SleepAction(0.5),
+                                        wristPivot.wristTrig(17,0, true),
+                                new SleepAction(0.2),
+                                        gripper.spin(),
+                                new SleepAction(0.3),
+                                gripper.toggle(),
+                                gripper.toggle()
                         )
                 );
-                wristX = 18;
-                wristY = 11;
+                wristX = 17;
+                wristY = 0;
+//               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+
+            }
+            if (operator.dpadDown.pressed()) {
+
+                Actions.runBlocking(
+                        new SequentialAction(
+                                armPivot.armTrig(wristX-6,wristY),
+                                slide.slideTrig(wristX-6,wristY),
+                                wristPivot.wristTrig(wristX-6, wristY, wristForward),
+                                new SleepAction(0.5),
+                                gripper.toggle()
+                        )
+                );
+                wristX = 17;
+                wristY = 0;
+//               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+
+            } else if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
+                gripper.setToToggle();
             }
 
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
@@ -283,7 +394,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
             telemetry.addData("SLideEncoders: ", (slide.getPosition()));
             telemetry.addData("WristEnabled: ", (wristPivot.isEnabled()));
-            TelemetryPacket packet = new TelemetryPacket();
+//            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
             FtcDashboard.getInstance().sendTelemetryPacket(packet);

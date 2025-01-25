@@ -37,7 +37,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 
 
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(-4,33.5+15));
+                .strafeTo(new Vector2d(-4,33.5+15-1));
 
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
                 .strafeTo(new Vector2d(-10,55));
@@ -49,10 +49,12 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                 .strafeToSplineHeading(new Vector2d(-56, 30), Math.toRadians(90));
         TrajectoryActionBuilder grab = toSample1.endTrajectory().fresh()
                 //.strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90));
-                .strafeToSplineHeading(new Vector2d(-56, 56.5), Math.toRadians(90));
-        TrajectoryActionBuilder hangEnd = grab.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(-56, 55), Math.toRadians(90));
+        TrajectoryActionBuilder adjust = grab.endTrajectory().fresh()
+                .strafeToSplineHeading(new Vector2d(-56, 46.5), Math.toRadians(90));
+        TrajectoryActionBuilder hangEnd = adjust.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-90))
-                .splineToLinearHeading(new Pose2d(-8,33.5+15, Math.toRadians(270)), Math.toRadians(-90));
+                .splineToLinearHeading(new Pose2d(-8,33.5+15-1, Math.toRadians(270)), Math.toRadians(-90));
         TrajectoryActionBuilder back2 = hangEnd.endTrajectory().fresh()
                 .strafeTo(new Vector2d(-8,55));
         TrajectoryActionBuilder park = back2.endTrajectory().fresh()
@@ -66,6 +68,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         Action goCenterX = centerX.build();
         Action goToSample1 = toSample1.build();
         Action goback1 = back1.build();
+        Action goAdjust = adjust.build();
         Action goGrab = grab.build();
         Action goback2 = back2.build();
         Action goendHang = hangEnd.build();
@@ -83,20 +86,21 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,11),
+                        armPivot.armTrig(20,15),//15
                         new ParallelAction(
-                                slide.slideTrig(20,11),
-                                wristPivot.wristTrig(20,11, true),
+                                slide.slideTrig(20,15),
+                                wristPivot.wristTrig(20,15, true),
                                 goCenterX
                         ),
                         new SleepAction(0.5),
-                        armPivot.armTrig(20,7),
-                        slide.slideTrig(20,7),
-                        wristPivot.wristTrig(20,7, true),
+                        armPivot.armTrig(20,12),
+                        slide.slideTrig(20,12),
+                        wristPivot.wristTrig(20,12, true),
                         new SleepAction(0.1),
-                        gripper.toggle(),
+//                        gripper.toggle(),
                         new SleepAction(0.5),
                         goback1,
+                        gripper.toggle(),
                         new ParallelAction(
                                 goToSample1,
                                 armPivot.armTrig(16.1,0),
@@ -105,31 +109,55 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 //                                wristRotate.rotateTrig(0),
                         ),
                         new SleepAction(2),
-                        armPivot.armTrig(18,-4),
-                        slide.slideTrig(18,-4),
-                        wristPivot.wristTrigFlat(18,-4, true),
+                        armPivot.armTrig(16,-4),
+                        slide.slideTrig(16,-4),
+                        wristPivot.wristTrigFlat(16,-4, true),
                         goGrab,
-                        new SleepAction(1.5),
-                        gripper.toggle(),
-                        new SleepAction(1.5),
-                        armPivot.armTrig(20,13),
-                        slide.slideTrig(20,13),
-                        wristPivot.wristTrig(20,13, true),
-                        goendHang,
-                        armPivot.armTrig(20,11),
                         new ParallelAction(
-                                slide.slideTrig(20,11),
-                                wristPivot.wristTrig(20,11, true),
-                                goCenterX
+                                wristPivot.wristTrigFlat(19,-3, true),
+                                armPivot.armTrig(19,-3),
+                                slide.slideTrig(19,-3)
                         ),
-                        new SleepAction(0.5),
-                        armPivot.armTrig(20,7),
-                        slide.slideTrig(20,7),
-                        wristPivot.wristTrig(20,7, true),
-                        new SleepAction(0.1),
+                        new SleepAction(1),
                         gripper.toggle(),
+                        new SleepAction(1.5),
+                        new ParallelAction(
+                        slide.slideTrig(16,0),
+                        armPivot.armTrig(16,0),
+                        wristPivot.wristTrig(16,0, true)
+                        ),
+                        goAdjust,
+                        new SequentialAction(
+                                armPivot.armTrig(17,-3),
+                                slide.slideTrig(17,-3),
+                                new SleepAction(0.5),
+                                wristPivot.wristTrig(17,0, true),
+                                new SleepAction(0.2),
+                                gripper.spin(),
+                                new SleepAction(0.3),
+                                gripper.toggle(),
+                                gripper.toggle()
+                        ),
+//
+
+
+                        armPivot.armTrig(20,15),
+                        new ParallelAction(
+                                goendHang,
+                                slide.slideTrig(20,15),
+                                wristPivot.wristTrig(20,15, true)
+                        ),
+//                        new SleepAction(0.5),
+//                        armPivot.armTrig(20,7),
+//                        slide.slideTrig(20,7),
+//                        wristPivot.wristTrig(20,7, true),
+//                        new SleepAction(0.1),
                         new SleepAction(0.5),
+                        armPivot.armTrig(20,12),
+                        slide.slideTrig(20,12),
+                        wristPivot.wristTrig(20,12, true),
                         goback2,
+                        gripper.toggle(),
                         goPark
 
 
