@@ -103,7 +103,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                                 gripper.spin(),
                                 goSample1,
                                 new SequentialAction(
-                                      new SleepAction(0.25),
+                                      new SleepAction(0.5),
                                         gripper.toggle()
                                 )
                         ),

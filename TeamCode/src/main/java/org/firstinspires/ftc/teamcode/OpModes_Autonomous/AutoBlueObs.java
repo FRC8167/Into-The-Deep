@@ -86,23 +86,33 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         //************************** RUN THE ACTIONS  ****************************
         Actions.runBlocking(
                 new SequentialAction(
-                        armPivot.armTrig(20,15),//15
                         new ParallelAction(
-                                slide.slideTrig(20,15),
-                                wristPivot.wristTrig(20,15, true),
-                                goCenterX
+                                armPivot.armTrig(20,15),//15
+                                new SequentialAction(
+                                        new SleepAction(1),
+                                        new ParallelAction(
+                                                slide.slideTrig(20,15),
+                                                wristPivot.wristTrig(20,15, true),
+                                                goCenterX
+                                        )
+                                )
                         ),
-                        new SleepAction(0.5),
+//                        new SleepAction(0.5),
                         armPivot.armTrig(20,12),
                         slide.slideTrig(20,12),
                         wristPivot.wristTrig(20,12, true),
                         new SleepAction(0.1),
 //                        gripper.toggle(),
                         new SleepAction(0.5),
-                        goback1,
-                        gripper.toggle(),
                         new ParallelAction(
+                                gripper.spin(),
                                 goToSample1,
+                                new SequentialAction(
+                                        new SleepAction(0.5),
+                                        gripper.toggle()
+                                )
+                        ),
+                        new ParallelAction(
                                 armPivot.armTrig(16.1,0),
                                 slide.slideTrig(16.1,0),
                                 wristPivot.wristTrig(16.1,0, true)
@@ -152,11 +162,20 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 //                        slide.slideTrig(20,7),
 //                        wristPivot.wristTrig(20,7, true),
 //                        new SleepAction(0.1),
-                        new SleepAction(0.5),
                         armPivot.armTrig(20,12),
                         slide.slideTrig(20,12),
                         wristPivot.wristTrig(20,12, true),
-                        goback2,
+                        new SleepAction(0.1),
+//                        gripper.toggle(),
+                        new SleepAction(0.5),
+                        new ParallelAction(
+                                gripper.spin(),
+                                goback2,
+                                new SequentialAction(
+                                        new SleepAction(0.5),
+                                        gripper.toggle()
+                                )
+                        ),
                         gripper.toggle(),
                         goPark
 

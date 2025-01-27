@@ -48,7 +48,7 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder sample2 = drop1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58, 45), Math.toRadians(270));
+                .strafeToSplineHeading(new Vector2d(58, 46), Math.toRadians(270));
         TrajectoryActionBuilder drop2 = sample2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder prepTouch = drop2.endTrajectory().fresh()
@@ -84,10 +84,10 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
                 new SequentialAction(
                         new ParallelAction(
                                 new SequentialAction(
-                                        armPivot.armTrig(16,33),
+                                        armPivot.armTrig(14,33),
                                         new SleepAction(0.5),
-                                        slide.slideTrig(16,33),
-                                        wristPivot.wristTrig(16,33, true)
+                                        slide.slideTrig(14,33),
+                                        wristPivot.wristTrig(14,33, true)
                                 ),
                                 goDropStart
                         ),
@@ -96,52 +96,56 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
                         new SleepAction(0.5),
 
                         goSample1,
-
+                        gripper.eOpen(),
                         slide.slideToPosition(0),
                         armPivot.armTrig(28,0),
                         new SleepAction(0.5),
                         slide.slideTrig(28,0),
-                        slide.slideTrig(22.5,-7.2),
-                        armPivot.armTrig(22.5,-7.2),
-                        wristPivot.wristTrig(22.5,-7.2, true),
+                        slide.slideTrig(24,-7.2),
+                        armPivot.armTrig(24,-7.2),
+                        wristPivot.wristTrig(24,-7.2, true),
                         new SleepAction(0.5), // 1
                         gripper.toggle(),
                         new SleepAction(0.5),
-                        armPivot.armTrig(16,33),
+                        armPivot.armTrig(14,33),
                         new ParallelAction(
-                                slide.slideTrig(16,33),
-                                wristPivot.wristTrig(16,33, true),
+                                slide.slideTrig(14,33),
+                                wristPivot.wristTrig(14,33, true),
                                 goDrop1
-                                ),
+                        ),
                         new SleepAction(0.5),
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goSample2,
+                        gripper.eOpen(),
                         slide.slideToPosition(0),
                         armPivot.armTrig(28,0),
                         new SleepAction(0.5),
                         slide.slideTrig(28,0),
-                        slide.slideTrig(22.5,-7.2),
-                        armPivot.armTrig(22.5,-7.2),
-                        wristPivot.wristTrig(22.5,-7.2, true),
-                        new SleepAction(0.5), // 1
-                            gripper.toggle(),
-                        new SleepAction(0.5),
-                        armPivot.armTrig(16,33),
+                        new SleepAction(0.25),
                         new ParallelAction(
-                                slide.slideTrig(16,33),
-                                wristPivot.wristTrig(16,33, true),
+                                slide.slideTrig(24,-7.2),
+                                armPivot.armTrig(24,-7.2),
+                                wristPivot.wristTrig(24,-7.2, true)
+                        ),
+                        new SleepAction(0.5), // 1
+                        gripper.toggle(),
+                        new SleepAction(0.5),
+                        armPivot.armTrig(14,33),
+                        new ParallelAction(
+                                slide.slideTrig(14,33),
+                                wristPivot.wristTrig(14,33, true),
                                 goDrop2
-                                ),
+                        ),
                         new SleepAction(0.5),//
                         gripper.toggle(),
                         new SleepAction(0.5),
                         goPrepTouch,
                         new ParallelAction(
-                            armPivot.armTrig(16,10),
-                            slide.slideTrig(16,10),
-                            wristPivot.wristTrig(16,10, true),
-                            goTouch
+                                armPivot.armTrig(16,10),
+                                slide.slideTrig(16,10),
+                                wristPivot.wristTrig(16,10, true),
+                                goTouch
                         ),
                         armPivot.armTrig(16,6.5),
                         slide.slideTrig(16,6.5),
