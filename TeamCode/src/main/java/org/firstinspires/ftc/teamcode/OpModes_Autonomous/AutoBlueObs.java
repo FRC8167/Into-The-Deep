@@ -42,8 +42,8 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         TrajectoryActionBuilder back1 = centerX.endTrajectory().fresh()
                 .strafeTo(new Vector2d(-10,55));
         TrajectoryActionBuilder toSample1 = back1.endTrajectory().fresh()
-                .setTangent(Math.toRadians(0))
-                .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-43, 30, Math.toRadians(180)), Math.toRadians(-135))
                 .strafeToSplineHeading(new Vector2d(-46, 30), Math.toRadians(170))
                 .strafeToSplineHeading(new Vector2d(-55, 62), Math.toRadians(90))
                 .strafeToSplineHeading(new Vector2d(-56, 30), Math.toRadians(90));
@@ -87,20 +87,20 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                                armPivot.armTrig(20,15),//15
+                                armPivot.armTrig(20,13),//15
                                 new SequentialAction(
                                         new SleepAction(1),
                                         new ParallelAction(
-                                                slide.slideTrig(20,15),
-                                                wristPivot.wristTrig(20,15, true),
+                                                slide.slideTrig(20,13),
+                                                wristPivot.wristTrig(20,13, true),
                                                 goCenterX
                                         )
                                 )
-                        ),
+                           ),
 //                        new SleepAction(0.5),
-                        armPivot.armTrig(20,12),
-                        slide.slideTrig(20,12),
-                        wristPivot.wristTrig(20,12, true),
+                        armPivot.armTrig(20,10),
+                        slide.slideTrig(20,10),
+                        wristPivot.wristTrig(20,10, true),
                         new SleepAction(0.1),
 //                        gripper.toggle(),
                         new SleepAction(0.5),
@@ -110,34 +110,42 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                                 new SequentialAction(
                                         new SleepAction(0.5),
                                         gripper.toggle()
+                                ),
+                                new SequentialAction(
+                                        new SleepAction(1),
+                                        armPivot.armTrig(16.1,0),
+                                        slide.slideTrig(16.1,0),
+                                        wristPivot.wristTrig(16.1,0, true)
                                 )
+
                         ),
-                        new ParallelAction(
-                                armPivot.armTrig(16.1,0),
-                                slide.slideTrig(16.1,0),
-                                wristPivot.wristTrig(16.1,0, true)
-//                                wristRotate.rotateTrig(0),
-                        ),
+
                         new SleepAction(2),
                         armPivot.armTrig(16,-4),
                         slide.slideTrig(16,-4),
                         wristPivot.wristTrigFlat(16,-4, true),
                         goGrab,
                         new ParallelAction(
-                                wristPivot.wristTrigFlat(19,-3, true),
-                                armPivot.armTrig(19,-3),
-                                slide.slideTrig(19,-3)
+                                wristPivot.wristTrigFlat(19,-5, true),
+                                armPivot.armTrig(19,-5),
+                                slide.slideTrig(19,-5)
                         ),
                         new SleepAction(1),
                         gripper.toggle(),
-                        new SleepAction(1.5),
-                        new ParallelAction(
-                        slide.slideTrig(16,0),
-                        armPivot.armTrig(16,0),
-                        wristPivot.wristTrig(16,0, true)
-                        ),
+                        new SleepAction(0.5),
+                        armPivot.armTrig(18,5),
+                        slide.slideTrig(18,5),
+                        wristPivot.wristTrig(18,5, true),
                         goAdjust,
                         new SequentialAction(
+                                armPivot.armTrig(17,-12),
+                                slide.slideTrig(17,-12),
+                                wristPivot.wristTrigFlat(17,-12, true),
+                                new SleepAction(0.2),
+                                wristPivot.wristTrig90(17,-12, true),
+                                new SleepAction(0.2),
+                                wristPivot.wristTrigFlat(17,-12, true),
+
                                 armPivot.armTrig(17,-3),
                                 slide.slideTrig(17,-3),
                                 new SleepAction(0.5),
@@ -151,20 +159,20 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
 //
 
 
-                        armPivot.armTrig(20,15),
+                        armPivot.armTrig(20,13),
                         new ParallelAction(
                                 goendHang,
-                                slide.slideTrig(20,15),
-                                wristPivot.wristTrig(20,15, true)
+                                slide.slideTrig(20,13),
+                                wristPivot.wristTrig(20,13, true)
                         ),
 //                        new SleepAction(0.5),
 //                        armPivot.armTrig(20,7),
 //                        slide.slideTrig(20,7),
 //                        wristPivot.wristTrig(20,7, true),
 //                        new SleepAction(0.1),
-                        armPivot.armTrig(20,12),
-                        slide.slideTrig(20,12),
-                        wristPivot.wristTrig(20,12, true),
+                        armPivot.armTrig(20,10),
+                        slide.slideTrig(20,10),
+                        wristPivot.wristTrig(20,10, true),
                         new SleepAction(0.1),
 //                        gripper.toggle(),
                         new SleepAction(0.5),

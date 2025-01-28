@@ -82,20 +82,20 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                        armPivot.armTrig(20,15),//15
+                        armPivot.armTrig(20,13),//15
                                 new SequentialAction(
                                         new SleepAction(1),
                                         new ParallelAction(
-                                                slide.slideTrig(20,15),
-                                                wristPivot.wristTrig(20,15, true),
+                                                slide.slideTrig(20,13),
+                                                wristPivot.wristTrig(20,13, true),
                                                 goCenterX
                                         )
                                 )
                         ),
 //                        new SleepAction(0.5),
-                        armPivot.armTrig(20,12),
-                        slide.slideTrig(20,12),
-                        wristPivot.wristTrig(20,12, true),
+                        armPivot.armTrig(20,10),
+                        slide.slideTrig(20,10),
+                        wristPivot.wristTrig(20,10, true),
                         new SleepAction(0.1),
 //                        gripper.toggle(),
                         new SleepAction(0.5),
@@ -118,7 +118,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 ////                                wristRotate.rotateTrig(0),
 //                        ),
                         slide.slideToPosition(0),
-                        armPivot.armTrig(28,-2),
+                        armPivot.armTrig(28,-7.2),
                         wristPivot.wristTrig(28,-7.2, true),
                         new SleepAction(1),
                         slide.slideTrig(28,0),
