@@ -109,19 +109,19 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             runningActions = newActions;
             dash.sendTelemetryPacket(packet);
 
-            if (driver.x.pressed()) {
+            if (driver.x.pressed() && EndPos != null) {
                 TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
                         .setTangent(Math.toRadians(0))
-                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+                        .splineToLinearHeading(basketScorePos, Math.toRadians(45));
 
                 Action toTheBaskets = driveToBaskets.build();
                 newActions.add(toTheBaskets);
             }
 
-            if (driver.b.pressed()) {
+            if (driver.b.pressed() && EndPos != null) {
                 TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
                         .setTangent(Math.toRadians(-90))
-                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
+                        .splineToLinearHeading(subPickupPos, Math.toRadians(180));  //-90??
                 Action toTheSub = driveToSub.build();
                 newActions.add(toTheSub);
             }
@@ -154,7 +154,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
             if (driver.y.pressed()) {
-                autoDrive.pose = new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, Math.toRadians(180));
+                if (getAlliance() == AllianceColor.BLUE) {
+                    autoDrive.pose = new Pose2d(23.80512, autoDrive.pose.position.y, Math.toRadians(180));
+                } else if (getAlliance() == AllianceColor.RED) {
+                    autoDrive.pose = new Pose2d(-23.80512, autoDrive.pose.position.y, Math.toRadians(0));
+                }
             }
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());

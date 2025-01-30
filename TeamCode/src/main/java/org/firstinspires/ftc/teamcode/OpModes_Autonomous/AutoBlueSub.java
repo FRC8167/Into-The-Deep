@@ -54,7 +54,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         TrajectoryActionBuilder prepTouch = drop2.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(48, 12), Math.toRadians(180));
         TrajectoryActionBuilder touch = prepTouch.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(26, 12), Math.toRadians(180));
+                .strafeToSplineHeading(new Vector2d(28, 12), Math.toRadians(180));
 
 
 
@@ -188,7 +188,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 16;
         AutoWristY = 7.4;
-        EndPos = new Pose2d(new Vector2d(26, 12), Math.toRadians(180));
+        EndPos = new Pose2d(new Vector2d(28, 12), Math.toRadians(180));
         telemetry.update();
 
         }
