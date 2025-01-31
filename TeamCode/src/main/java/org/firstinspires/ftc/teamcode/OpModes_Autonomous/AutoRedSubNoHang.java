@@ -51,7 +51,7 @@ public class AutoRedSubNoHang extends RobotConfiguration implements TeamConstant
                 .strafeToSplineHeading(new Vector2d(-58, -61), Math.toRadians(45+180));
         TrajectoryActionBuilder sample3 = drop2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-135+180))
-                .splineToLinearHeading(new Pose2d(-50, -28, Math.toRadians(180)), Math.toRadians(180));
+                .splineToLinearHeading(new Pose2d(-50, -28, Math.toRadians(0+180)), Math.toRadians(0+180));
         TrajectoryActionBuilder drop3 = sample3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-180+180))
                 .splineToLinearHeading(new Pose2d(-58, -61, Math.toRadians(45+180)), Math.toRadians(45+180));

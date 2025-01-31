@@ -34,9 +34,6 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
         slide.resetEncoders();
 
        // ************************TRAJECTORIES****************************
-        TrajectoryActionBuilder blank = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(0);
-
         TrajectoryActionBuilder dropStart = autoDrive.actionBuilder(initialPose)
                 .setTangent(Math.toRadians(-45))
                 .splineToLinearHeading(new Pose2d(58, 61, Math.toRadians(45)), Math.toRadians(45));

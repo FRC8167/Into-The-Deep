@@ -34,9 +34,6 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         slide.resetEncoders();
 
        // ************************TRAJECTORIES****************************
-        TrajectoryActionBuilder blank = autoDrive.actionBuilder(initialPose)
-                .waitSeconds(0);
-
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
                 .strafeTo(new Vector2d(-8,-(33.5+15-1)));
 
