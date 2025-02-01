@@ -332,24 +332,24 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wrist0 = false;
             }
 
-            if (operator.dpadDown.pressed()) {
-
-                Actions.runBlocking(
-                        new SequentialAction(
-                                armPivot.armTrig(wristX-6,wristY),
-                                slide.slideTrig(wristX-6,wristY),
-                                wristPivot.wristTrig(wristX-6, wristY, wristForward),
-                                new SleepAction(0.5),
-                                gripper.toggle()
-                        )
-                );
-                wristX = 17;
-                wristY = 0;
-//               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
-
-            } else if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
-                gripper.setToToggle();
-            }
+//            if (operator.dpadDown.pressed()) {
+//
+//                Actions.runBlocking(
+//                        new SequentialAction(
+//                                armPivot.armTrig(wristX-6,wristY),
+//                                slide.slideTrig(wristX-6,wristY),
+//                                wristPivot.wristTrig(wristX-6, wristY, wristForward),
+//                                new SleepAction(0.5),
+//                                gripper.toggle()
+//                        )
+//                );
+//                wristX = 17;
+//                wristY = 0;
+////               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+//
+//            } else if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
+//                gripper.setToToggle();
+//            }
 
             if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
                 {
