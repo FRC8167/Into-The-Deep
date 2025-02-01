@@ -69,6 +69,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double newWristX = 288.500/25.4;// ~11.358in
         double newWristY = -288.500/25.4;
         boolean wristForward = true;
+        boolean wrist0 = false;
         double trigMoveMultiplier = 1;
         boolean debugMode = false; //runs default commands for debugging purposes
         // true: back+a false: back+b
@@ -204,8 +205,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = Functions.TriClampY(wristX, wristY);
             }
             if (wristPivot.isEnabled())  {
-                if (!operator.dpadLeft.whilePressed()) wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
-                else wristForward = wristPivot.moveByPosFlat(wristX, wristY, wristForward);
+                if (operator.dpadLeft.whilePressed()) wristForward = wristPivot.moveByPosFlat(wristX, wristY, wristForward);
+                else if (wrist0)  wristPivot.setPosition(0);
+                else wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
             }
             if (debugMode){
                 wristPivot.setPosition(TeamConstants.WRIST_PIVOT_MIN);
@@ -308,26 +310,28 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = 15;
             }
 
-            if (operator.x.pressed()) {
+            if (operator.x.whilePressed()) {
+                wristX =17;
+                wristY = -3;
+                wrist0 = true;
+                gripper.spinSpecimen();
 
-                Actions.runBlocking(
-                        new SequentialAction(
-                                armPivot.armTrig(17,-3),
-                                        slide.slideTrig(17,-3),
-                                new SleepAction(0.5),
-                                        wristPivot.wristTrig(17,0, true),
-                                new SleepAction(0.2),
-                                        gripper.spin(),
-                                new SleepAction(0.3),
-                                gripper.toggle(),
-                                gripper.toggle()
-                        )
-                );
-                wristX = 17;
-                wristY = 0;
 //               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
 
             }
+
+            else {
+                if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
+                    gripper.setToToggle();
+                }
+
+                if (wrist0) {
+                    wristX = 17;
+                    wristY = 0;
+                }
+                wrist0 = false;
+            }
+
             if (operator.dpadDown.pressed()) {
 
                 Actions.runBlocking(
