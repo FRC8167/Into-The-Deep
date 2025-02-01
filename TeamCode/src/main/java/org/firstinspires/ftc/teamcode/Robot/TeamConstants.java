@@ -9,12 +9,25 @@ public interface TeamConstants {
     double DEGRADED_STRAFE_LIMIT   = 0.35;
     double DEGRADED_TURN_LIMIT     = 0.25;
     double Accel_Limit             = 0.2;
-    double Accel_Stop_Limit             = 0.4;
+    double Accel_Stop_Limit        = 0.4;
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Field Positions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    Pose2d basketScorePos = new Pose2d(58,61, Math.toRadians(45));
-    Pose2d subPickupPos   = new Pose2d(24,12, Math.toRadians(180));
+    Pose2d sampleBasketScorePosBlue = new Pose2d(58,61, Math.toRadians(-315));
+    Pose2d sampleSubPickupPosBlue = new Pose2d(24,9, Math.toRadians(180));
+
+    Pose2d specimenSubPickupPosBlue = new Pose2d(-24,9, Math.toRadians(0));
+    Pose2d specimenObsDropGrabPosBlue = new Pose2d(-48,48, Math.toRadians(90));
+    Pose2d specimenChambHangPosBlue = new Pose2d(0,48, Math.toRadians(-90));
+
+
+    Pose2d sampleBasketScorePosRed = new Pose2d(-58,-61, Math.toRadians(-315+180));
+    Pose2d sampleSubPickupPosRed = new Pose2d(-24,-9, Math.toRadians(180+180));
+
+    Pose2d specimenSubPickupPosRed = new Pose2d(24,-9, Math.toRadians(0+180));
+    Pose2d specimenObsDropGrabPosRed = new Pose2d(48,-48, Math.toRadians(90+180));
+    Pose2d specimenChambHangPosRed = new Pose2d(0,-48, Math.toRadians(-90+180));
+
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
