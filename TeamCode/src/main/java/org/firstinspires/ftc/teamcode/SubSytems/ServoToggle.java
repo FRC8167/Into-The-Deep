@@ -51,8 +51,8 @@ public class ServoToggle extends Servo1D {
     }
 
     public Action toggle() {
-            return new Toggle();
-        }
+        return new Toggle();
+    }
 
     public class Spin implements Action {
 
