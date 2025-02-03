@@ -263,10 +263,21 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
             if (driver.y.pressed()) {
-                if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
-                    autoDrive.pose = new Pose2d(23.80512, autoDrive.pose.position.y, Math.toRadians(180));
-                } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
-                    autoDrive.pose = new Pose2d(-23.80512, autoDrive.pose.position.y, Math.toRadians(0));
+                if (EndPos != null) {
+                    if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
+                        autoDrive.pose = new Pose2d(23.80512, autoDrive.pose.position.y, Math.toRadians(180));
+                    } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
+                        autoDrive.pose = new Pose2d(-23.80512, autoDrive.pose.position.y, Math.toRadians(0));
+                    }
+                }
+                else{
+                    if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
+                        EndPos = new Pose2d(23.80512, 0, Math.toRadians(180));
+                        autoDrive.pose = new Pose2d(23.80512, 0, Math.toRadians(180));
+                    } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
+                        EndPos = new Pose2d(-23.80512, 0, Math.toRadians(180));
+                        autoDrive.pose = new Pose2d(-23.80512, 0, Math.toRadians(0));
+                    }
                 }
             }
 
@@ -488,6 +499,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             /* Output Telemtery Data to Driver Stations */
+            telemetry.addData("EndPoseNull: ", (EndPos == null));
             telemetry.addData("Blob Area", bluSamps.getArea());
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
