@@ -141,10 +141,9 @@ public class MotorPivotExp implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPositionCounts(position);
-            if (motor.isBusy()){
+
                 return true;
-            }
-            else return false;
+
         }
 
     }
