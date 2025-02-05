@@ -168,16 +168,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                             if (sampleTrajectorys) {
                                 if (driver.x.pressed() && EndPos != null) {
                                     TrajectoryActionBuilder driveToBasketsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
-                                            .setTangent(Math.toRadians(-30))
-                                            .splineToLinearHeading(sampleBasketScorePosRed, Math.toRadians(45));
+                                            .setTangent(Math.toRadians(-30+180))
+                                            .splineToLinearHeading(sampleBasketScorePosRed, Math.toRadians(45+180));
                                     Action toTheBasketsRed = driveToBasketsRed.build();
                                     newActions.add(toTheBasketsRed);
                                 }
 
                                 if (driver.b.pressed() && EndPos != null) {
                                     TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
-                                            .setTangent(Math.toRadians(-90))
-                                            .splineToLinearHeading(sampleSubPickupPosRed, Math.toRadians(180));  //-90??
+                                            .setTangent(Math.toRadians(-90+180))
+                                            .splineToLinearHeading(sampleSubPickupPosRed, Math.toRadians(180+180));  //-90??
                                     Action toTheSubRed = driveToSubRed.build();
                                     newActions.add(toTheSubRed);
 
@@ -187,26 +187,26 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                             else if (specimenTrajectorys) {
                                 if (driver.x.pressed() && EndPos != null) {
                                     TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
-                                            .setTangent(Math.toRadians(180))
-                                            .splineToLinearHeading(new Pose2d(-40,24, Math.toRadians(0)), Math.toRadians(-90))
-                                            .setTangent(Math.toRadians(-90))
-                                            .splineToLinearHeading(specimenSubPickupPosRed, Math.toRadians(20));
+                                            .setTangent(Math.toRadians(180+180))
+                                            .splineToLinearHeading(new Pose2d(40,-24, Math.toRadians(0+180)), Math.toRadians(-90+180))
+                                            .setTangent(Math.toRadians(-90+180))
+                                            .splineToLinearHeading(specimenSubPickupPosRed, Math.toRadians(20+180));
                                     Action toTheSubRed = driveToSubRed.build();
                                     newActions.add(toTheSubRed);
                                 }
 
                                 if (driver.b.pressed() && EndPos != null) {
                                     TrajectoryActionBuilder driveToObsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
-                                            .setTangent(Math.toRadians(160))
-                                            .splineToLinearHeading(specimenObsDropGrabPosRed, Math.toRadians(90));  //-90??
+                                            .setTangent(Math.toRadians(160+180))
+                                            .splineToLinearHeading(specimenObsDropGrabPosRed, Math.toRadians(90+180));  //-90??
                                     Action toTheObsBlue = driveToObsRed.build();
                                     newActions.add(toTheObsBlue);
 
                                 }
                                 if (driver.a.pressed() && EndPos != null) {
                                     TrajectoryActionBuilder driveToChambRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
-                                            .setTangent(Math.toRadians(0))
-                                            .splineToLinearHeading(specimenChambHangPosRed, Math.toRadians(0));  //-90??
+                                            .setTangent(Math.toRadians(0+180))
+                                            .splineToLinearHeading(specimenChambHangPosRed, Math.toRadians(0+180));  //-90??
                                     Action toTheChambRed = driveToChambRed.build();
                                     newActions.add(toTheChambRed);
 

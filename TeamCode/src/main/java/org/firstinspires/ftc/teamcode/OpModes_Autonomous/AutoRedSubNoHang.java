@@ -34,7 +34,6 @@ public class AutoRedSubNoHang extends RobotConfiguration implements TeamConstant
         slide.resetEncoders();
 
        // ************************TRAJECTORIES****************************
-
         TrajectoryActionBuilder dropStart = autoDrive.actionBuilder(initialPose)
                 .setTangent(Math.toRadians(-45+180))
                 .splineToLinearHeading(new Pose2d(-58, -61, Math.toRadians(45+180)), Math.toRadians(45+180));
@@ -188,17 +187,18 @@ public class AutoRedSubNoHang extends RobotConfiguration implements TeamConstant
                         slide.slideTrig(28,0),
                         wristRotate.rotateTrig(0),
 //                        new SleepAction(0.25),
-                        new ParallelAction(
+
                                 slide.slideTrig(24,-6.8),
+                        new SleepAction(0.25),
                                 armPivot.armTrig(24,-6.8),
-                                wristPivot.wristTrig(24,-6.8, true)
-                        ),
+                                wristPivot.wristTrig(24,-6.8, true),
+
                         new SleepAction(0.25), // 1
                         gripper.toggle(),
                         new SleepAction(0.25),
                         slide.slideToPosition(0),
                         armPivot.armTrig(14,33),
-                        new SleepAction(1),
+                        new SleepAction(0.75),
                         new ParallelAction(
                                 slide.slideTrig(14,33),
                                 wristPivot.wristTrig(14,33, true),
@@ -225,7 +225,7 @@ public class AutoRedSubNoHang extends RobotConfiguration implements TeamConstant
                                                 wristPivot.wristTrig(24,0, true)
                                                 //                                goTouch
                                         ),
-                                        new SleepAction(0.5),
+                                        new SleepAction(0.3),
                                         new ParallelAction(
                                                 armPivot.armTrig(26,1),
                                                 slide.slideTrig(26,1)
@@ -245,7 +245,7 @@ public class AutoRedSubNoHang extends RobotConfiguration implements TeamConstant
  
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 17;
-        AutoWristY = -2;
+        AutoWristY = -1;
         EndPos = new Pose2d(new Vector2d(-24, -12), Math.toRadians(180+180));
         telemetry.update();
 
