@@ -31,7 +31,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double wristX;
         double wristY;
         if (InitAuto && !InitTele) {
-            initializeRobot(EndPos);
+            if (EndPos != null) {
+                initializeRobot(EndPos);
+            }
+            else {
+                initializeRobot(new Pose2d(0,0, HeadingAprox));
+            }
             wristX = AutoWristX; //288.500/25.4;// ~11.358in
             wristY = AutoWristY; //-288.500/25.4;
             InitTele = true;

@@ -28,6 +28,8 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
         InitAuto = true;
+        InitTele = false;
+        HeadingAprox = Math.toRadians(0);
         setAlliance(AllianceColor.RED);
 
         armPivot.resetEncoders();

@@ -29,6 +29,8 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
         InitAuto = true;
+        InitTele = false;
+        HeadingAprox = Math.toRadians(-90);
         setAlliance(AllianceColor.BLUE);
 
         armPivot.resetEncoders();

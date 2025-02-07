@@ -47,6 +47,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
     public static boolean InitAuto = false;
     public static boolean InitTele = false;
     public static Pose2d EndPos = null;
+    public static double HeadingAprox;
 
 
     /*------------- Private Class Variables - Preferred -------------*/
