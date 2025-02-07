@@ -188,9 +188,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                 if (driver.x.pressed() && EndPos != null) {
                                     TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(180+180))
-                                            .splineToLinearHeading(new Pose2d(40,-24, Math.toRadians(0+180)), Math.toRadians(-90+180))
-                                            .setTangent(Math.toRadians(-90+180))
-                                            .splineToLinearHeading(specimenSubPickupPosRed, Math.toRadians(20+180));
+                                            .splineToSplineHeading(new Pose2d(40,-22, Math.toRadians(-90+180)), Math.toRadians(-90+180))
+                                            .splineToLinearHeading(specimenSubPickupPosRed, Math.toRadians(20));
                                     Action toTheSubRed = driveToSubRed.build();
                                     newActions.add(toTheSubRed);
                                 }
