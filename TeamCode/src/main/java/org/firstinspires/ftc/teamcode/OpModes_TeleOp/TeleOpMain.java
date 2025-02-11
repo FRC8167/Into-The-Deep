@@ -59,6 +59,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double oldWristX;
         double oldWristY;
         boolean bigMove = false;
+        boolean bigMSkip = false;
         boolean retractIsDone = true;
         boolean pivotIsDone = true;
         boolean extendIsDone = true;
@@ -98,6 +99,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         waitForStart();
 
         while (opModeIsActive()) {
+            bigMSkip = false;
 
             TelemetryPacket packet = new TelemetryPacket();
             List<Action> newActions = new ArrayList<>();
@@ -433,6 +435,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = 15;
             }
 
+            if (operator.dpadDown.pressed()){
+                wristX = Math.cos(armPivot.getPosDegrees()-45)*slide.getInches();
+                wristY = Math.sin(armPivot.getPosDegrees()-45)*slide.getInches();
+                bigMove = false;
+                bigMSkip = true;
+
+            }
+
             if (operator.x.whilePressed()) {
                 wristX =17;
                 wristY = -3;
@@ -474,7 +484,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //                gripper.setToToggle();
 //            }
 
-            if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
+            if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance && !bigMSkip)
                 {
                 bigMove = true;
                 retractIsDone = false;
@@ -538,6 +548,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Samps: ", (sampleTrajectorys));
             telemetry.addData("Spes: ", (specimenTrajectorys));
             telemetry.addData("Spes: ", (specimenTrajectorys));
+            telemetry.addData("CalcX: ", (Math.cos(armPivot.getPosDegrees()-45)*slide.getInches()));
+            telemetry.addData("CalcY: ", (Math.sin(armPivot.getPosDegrees()-45)*slide.getInches()));
 //            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);

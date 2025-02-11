@@ -112,10 +112,14 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
+
     public double countsToDegrees(double counts) {
         return (counts * TeamConstants.DEGREES_PER_COUNT);
     }
 
+    public double getPosDegrees() {
+        return countsToDegrees(motor.getCurrentPosition());
+    }
 
     public int getmotorPos() { return motor.getCurrentPosition(); }
 
