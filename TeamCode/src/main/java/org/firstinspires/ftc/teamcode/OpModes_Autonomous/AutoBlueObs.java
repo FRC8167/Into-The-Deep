@@ -72,7 +72,7 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                 .setTangent(Math.toRadians(120))
                 .splineToLinearHeading(new Pose2d(-8,33.5+15-1, Math.toRadians(270)), Math.toRadians(-90));
         TrajectoryActionBuilder park = hangEnd2.endTrajectory().fresh()
-                .setTangent(120)
+                .setTangent(Math.toRadians(120))
                 .splineToLinearHeading(new Pose2d(-55, 60, Math.toRadians(-90)), Math.toRadians(160));
 
 

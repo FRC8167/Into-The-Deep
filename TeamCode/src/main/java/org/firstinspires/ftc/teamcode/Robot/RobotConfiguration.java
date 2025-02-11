@@ -1,6 +1,11 @@
 package org.firstinspires.ftc.teamcode.Robot;
 
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.SequentialAction;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -46,9 +51,28 @@ public abstract class RobotConfiguration extends LinearOpMode {
     public static double AutoWristY;
     public static boolean InitAuto = false;
     public static boolean InitTele = false;
+    public static boolean GoodPose = false;
     public static Pose2d EndPos = null;
     public static double HeadingAprox;
 
+    public void updateEnd(){
+        autoDrive.updatePoseEstimate();
+        EndPos = autoDrive.pose;
+    }
+    public class UpdatePose implements Action {  //Note: slide does not extend
+
+
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            updateEnd();
+            return false;
+        }
+    }
+    public Action update(Action traj)
+    {
+        return new SequentialAction(traj, new UpdatePose());
+    };
 
     /*------------- Private Class Variables - Preferred -------------*/
     static AllianceColor alliance;

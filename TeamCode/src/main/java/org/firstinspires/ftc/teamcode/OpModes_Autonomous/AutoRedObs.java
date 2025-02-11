@@ -71,7 +71,7 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
                 .setTangent(Math.toRadians(120+180))
                 .splineToLinearHeading(new Pose2d(8,-(33.5+15-1), Math.toRadians(270+180)), Math.toRadians(-90+180));
         TrajectoryActionBuilder park = hangEnd2.endTrajectory().fresh()
-                .setTangent(120+180)
+                .setTangent(Math.toRadians(120+180))
                 .splineToLinearHeading(new Pose2d(55, -60, Math.toRadians(-90+180)), Math.toRadians(160+180));
 
 

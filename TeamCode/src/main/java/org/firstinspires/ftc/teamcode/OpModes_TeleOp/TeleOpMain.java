@@ -48,12 +48,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristX = 288.500/25.4;// ~11.358in
             wristY = -288.500/25.4;
             setAlliance(AllianceColor.BLUE);
-            EndPos = null;
+            GoodPose = false;
         } else{
             initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
             wristX = 17;
             wristY = 0;
-            EndPos = null;
+            GoodPose = false;
         }
         slide.setDirection();
         double oldWristX;
@@ -114,7 +114,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                     switch (getAlliance()) {
                         case BLUE:
                             if (sampleTrajectorys) {
-                                if (driver.x.pressed() && EndPos != null) {
+                                if (driver.x.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToBasketsBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                         .setTangent(Math.toRadians(-30))
                                         .splineToLinearHeading(sampleBasketScorePosBlue, Math.toRadians(45));
@@ -122,7 +122,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                     newActions.add(toTheBasketsBlue);
                                 }
 
-                                if (driver.b.pressed() && EndPos != null) {
+                                if (driver.b.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToSubBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                         .setTangent(Math.toRadians(-90))
                                         .splineToLinearHeading(sampleSubPickupPosBlue, Math.toRadians(160));  //-90??
@@ -133,7 +133,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                             }
 
                             else if (specimenTrajectorys) {
-                                if (driver.x.pressed() && EndPos != null) {
+                                if (driver.x.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToSubBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(180))
                                             .splineToLinearHeading(new Pose2d(-40,24, Math.toRadians(0)), Math.toRadians(-90))
@@ -143,7 +143,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                     newActions.add(toTheSubBlue);
                                 }
 
-                                if (driver.b.pressed() && EndPos != null) {
+                                if (driver.b.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToObsBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(160))
                                             .splineToLinearHeading(specimenObsDropGrabPosBlue, Math.toRadians(90));  //-90??
@@ -151,7 +151,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                     newActions.add(toTheObsBlue);
 
                                 }
-                                if (driver.a.pressed() && EndPos != null) {
+                                if (driver.a.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToChambBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(0))
                                             .splineToLinearHeading(specimenChambHangPosBlue, Math.toRadians(0));  //-90??
@@ -173,7 +173,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                             break;
                         case RED:
                             if (sampleTrajectorys) {
-                                if (driver.x.pressed() && EndPos != null) {
+                                if (driver.x.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToBasketsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(-30+180))
                                             .splineToLinearHeading(sampleBasketScorePosRed, Math.toRadians(45+180));
@@ -181,7 +181,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                     newActions.add(toTheBasketsRed);
                                 }
 
-                                if (driver.b.pressed() && EndPos != null) {
+                                if (driver.b.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(-90+180))
                                             .splineToLinearHeading(sampleSubPickupPosRed, Math.toRadians(180+180));  //-90??
@@ -192,7 +192,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                             }
 
                             else if (specimenTrajectorys) {
-                                if (driver.x.pressed() && EndPos != null) {
+                                if (driver.x.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(180+180))
                                             .splineToSplineHeading(new Pose2d(40,-22, Math.toRadians(-90+180)), Math.toRadians(-90+180))
@@ -201,7 +201,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                     newActions.add(toTheSubRed);
                                 }
 
-                                if (driver.b.pressed() && EndPos != null) {
+                                if (driver.b.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToObsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(160+180))
                                             .splineToLinearHeading(specimenObsDropGrabPosRed, Math.toRadians(90+180));  //-90??
@@ -209,7 +209,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                                     newActions.add(toTheObsBlue);
 
                                 }
-                                if (driver.a.pressed() && EndPos != null) {
+                                if (driver.a.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToChambRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
                                             .setTangent(Math.toRadians(0+180))
                                             .splineToLinearHeading(specimenChambHangPosRed, Math.toRadians(0+180));  //-90??
@@ -269,7 +269,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
             if (driver.y.pressed()) {
-                if (EndPos != null) {
+                if (GoodPose) {
                     if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
                         autoDrive.pose = new Pose2d(23.80512, autoDrive.pose.position.y, Math.toRadians(180));
                     } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
@@ -280,9 +280,11 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                     if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
                         EndPos = new Pose2d(23.80512, 0, Math.toRadians(180));
                         autoDrive.pose = new Pose2d(23.80512, 0, Math.toRadians(180));
+                        GoodPose = true;
                     } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
                         EndPos = new Pose2d(-23.80512, 0, Math.toRadians(180));
                         autoDrive.pose = new Pose2d(-23.80512, 0, Math.toRadians(0));
+                        GoodPose = true;
                     }
                 }
             }
@@ -436,8 +438,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             if (operator.dpadDown.pressed()){
-                wristX = Math.cos(armPivot.getPosDegrees()-45)*slide.getInches();
-                wristY = Math.sin(armPivot.getPosDegrees()-45)*slide.getInches();
+                wristX = Math.cos(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches();
+                wristY = Math.sin(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches();
                 bigMove = false;
                 bigMSkip = true;
 
@@ -513,7 +515,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             /* Output Telemtery Data to Driver Stations */
-            telemetry.addData("EndPoseNull: ", (EndPos == null));
+            telemetry.addData("GoodPose: ", (GoodPose));
             telemetry.addData("Blob Area", bluSamps.getArea());
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
@@ -548,8 +550,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Samps: ", (sampleTrajectorys));
             telemetry.addData("Spes: ", (specimenTrajectorys));
             telemetry.addData("Spes: ", (specimenTrajectorys));
-            telemetry.addData("CalcX: ", (Math.cos(armPivot.getPosDegrees()-45)*slide.getInches()));
-            telemetry.addData("CalcY: ", (Math.sin(armPivot.getPosDegrees()-45)*slide.getInches()));
+            telemetry.addData("CalcX: ", (Math.cos(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches()));
+            telemetry.addData("CalcY: ", (Math.sin(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches()));
+            telemetry.addData("CalcAng: ", (armPivot.getPosDegrees()-45));
+            telemetry.addData("CalcLen: ", (slide.getInches()));
 //            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
