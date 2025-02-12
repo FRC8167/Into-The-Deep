@@ -13,7 +13,7 @@ public interface TeamConstants {
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Field Positions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
-    Pose2d sampleBasketScorePosBlue = new Pose2d(58,61, Math.toRadians(-315));
+    Pose2d sampleBasketScorePosBlue = new Pose2d(57,60, Math.toRadians(-315));
     Pose2d sampleSubPickupPosBlue = new Pose2d(24,9, Math.toRadians(180));
 
     Pose2d specimenSubPickupPosBlue = new Pose2d(-24,9, Math.toRadians(0));
@@ -21,7 +21,7 @@ public interface TeamConstants {
     Pose2d specimenChambHangPosBlue = new Pose2d(0,48, Math.toRadians(-90));
 
 
-    Pose2d sampleBasketScorePosRed = new Pose2d(-58,-61, Math.toRadians(-315+180));
+    Pose2d sampleBasketScorePosRed = new Pose2d(-57,-60, Math.toRadians(-315+180));
     Pose2d sampleSubPickupPosRed = new Pose2d(-24,-9, Math.toRadians(180+180));
 
     Pose2d specimenSubPickupPosRed = new Pose2d(24,-9, Math.toRadians(0+180));
