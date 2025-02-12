@@ -37,8 +37,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             else {
                 initializeRobot(new Pose2d(0,0, HeadingAprox));
             }
-            wristX = AutoWristX; //288.500/25.4;// ~11.358in
-            wristY = AutoWristY; //-288.500/25.4;
+//            wristX = AutoWristX; //288.500/25.4;// ~11.358in
+//            wristY = AutoWristY; //-288.500/25.4;
+            wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
+            wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             InitTele = true;
         } else if (!InitTele) {
             initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
@@ -461,8 +463,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 }
 
                 if (wrist0) {
-                    wristX = 17;
-                    wristY = 0;
+                    wristX = Functions.reverseTrigX(armPivot.getPosDegrees(),slide.getInches());
+                    wristY = Functions.reverseTrigY(armPivot.getPosDegrees(),slide.getInches());
                 }
                 wrist0 = false;
             }
@@ -550,8 +552,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("Samps: ", (sampleTrajectorys));
             telemetry.addData("Spes: ", (specimenTrajectorys));
             telemetry.addData("Spes: ", (specimenTrajectorys));
-            telemetry.addData("CalcX: ", (Math.cos(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches()));
-            telemetry.addData("CalcY: ", (Math.sin(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches()));
+            telemetry.addData("CalcX: ", (Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches())));
+            telemetry.addData("CalcY: ", (Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches())));
             telemetry.addData("CalcAng: ", (armPivot.getPosDegrees()-45));
             telemetry.addData("CalcLen: ", (slide.getInches()));
 //            TelemetryPacket packet = new TelemetryPacket();

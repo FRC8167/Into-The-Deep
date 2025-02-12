@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoRedObs", group="Autonomous", preselectTeleOp = "TeleOp")
+@Autonomous(name="AutoRedObs", group="Autonomous", preselectTeleOp = "TeleOpMain")
 public class AutoRedObs extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
@@ -29,6 +29,7 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
         AutoWristY = -288.500/25.4;
         InitAuto = true;
         InitTele = false;
+        GoodPose = false;
         HeadingAprox = Math.toRadians(90);
         setAlliance(AllianceColor.RED);
 
@@ -79,16 +80,16 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
-        Action goCenterX = centerX.build();
-        Action goToSample1 = toSample1.build();
+        Action goCenterX = update(centerX.build());
+        Action goToSample1 = update(toSample1.build());
 //        Action goback1 = back1.build();
-        Action goAdjust = adjust.build();
-        Action goGrab = grab.build();
-        Action goendHang = hangEnd.build();
-        Action goGrab2 = grab2.build();
-        Action goAdjust2 = adjust2.build();
-        Action goEndHang2 = hangEnd2.build();
-        Action goPark = park.build();
+        Action goAdjust = update(adjust.build());
+        Action goGrab = update(grab.build());
+        Action goendHang = update(hangEnd.build());
+        Action goGrab2 = update(grab2.build());
+        Action goAdjust2 = update(adjust2.build());
+        Action goEndHang2 = update(hangEnd2.build());
+        Action goPark = update(park.build());
 
 
 
@@ -343,7 +344,9 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 20;
         AutoWristY = 5.5;
-        EndPos = new Pose2d(new Vector2d(55, -60), Math.toRadians(270+180));
+        updateEnd();
+        GoodPose = true;
+//        EndPos = new Pose2d(new Vector2d(55, -60), Math.toRadians(270+180));
         telemetry.update();
 
         }

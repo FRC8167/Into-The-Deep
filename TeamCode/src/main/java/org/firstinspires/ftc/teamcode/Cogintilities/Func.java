@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Cogintilities;
 
+import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 /*
@@ -107,6 +108,13 @@ public class Func implements TeamConstants {
             return newy;
         }
 
+    }
+
+    public double reverseTrigX(double armPivotDeg, double slideIn){
+        return Math.cos(Math.toRadians(armPivotDeg - 45)) * slideIn;
+    }
+    public double reverseTrigY(double armPivotDeg, double slideIn){
+        return Math.sin(Math.toRadians(armPivotDeg - 45)) * slideIn;
     }
 
 

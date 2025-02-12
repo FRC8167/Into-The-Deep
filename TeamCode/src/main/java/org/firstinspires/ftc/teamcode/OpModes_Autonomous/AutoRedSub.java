@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 //@Disabled
-@Autonomous(name="AutoRedSub", group="Autonomous", preselectTeleOp = "TeleOp")
+@Autonomous(name="AutoRedSub", group="Autonomous", preselectTeleOp = "TeleOpMain")
 public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
     @SuppressLint("DefaultLocale")
@@ -29,6 +29,7 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
         AutoWristY = -288.500/25.4;
         InitAuto = true;
         InitTele = false;
+        GoodPose = false;
         HeadingAprox = Math.toRadians(0);
         setAlliance(AllianceColor.RED);
 
@@ -63,14 +64,14 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
 
-        Action goCenterX = centerX.build();
-        Action goSample1 = sample1.build();
-        Action goDrop1 = drop1.build();
-        Action goSample2 = sample2.build();
-        Action goDrop2 = drop2.build();
-        Action goSample3 = sample3.build();
-        Action goDrop3 = drop3.build();
-        Action goTouch = touch.build();
+        Action goCenterX = update(centerX.build());
+        Action goSample1 = update(sample1.build());
+        Action goDrop1 = update(drop1.build());
+        Action goSample2 = update(sample2.build());
+        Action goDrop2 = update(drop2.build());
+        Action goSample3 = update(sample3.build());
+        Action goDrop3 = update(drop3.build());
+        Action goTouch = update(touch.build());
 
 
 
@@ -255,7 +256,9 @@ public class AutoRedSub extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 17;
         AutoWristY = -1;
-        EndPos = new Pose2d(new Vector2d(-24, -12), Math.toRadians(180+180));
+        updateEnd();
+        GoodPose = true;
+//        EndPos = new Pose2d(new Vector2d(-24, -12), Math.toRadians(180+180));
         telemetry.update();
 
         }
