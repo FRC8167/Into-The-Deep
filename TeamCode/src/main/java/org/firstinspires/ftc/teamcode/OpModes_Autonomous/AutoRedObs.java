@@ -344,9 +344,9 @@ public class AutoRedObs extends RobotConfiguration implements TeamConstants {
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 20;
         AutoWristY = 5.5;
-        updateEnd();
+//        updateEnd();
+        EndPos = new Pose2d(new Vector2d(55, -60), Math.toRadians(270+180));
         GoodPose = true;
-//        EndPos = new Pose2d(new Vector2d(55, -60), Math.toRadians(270+180));
         telemetry.update();
 
         }

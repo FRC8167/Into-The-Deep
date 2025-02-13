@@ -249,9 +249,9 @@ public class AutoBlueSubNoHang extends RobotConfiguration implements TeamConstan
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 17;
         AutoWristY = -1;
-        updateEnd();
+//        updateEnd();
+        EndPos = new Pose2d(new Vector2d(24, 12), Math.toRadians(180));
         GoodPose = true;
-//        EndPos = new Pose2d(new Vector2d(24, 12), Math.toRadians(180));
         telemetry.update();
 
         }

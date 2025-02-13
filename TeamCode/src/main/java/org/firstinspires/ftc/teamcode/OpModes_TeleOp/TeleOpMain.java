@@ -580,6 +580,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver.update();
         operator.update();
         autoDrive.updatePoseEstimate();
+        if (autoDrive.pose.position.x > 72 || autoDrive.pose.position.x <-72 || autoDrive.pose.position.y > 72 || autoDrive.pose.position.y <-72){
+            GoodPose = false;
+        }
 //        armPivot.periodic(18);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
     }
