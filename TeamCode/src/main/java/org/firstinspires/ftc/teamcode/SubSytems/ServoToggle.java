@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Actions;
 import com.qualcomm.robotcore.hardware.Servo;
 
 public class ServoToggle extends Servo1D {
@@ -34,8 +33,11 @@ public class ServoToggle extends Servo1D {
         toggleGripper();
         toggleGripper();
     }
-    public void spinSpecimin(){
+    public void spinSpecimen(){
         setPosition(GRIPPER_CLOSE-0.025);
+    }
+    public void extraOpen(){
+        setPosition(GRIPPER_OPEN-0.1);
     }
 
     /* ************************* Actions * *************************/
@@ -49,20 +51,34 @@ public class ServoToggle extends Servo1D {
     }
 
     public Action toggle() {
-            return new Toggle();
-        }
+        return new Toggle();
+    }
 
     public class Spin implements Action {
 
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
-            spinSpecimin();
+            spinSpecimen();
             return false;
         }
     }
 
     public Action spin() {
         return new Spin();
+    }
+
+
+    public class EOpen implements Action {
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            extraOpen();
+            return false;
+        }
+    }
+
+    public Action eOpen() {
+        return new EOpen();
     }
 
 

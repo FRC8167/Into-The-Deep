@@ -112,10 +112,14 @@ public class MotorPivotExp implements TeamConstants {
     }
 
 
+
     public double countsToDegrees(double counts) {
         return (counts * TeamConstants.DEGREES_PER_COUNT);
     }
 
+    public double getPosDegrees() {
+        return countsToDegrees(motor.getCurrentPosition());
+    }
 
     public int getmotorPos() { return motor.getCurrentPosition(); }
 
@@ -141,10 +145,9 @@ public class MotorPivotExp implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             setPositionCounts(position);
-            if (motor.isBusy()){
+
                 return true;
-            }
-            else return false;
+
         }
 
     }

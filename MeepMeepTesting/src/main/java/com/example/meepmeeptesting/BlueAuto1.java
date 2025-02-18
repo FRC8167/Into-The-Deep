@@ -18,20 +18,10 @@ public class BlueAuto1 {
                 .setColorScheme(new ColorSchemeBlueDark())
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(-12, 63.5, Math.toRadians(-90)))
-                .waitSeconds(2)
-                .strafeTo(new Vector2d(0,33.5))
-                .strafeTo(new Vector2d(-20,55))
-                .setTangent(Math.toRadians(0))
-                .strafeToSplineHeading(new Vector2d(-43, 30), Math.toRadians(180))
-                .strafeToSplineHeading(new Vector2d(-46, 30), Math.toRadians(170))
-                .strafeToSplineHeading(new Vector2d(-55, 62), Math.toRadians(90))
-                .strafeToSplineHeading(new Vector2d(-55, 30), Math.toRadians(90))
-                .strafeToSplineHeading(new Vector2d(-55, 47.5), Math.toRadians(90))
-                .strafeToSplineHeading(new Vector2d(0,50), Math.toRadians(270))
-                .strafeTo(new Vector2d(0,33.5))
-                .strafeTo(new Vector2d(0,55))
-                .strafeToSplineHeading(new Vector2d(-55, 60), Math.toRadians(270))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(0,48, Math.toRadians(-90)))
+                .setTangent(Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-40,22, Math.toRadians(-90)), Math.toRadians(-90))
+                .splineToLinearHeading(new Pose2d(-24,9, Math.toRadians(0)), Math.toRadians(20))
                 .build());
 
 

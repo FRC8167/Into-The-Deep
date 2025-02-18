@@ -5,26 +5,17 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.SequentialAction;
-import com.acmerobotics.roadrunner.SleepAction;
 import com.acmerobotics.roadrunner.TrajectoryActionBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
-import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 //@Disabled
 @TeleOp(name="TeleOpMain", group="Competition")
@@ -40,9 +31,16 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double wristX;
         double wristY;
         if (InitAuto && !InitTele) {
-            initializeRobot(EndPos);
-            wristX = AutoWristX; //288.500/25.4;// ~11.358in
-            wristY = AutoWristY; //-288.500/25.4;
+            if (EndPos != null) {
+                initializeRobot(EndPos);
+            }
+            else {
+                initializeRobot(new Pose2d(0,0, HeadingAprox));
+            }
+//            wristX = AutoWristX; //288.500/25.4;// ~11.358in
+//            wristY = AutoWristY; //-288.500/25.4;
+            wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
+            wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             InitTele = true;
         } else if (!InitTele) {
             initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
@@ -52,25 +50,30 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristX = 288.500/25.4;// ~11.358in
             wristY = -288.500/25.4;
             setAlliance(AllianceColor.BLUE);
-            EndPos = null;
+            GoodPose = false;
         } else{
             initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
             wristX = 17;
             wristY = 0;
-            EndPos = null;
+            GoodPose = false;
         }
         slide.setDirection();
         double oldWristX;
         double oldWristY;
         boolean bigMove = false;
+        boolean bigMSkip = false;
         boolean retractIsDone = true;
         boolean pivotIsDone = true;
         boolean extendIsDone = true;
         double newWristX = 288.500/25.4;// ~11.358in
         double newWristY = -288.500/25.4;
         boolean wristForward = true;
+        boolean wrist0 = false;
         double trigMoveMultiplier = 1;
         boolean debugMode = false; //runs default commands for debugging purposes
+
+        boolean sampleTrajectorys = true;
+        boolean specimenTrajectorys = false;
         // true: back+a false: back+b
         // Looking from right side of robot
         // (0,0) at arm pivot
@@ -98,6 +101,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         waitForStart();
 
         while (opModeIsActive()) {
+            bigMSkip = false;
 
             TelemetryPacket packet = new TelemetryPacket();
             List<Action> newActions = new ArrayList<>();
@@ -109,25 +113,138 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             runningActions = newActions;
             dash.sendTelemetryPacket(packet);
 
-            if (driver.x.pressed()) {
-                TrajectoryActionBuilder driveToBaskets = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                        .setTangent(Math.toRadians(0))
-                        .splineToSplineHeading(basketScorePos, Math.toRadians(45));
+                    switch (getAlliance()) {
+                        case BLUE:
+                            if (sampleTrajectorys) {
+                                if (driver.x.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToBasketsBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                        .setTangent(Math.toRadians(-30))
+                                        .splineToLinearHeading(sampleBasketScorePosBlue, Math.toRadians(45));
+                                    Action toTheBasketsBlue = driveToBasketsBlue.build();
+                                    newActions.add(toTheBasketsBlue);
+                                }
 
-                Action toTheBaskets = driveToBaskets.build();
-                newActions.add(toTheBaskets);
-            }
+                                if (driver.b.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToSubBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                        .setTangent(Math.toRadians(-90))
+                                        .splineToLinearHeading(sampleSubPickupPosBlue, Math.toRadians(160));  //-90??
+                                    Action toTheSubBlue = driveToSubBlue.build();
+                                    newActions.add(toTheSubBlue);
 
-            if (driver.b.pressed()) {
-                TrajectoryActionBuilder driveToSub = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.real))
-                        .setTangent(Math.toRadians(-90))
-                        .splineToSplineHeading(subPickupPos, Math.toRadians(180));  //-90??
-                Action toTheSub = driveToSub.build();
-                newActions.add(toTheSub);
-            }
-            if (driver.a.pressed()) {
+                                }
+                            }
+
+                            else if (specimenTrajectorys) {
+                                if (driver.x.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToSubBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(180))
+                                            .splineToSplineHeading(new Pose2d(-40,22, Math.toRadians(-90)), Math.toRadians(-90))
+                                            .setTangent(Math.toRadians(-90))
+                                            .splineToLinearHeading(specimenSubPickupPosBlue, Math.toRadians(20));
+                                    Action toTheSubBlue = driveToSubBlue.build();
+                                    newActions.add(toTheSubBlue);
+                                }
+
+                                if (driver.b.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToObsBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(160))
+                                            .splineToLinearHeading(specimenObsDropGrabPosBlue, Math.toRadians(90));  //-90??
+                                    Action toTheObsBlue = driveToObsBlue.build();
+                                    newActions.add(toTheObsBlue);
+
+                                }
+                                if (driver.a.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToChambBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(0))
+                                            .splineToLinearHeading(specimenChambHangPosBlue, Math.toRadians(0));  //-90??
+                                    Action toTheChambBlue = driveToChambBlue.build();
+                                    newActions.add(toTheChambBlue);
+
+                                }
+                            }
+                            if (autoDrive.pose.position.x > 24) {
+                            sampleTrajectorys = true;
+                            specimenTrajectorys = false;
+
+                            }
+                            else if (autoDrive.pose.position.x < -24) {
+                                sampleTrajectorys = false;
+                                specimenTrajectorys = true;
+
+                            }
+                            break;
+                        case RED:
+                            if (sampleTrajectorys) {
+                                if (driver.x.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToBasketsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(-30+180))
+                                            .splineToLinearHeading(sampleBasketScorePosRed, Math.toRadians(45+180));
+                                    Action toTheBasketsRed = driveToBasketsRed.build();
+                                    newActions.add(toTheBasketsRed);
+                                }
+
+                                if (driver.b.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(-90+180))
+                                            .splineToLinearHeading(sampleSubPickupPosRed, Math.toRadians(180+180));  //-90??
+                                    Action toTheSubRed = driveToSubRed.build();
+                                    newActions.add(toTheSubRed);
+
+                                }
+                            }
+
+                            else if (specimenTrajectorys) {
+                                if (driver.x.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToSubRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(180+180))
+                                            .splineToSplineHeading(new Pose2d(40,-22, Math.toRadians(-90+180)), Math.toRadians(-90+180))
+                                            .splineToLinearHeading(specimenSubPickupPosRed, Math.toRadians(20));
+                                    Action toTheSubRed = driveToSubRed.build();
+                                    newActions.add(toTheSubRed);
+                                }
+
+                                if (driver.b.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToObsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(160+180))
+                                            .splineToLinearHeading(specimenObsDropGrabPosRed, Math.toRadians(90+180));  //-90??
+                                    Action toTheObsBlue = driveToObsRed.build();
+                                    newActions.add(toTheObsBlue);
+
+                                }
+                                if (driver.a.pressed() && GoodPose) {
+                                    TrajectoryActionBuilder driveToChambRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
+                                            .setTangent(Math.toRadians(0+180))
+                                            .splineToLinearHeading(specimenChambHangPosRed, Math.toRadians(0+180));  //-90??
+                                    Action toTheChambRed = driveToChambRed.build();
+                                    newActions.add(toTheChambRed);
+
+                                }
+                            }
+                            if (autoDrive.pose.position.x < -24) {
+                                sampleTrajectorys = true;
+                                specimenTrajectorys = false;
+
+                            }
+                            else if (autoDrive.pose.position.x > 24) {
+                                sampleTrajectorys = false;
+                                specimenTrajectorys = true;
+
+                            }
+                            break;
+                    }
+
+            if (driver.leftBumper.pressed()) {
                 runningActions.clear();
                 autoDrive.setDrivePowers(new PoseVelocity2d(new Vector2d(0, 0), 0));
+
+            }
+
+
+
+
+            if (driver.dpadRight.pressed()) {
+                sampleTrajectorys = false;
+                specimenTrajectorys = true;
 
             }
             oldFdrive = fdrive;
@@ -150,6 +267,28 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
             else {
                 turn = Functions.clamp(oldTurn - TeamConstants.Accel_Stop_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Stop_Limit);
+            }
+
+
+            if (driver.y.pressed()) {
+                if (GoodPose && operator.leftTrigger == 0) {
+                    if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
+                        autoDrive.pose = new Pose2d(23.80512, autoDrive.pose.position.y, Math.toRadians(180));
+                    } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
+                        autoDrive.pose = new Pose2d(-23.80512, autoDrive.pose.position.y, Math.toRadians(0));
+                    }
+                }
+                else{
+                    if (Math.toDegrees(autoDrive.pose.heading.toDouble()) < -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) > 90) {
+                        EndPos = new Pose2d(23.80512, 0, Math.toRadians(180));
+                        autoDrive.pose = new Pose2d(23.80512, 0, Math.toRadians(180));
+                        GoodPose = true;
+                    } else if (Math.toDegrees(autoDrive.pose.heading.toDouble()) > -90 || Math.toDegrees(autoDrive.pose.heading.toDouble()) < 90) {
+                        EndPos = new Pose2d(-23.80512, 0, Math.toRadians(180));
+                        autoDrive.pose = new Pose2d(-23.80512, 0, Math.toRadians(0));
+                        GoodPose = true;
+                    }
+                }
             }
 
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
@@ -195,8 +334,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = Functions.TriClampY(wristX, wristY);
             }
             if (wristPivot.isEnabled())  {
-                if (!operator.dpadLeft.whilePressed()) wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
-                else wristForward = wristPivot.moveByPosFlat(wristX, wristY, wristForward);
+                if (operator.dpadLeft.whilePressed()) wristForward = wristPivot.moveByPosFlat(wristX, wristY, wristForward);
+                else if (wrist0)  wristPivot.setPosition(0);
+                else wristForward = wristPivot.moveByPos(wristX, wristY, wristForward);
             }
             if (debugMode){
                 wristPivot.setPosition(TeamConstants.WRIST_PIVOT_MIN);
@@ -299,46 +439,56 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristY = 15;
             }
 
-            if (operator.x.pressed()) {
+            if (operator.dpadDown.pressed()){
+                wristX = Math.cos(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches();
+                wristY = Math.sin(Math.toRadians(armPivot.getPosDegrees()-45))*slide.getInches();
+                bigMove = false;
+                bigMSkip = true;
 
-                Actions.runBlocking(
-                        new SequentialAction(
-                                armPivot.armTrig(17,-3),
-                                        slide.slideTrig(17,-3),
-                                new SleepAction(0.5),
-                                        wristPivot.wristTrig(17,0, true),
-                                new SleepAction(0.2),
-                                        gripper.spin(),
-                                new SleepAction(0.3),
-                                gripper.toggle(),
-                                gripper.toggle()
-                        )
-                );
-                wristX = 17;
-                wristY = 0;
+            }
+
+            if (operator.x.whilePressed()) {
+                wristX =17;
+                wristY = -3;
+                wrist0 = true;
+                gripper.spinSpecimen();
+
 //               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
 
             }
-            if (operator.dpadDown.pressed()) {
 
-                Actions.runBlocking(
-                        new SequentialAction(
-                                armPivot.armTrig(wristX-6,wristY),
-                                slide.slideTrig(wristX-6,wristY),
-                                wristPivot.wristTrig(wristX-6, wristY, wristForward),
-                                new SleepAction(0.5),
-                                gripper.toggle()
-                        )
-                );
-                wristX = 17;
-                wristY = 0;
-//               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+            else {
+                if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
+                    gripper.setToToggle();
+                }
 
-            } else if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
-                gripper.setToToggle();
+                if (wrist0) {
+                    wristX = Functions.reverseTrigX(armPivot.getPosDegrees(),slide.getInches());
+                    wristY = Functions.reverseTrigY(armPivot.getPosDegrees(),slide.getInches());
+                }
+                wrist0 = false;
             }
 
-            if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance)
+//            if (operator.dpadDown.pressed()) {
+//
+//                Actions.runBlocking(
+//                        new SequentialAction(
+//                                armPivot.armTrig(wristX-6,wristY),
+//                                slide.slideTrig(wristX-6,wristY),
+//                                wristPivot.wristTrig(wristX-6, wristY, wristForward),
+//                                new SleepAction(0.5),
+//                                gripper.toggle()
+//                        )
+//                );
+//                wristX = 17;
+//                wristY = 0;
+////               gripper.setPosition(TeamConstants.GRIPPER_CLOSE-0.025);
+//
+//            } else if (gripper.servoPos() != TeamConstants.GRIPPER_CLOSE || gripper.servoPos() != TeamConstants.GRIPPER_OPEN) {
+//                gripper.setToToggle();
+//            }
+
+            if (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY)) > TeamConstants.bigMoveTolerance && !bigMSkip)
                 {
                 bigMove = true;
                 retractIsDone = false;
@@ -367,6 +517,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             /* Output Telemtery Data to Driver Stations */
+            telemetry.addData("GoodPose: ", (GoodPose));
             telemetry.addData("Blob Area", bluSamps.getArea());
             telemetry.addData("GripServo: ", gripper.servoPos());
             telemetry.addData("WristRotate: ", wristRotate.servoPos());
@@ -394,6 +545,17 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
             telemetry.addData("SLideEncoders: ", (slide.getPosition()));
             telemetry.addData("WristEnabled: ", (wristPivot.isEnabled()));
+            telemetry.addData("X: ", (autoDrive.pose.position.x));
+            telemetry.addData("Y: ", (autoDrive.pose.position.y));
+            telemetry.addData("H: ", (Math.toDegrees(autoDrive.pose.heading.toDouble())));
+            telemetry.addData("EndPose: ", (EndPos));
+            telemetry.addData("Samps: ", (sampleTrajectorys));
+            telemetry.addData("Spes: ", (specimenTrajectorys));
+            telemetry.addData("Spes: ", (specimenTrajectorys));
+            telemetry.addData("CalcX: ", (Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches())));
+            telemetry.addData("CalcY: ", (Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches())));
+            telemetry.addData("CalcAng: ", (armPivot.getPosDegrees()-45));
+            telemetry.addData("CalcLen: ", (slide.getInches()));
 //            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
@@ -418,6 +580,9 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         driver.update();
         operator.update();
         autoDrive.updatePoseEstimate();
+        if (autoDrive.pose.position.x > 72 || autoDrive.pose.position.x <-72 || autoDrive.pose.position.y > 72 || autoDrive.pose.position.y <-72){
+            GoodPose = false;
+        }
 //        armPivot.periodic(18);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
     }

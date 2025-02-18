@@ -84,7 +84,11 @@ public class Slide implements TeamConstants {
     }
 
     public double countsToInches(double counts) {
-        return (counts * 1/TeamConstants.INCHES_PER_COUNT);
+        return (counts * TeamConstants.INCHES_PER_COUNT);
+    }
+
+    public double getInches() {
+        return countsToInches(motor.getCurrentPosition()) + (408/25.4);
     }
 
 
