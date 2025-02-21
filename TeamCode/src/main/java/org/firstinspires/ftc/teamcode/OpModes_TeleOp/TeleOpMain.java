@@ -47,14 +47,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             armPivot.resetEncoders();
             slide.resetEncoders();
             InitTele = true;
-            wristX = 288.500/25.4;// ~11.358in
-            wristY = -288.500/25.4;
+            wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
+            wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             setAlliance(AllianceColor.BLUE);
             GoodPose = false;
         } else{
             initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
-            wristX = 17;
-            wristY = 0;
+            wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
+            wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             GoodPose = false;
         }
         slide.setDirection();
