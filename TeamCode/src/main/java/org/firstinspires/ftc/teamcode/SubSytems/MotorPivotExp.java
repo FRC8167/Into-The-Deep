@@ -60,7 +60,7 @@ public class MotorPivotExp implements TeamConstants {
         return String.valueOf(motorMain.getDirection());
     }
 
-    public double getVeloctity(){
+    public double getMainVelocity(){
         return motorMain.getVelocity();
     }
 

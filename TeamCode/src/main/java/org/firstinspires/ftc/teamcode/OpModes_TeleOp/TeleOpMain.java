@@ -559,7 +559,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("ArmMainPower: ", (armPivot.getMainPower()));
             telemetry.addData("ArmSecondaryPower: ", (armPivot.getSecondaryPower()));
             telemetry.addData("ArmMainDirection: ", (armPivot.getMainDirection()));
-            telemetry.addData("ArmMainVelocity: ", (armPivot.getMainDirection()));
+            telemetry.addData("ArmMainVelocity: ", (armPivot.getMainVelocity()));
 //            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
