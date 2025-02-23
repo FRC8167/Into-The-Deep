@@ -56,6 +56,13 @@ public class MotorPivotExp implements TeamConstants {
     public double getSecondaryPower() {
         return motorSecondary.getPower();
     }
+    public String getMainDirection() {
+        return String.valueOf(motorMain.getDirection());
+    }
+
+    public double getVeloctity(){
+        return motorMain.getVelocity();
+    }
 
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
@@ -88,6 +95,7 @@ public class MotorPivotExp implements TeamConstants {
         motorMain.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
         motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
         motorMain.setVelocity(4000);
+        motorSecondary.setPower(motorMain.getPower());
         //while (!motor.isBusy()){}
 
     }
