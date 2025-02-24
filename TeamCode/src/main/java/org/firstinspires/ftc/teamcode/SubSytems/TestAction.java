@@ -1,0 +1,42 @@
+package org.firstinspires.ftc.teamcode.SubSytems;
+
+import androidx.annotation.NonNull;
+
+import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
+import com.acmerobotics.roadrunner.Action;
+
+public class TestAction {
+
+    public TestAction() {}
+
+    /* ************************* Actions * *************************/
+    public class Counter implements Action {
+
+        int target;
+        int count;
+        long previousTime;
+        long currentTime;
+
+        public Counter(int countToSeconds) {
+            target = countToSeconds;
+            previousTime = System.currentTimeMillis();
+        }
+
+        @Override
+        public boolean run(@NonNull TelemetryPacket packet) {
+            currentTime = System.currentTimeMillis();
+            if (currentTime - previousTime > 1000) {
+                count += 1;
+                previousTime = currentTime;
+            }
+
+            return count > target;
+        }
+
+    }
+
+    public Action countTo(int seconds) {
+        return new Counter(seconds);
+    }
+
+}
