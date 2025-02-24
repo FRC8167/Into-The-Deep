@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+import org.firstinspires.ftc.teamcode.Cogintilities.PidController;
 
 /*
  *  Tune system to find a value of Kp (Proportional Coefficient in PID) and Kf (feed forward term
@@ -26,12 +27,19 @@ public class MotorPivotExp implements TeamConstants {
     DcMotorEx motorMain;
     DcMotorEx motorSecondary;
 
+
     int tolerance = 20;
     int minRotationCounts;
     double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
     double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
     //double lmin = 408 / 25.4;
     //initialize position = 45; degrees;
+
+    double kP = 0, kI = 0, kD = 0;
+
+    PidController pidController = new PidController(kP, kI, kD, tolerance, 1, -1);
+
+    double power = 0;
 
     public MotorPivotExp(DcMotorEx motorMain, DcMotorEx motorSecondary) {
 
@@ -40,9 +48,10 @@ public class MotorPivotExp implements TeamConstants {
 
 //       resetEncoders();
 
-        motorMain.setTargetPositionTolerance(tolerance);
-        motorMain.setPositionPIDFCoefficients(8);
+//        motorMain.setTargetPositionTolerance(tolerance);
+//        motorMain.setPositionPIDFCoefficients(8);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
@@ -76,7 +85,9 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void periodic() {
-        motorSecondary.setPower(getMainPower());
+        power = pidController.update(motorMain.getCurrentPosition());
+        motorMain.setPower(power);
+        motorSecondary.setPower(power);
 //        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
 
     }
@@ -90,10 +101,11 @@ public class MotorPivotExp implements TeamConstants {
 
     public void setPositionCounts(int counts){
 //        motor.setTargetPosition(clamp(counts));
-        motorMain.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
-        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motorMain.setVelocity(4000);
-        motorSecondary.setPower(motorMain.getPower());
+//        motorMain.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
+//        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+//        motorMain.setVelocity(4000);
+//        motorSecondary.setPower(motorMain.getPower());
+        pidController.setTargetPosition(counts);
         //while (!motor.isBusy()){}
 
     }
