@@ -261,7 +261,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 
 //        Actions.runBlocking(wristPivot.setServoPosition(0.2));
         AutoWristX = 17;
-        AutoWristY = -1;
+        AutoWristY = 1;
 //        updateEnd();
         EndPos = new Pose2d(new Vector2d(24, 12), Math.toRadians(180));
         GoodPose = true;

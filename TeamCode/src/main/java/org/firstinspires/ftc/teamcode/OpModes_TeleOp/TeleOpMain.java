@@ -47,14 +47,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             armPivot.resetEncoders();
             slide.resetEncoders();
             InitTele = true;
-            wristX = 288.500/25.4;// ~11.358in
-            wristY = -288.500/25.4;
+            wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
+            wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             setAlliance(AllianceColor.BLUE);
             GoodPose = false;
         } else{
             initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
-            wristX = 17;
-            wristY = 0;
+            wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
+            wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             GoodPose = false;
         }
         slide.setDirection();
@@ -556,6 +556,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("CalcY: ", (Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches())));
             telemetry.addData("CalcAng: ", (armPivot.getPosDegrees()-45));
             telemetry.addData("CalcLen: ", (slide.getInches()));
+            telemetry.addData("ArmMainPower: ", (armPivot.getMainPower()));
+            telemetry.addData("ArmSecondaryPower: ", (armPivot.getSecondaryPower()));
+            telemetry.addData("ArmMainDirection: ", (armPivot.getMainDirection()));
+            telemetry.addData("ArmMainVelocity: ", (armPivot.getMainVelocity()));
 //            TelemetryPacket packet = new TelemetryPacket();
             packet.fieldOverlay().setStroke("#3F51B5");
             Drawing.drawRobot(packet.fieldOverlay(), autoDrive.pose);
@@ -579,6 +583,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     private void periodicCalls() {
         driver.update();
         operator.update();
+        armPivot.periodic();
         autoDrive.updatePoseEstimate();
         if (autoDrive.pose.position.x > 72 || autoDrive.pose.position.x <-72 || autoDrive.pose.position.y > 72 || autoDrive.pose.position.y <-72){
             GoodPose = false;

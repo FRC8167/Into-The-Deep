@@ -8,9 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
-import org.firstinspires.ftc.teamcode.Cogintilities.PidController;
 
 /*
  *  Tune system to find a value of Kp (Proportional Coefficient in PID) and Kf (feed forward term
@@ -22,11 +20,9 @@ import org.firstinspires.ftc.teamcode.Cogintilities.PidController;
  *  https://ftctechnh.github.io/ftc_app/doc/javadoc/com/qualcomm/robotcore/hardware/DcMotorEx.html
  */
 
-public class MotorPivotExp implements TeamConstants {
+public class MotorPivotExpOrig implements TeamConstants {
 
-    DcMotorEx motorMain;
-    DcMotorEx motorSecondary;
-
+    DcMotorEx motor;
 
     int tolerance = 20;
     int minRotationCounts;
@@ -35,40 +31,18 @@ public class MotorPivotExp implements TeamConstants {
     //double lmin = 408 / 25.4;
     //initialize position = 45; degrees;
 
-    double kP = 0, kI = 0, kD = 0;
+    public MotorPivotExpOrig(DcMotorEx motor) {
 
-    PidController pidController = new PidController(kP, kI, kD, tolerance, 1, -1);
-
-    double power = 0;
-
-    public MotorPivotExp(DcMotorEx motorMain, DcMotorEx motorSecondary) {
-
-        this.motorMain = motorMain;
-        this.motorSecondary = motorSecondary;
-
+        this.motor = motor;
 //       resetEncoders();
 
-//        motorMain.setTargetPositionTolerance(tolerance);
-//        motorMain.setPositionPIDFCoefficients(8);
+        motor.setTargetPositionTolerance(tolerance);
+        motor.setPositionPIDFCoefficients(8);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
     }
 
-    public double getMainPower() {
-        return (motorMain.getVelocity() >= 0) ? Range.clip(motorMain.getCurrent(CurrentUnit.AMPS)/6,0, 1): (motorMain.getVelocity() <= 20 && motorMain.getVelocity() >= -20) ? 0: -0.3;
-    }
-
-    public double getSecondaryPower() {
-        return motorSecondary.getPower();
-    }
-    public String getMainDirection() {
-        return String.valueOf(motorMain.getDirection());
-    }
-
-    public double getMainVelocity(){
-        return motorMain.getVelocity();
+    public double getMotorPower() {
+        return motor.getPower();
     }
 
     public void triangulateTo(double x, double y) {
@@ -79,17 +53,13 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void manualMove(double joystickValue) {
-        int newTarget = (int)(motorMain.getCurrentPosition() + 20 * joystickValue);
+        int newTarget = (int)(motor.getCurrentPosition() + 20 * joystickValue);
         setPositionCounts(newTarget);
     }
 
 
-    public void periodic() {
-        power = pidController.update(motorMain.getCurrentPosition());
-        motorMain.setPower(power);
-        motorSecondary.setPower(power);
-//        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
-
+    public void periodic(int slideLength) {
+        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
     }
 
 
@@ -101,11 +71,9 @@ public class MotorPivotExp implements TeamConstants {
 
     public void setPositionCounts(int counts){
 //        motor.setTargetPosition(clamp(counts));
-//        motorMain.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
-//        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-//        motorMain.setVelocity(4000);
-//        motorSecondary.setPower(motorMain.getPower());
-        pidController.setTargetPosition(counts);
+        motor.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
+        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motor.setVelocity(4000);
         //while (!motor.isBusy()){}
 
     }
@@ -122,22 +90,22 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public int getPosition(){
-        return(motorMain.getCurrentPosition());
+        return(motor.getCurrentPosition());
     }
 
 
     public double getVelocity() {
-        return(motorMain.getVelocity());
+        return(motor.getVelocity());
     }
 
 
     public boolean inMotion() {
-        return motorMain.isBusy();
+        return motor.isBusy();
     }
 
 
     public void resetEncoders() {
-        motorMain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
@@ -153,18 +121,18 @@ public class MotorPivotExp implements TeamConstants {
     }
 
     public double getPosDegrees() {
-        return countsToDegrees(motorMain.getCurrentPosition());
+        return countsToDegrees(motor.getCurrentPosition());
     }
 
-    public int getmotorPos() { return motorMain.getCurrentPosition(); }
+    public int getmotorPos() { return motor.getCurrentPosition(); }
 
 
     public boolean getBusy(){
-        return motorMain.isBusy();
+        return motor.isBusy();
     }
 
     public boolean closeEnough() {
-        return Math.abs(motorMain.getCurrentPosition() - motorMain.getTargetPosition()) * TeamConstants.DEGREES_PER_COUNT < TeamConstants.closeEnoughDegTol;
+        return Math.abs(motor.getCurrentPosition() - motor.getTargetPosition()) * TeamConstants.DEGREES_PER_COUNT < TeamConstants.closeEnoughDegTol;
     }
 
 
@@ -198,7 +166,7 @@ public class MotorPivotExp implements TeamConstants {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             triangulateTo(newx, newy);
-            if (motorMain.isBusy()){
+            if (motor.isBusy()){
                 return true;
             }
             else return false;
