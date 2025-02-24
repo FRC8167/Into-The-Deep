@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 /*
@@ -41,16 +42,13 @@ public class MotorPivotExp implements TeamConstants {
 
         motorMain.setTargetPositionTolerance(tolerance);
         motorMain.setPositionPIDFCoefficients(8);
-        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorSecondary.setTargetPositionTolerance(tolerance);
-        motorSecondary.setPositionPIDFCoefficients(8);
         motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
     public double getMainPower() {
-        return motorMain.getPower();
+        return (motorMain.getVelocity() >= 0) ? Range.clip(motorMain.getCurrent(CurrentUnit.AMPS)/6,0, 1): (motorMain.getVelocity() <= 20 && motorMain.getVelocity() >= -20) ? 0: -0.3;
     }
 
     public double getSecondaryPower() {
@@ -78,7 +76,7 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void periodic() {
-        motorSecondary.setPower(motorMain.getPower());
+        motorSecondary.setPower(getMainPower());
 //        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
 
     }
