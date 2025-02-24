@@ -22,7 +22,7 @@ public class TeleOp_Counter extends LinearOpMode {
         waitForStart();
 
         while(opModeIsActive() && !timesUp) {
-            Actions.runBlocking(counter.countTo(10);
+            Actions.runBlocking(new SequentialAction((counter.countTo(10))));
             timesUp = true;
         }
     }
