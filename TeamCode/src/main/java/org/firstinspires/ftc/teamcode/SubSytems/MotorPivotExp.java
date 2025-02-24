@@ -35,9 +35,8 @@ public class MotorPivotExp implements TeamConstants {
     //double lmin = 408 / 25.4;
     //initialize position = 45; degrees;
 
-    double kP = 0, kI = 0, kD = 0;
+    PidController MotorController;
 
-    PidController pidController = new PidController(kP, kI, kD, tolerance, 1, -1);
 
     double power = 0;
 
@@ -45,6 +44,10 @@ public class MotorPivotExp implements TeamConstants {
 
         this.motorMain = motorMain;
         this.motorSecondary = motorSecondary;
+
+        double kP = 0, kI = 0, kD = 0;
+
+        this.MotorController = new PidController(kP, kI, kD, tolerance, 1, -1);
 
 //       resetEncoders();
 
@@ -85,7 +88,7 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void periodic() {
-        power = pidController.update(motorMain.getCurrentPosition());
+        power = MotorController.update(motorMain.getCurrentPosition());
         motorMain.setPower(power);
         motorSecondary.setPower(power);
 //        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
@@ -105,7 +108,7 @@ public class MotorPivotExp implements TeamConstants {
 //        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 //        motorMain.setVelocity(4000);
 //        motorSecondary.setPower(motorMain.getPower());
-        pidController.setTargetPosition(counts);
+        MotorController.setTargetPosition(counts);
         //while (!motor.isBusy()){}
 
     }

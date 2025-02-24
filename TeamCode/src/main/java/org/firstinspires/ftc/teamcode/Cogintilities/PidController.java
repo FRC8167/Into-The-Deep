@@ -2,6 +2,11 @@ package org.firstinspires.ftc.teamcode.Cogintilities;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+/**
+ * A PID (Proportional-Integral-Derivative) controller implementation for controlling a system's position.
+ * This class provides methods to set the target position, update the controller, and check if the system
+ * has reached the target.
+ */
 public class PidController {
     private final double proportionalGain; // kP
     private final double integralGain;     // kI
@@ -15,6 +20,7 @@ public class PidController {
     private double previousError;
     private final ElapsedTime timer;
     private double lastUpdateTime;
+    private double maxIntegralAccumulation; // Added to limit integral windup
 
     /**
      * Constructor for the PID controller.
@@ -39,6 +45,7 @@ public class PidController {
         this.previousError = 0.0;
         this.timer = new ElapsedTime();
         this.lastUpdateTime = 0.0;
+        this.maxIntegralAccumulation = maxOutput / integralGain; // Initialize based on max output and kI
     }
 
     /**
@@ -48,17 +55,17 @@ public class PidController {
      */
     public void setTargetPosition(double targetPosition) {
         this.targetPosition = targetPosition;
-        resetIntegral();
-        this.previousError = 0.0;
-        timer.reset();
-        this.lastUpdateTime = 0.0;
+        reset(); // Reset all state variables when target changes
     }
 
     /**
-     * Resets the integral term of the PID controller.
+     * Resets the integral term and other state variables of the PID controller.
      */
-    public void resetIntegral() {
+    public void reset() {
         this.accumulatedError = 0.0;
+        this.previousError = 0.0;
+        timer.reset();
+        this.lastUpdateTime = 0.0;
     }
 
     /**
@@ -73,16 +80,17 @@ public class PidController {
         double deltaTime = currentTime - lastUpdateTime;
         lastUpdateTime = currentTime;
 
-        // Avoid division by zero if deltaTime is zero
-        if (deltaTime == 0) {
-            deltaTime = 0.001; // Use a small value to avoid division by zero
+        // Avoid division by zero if deltaTime is zero or very small
+        if (deltaTime <= 0.0001) {
+            deltaTime = 0.0001; // Use a small value to avoid division by zero and prevent large derivative spikes
         }
 
         // Proportional term
         double proportional = proportionalGain * error;
 
-        // Integral term
+        // Integral term with anti-windup
         accumulatedError += error * deltaTime;
+        accumulatedError = Math.max(Math.min(accumulatedError, maxIntegralAccumulation), -maxIntegralAccumulation); // Limit the integral term
         double integralTerm = integralGain * accumulatedError;
 
         // Derivative term
@@ -106,6 +114,15 @@ public class PidController {
      */
     public boolean isAtTarget(double currentPosition) {
         return Math.abs(targetPosition - currentPosition) <= tolerance;
+    }
+
+    /**
+     * Sets the maximum accumulation for the integral term.
+     *
+     * @param maxIntegralAccumulation The maximum accumulation value.
+     */
+    public void setMaxIntegralAccumulation(double maxIntegralAccumulation) {
+        this.maxIntegralAccumulation = maxIntegralAccumulation;
     }
 
     // Example Usage (in an FTC OpMode):
