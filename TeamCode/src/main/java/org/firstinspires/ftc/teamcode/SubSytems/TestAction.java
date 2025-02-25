@@ -22,6 +22,10 @@ public class TestAction {
             previousTime = System.currentTimeMillis();
         }
 
+        public int getCount() {
+            return count;
+        }
+
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             currentTime = System.currentTimeMillis();
