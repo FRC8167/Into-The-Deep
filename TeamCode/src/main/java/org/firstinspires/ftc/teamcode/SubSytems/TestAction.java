@@ -25,7 +25,7 @@ public class TestAction {
         @Override
         public boolean run(@NonNull TelemetryPacket packet) {
             currentTime = System.currentTimeMillis();
-            if (currentTime - previousTime > 1000) {
+            if (currentTime - previousTime >= 1000) {
                 count +=  (int) (currentTime - previousTime) / 1000;
                 previousTime = currentTime - (currentTime - previousTime) % 1000;
             }
