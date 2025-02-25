@@ -21,6 +21,11 @@ public class Time {
         return (time-lastTime) * 1000;
     }
 
+    public double minutes() {
+        time = System.currentTimeMillis() / 1000.0;
+        return (time-lastTime) / 60;
+    }
+
 
     public void reset() {
         time = System.currentTimeMillis() / 1000.0;
