@@ -104,13 +104,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             bigMSkip = false;
 
             TelemetryPacket packet = new TelemetryPacket();
-            List<Action> newActions = new ArrayList<>(); //Why doesn't this reset the added trajectories?
+            List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
                 if (action.run(packet)) {
                     newActions.add(action);
                 }
             }
-            runningActions = newActions;
+            runningActions = newActions; // associates new action reference with runningActions as well allowing the original reference to be changed and still have access
             dash.sendTelemetryPacket(packet);
 
                     switch (getAlliance()) {
