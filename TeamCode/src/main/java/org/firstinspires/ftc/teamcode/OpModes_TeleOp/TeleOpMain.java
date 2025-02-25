@@ -104,7 +104,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             bigMSkip = false;
 
             TelemetryPacket packet = new TelemetryPacket();
-            List<Action> newActions = new ArrayList<>();
+            List<Action> newActions = new ArrayList<>(); //Why doesn't this reset the added trajectories?
             for (Action action : runningActions) {
                 if (action.run(packet)) {
                     newActions.add(action);
