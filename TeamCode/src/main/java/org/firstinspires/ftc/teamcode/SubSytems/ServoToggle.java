@@ -7,6 +7,8 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
+
 public class ServoToggle extends Servo1D {
 
 
@@ -34,10 +36,10 @@ public class ServoToggle extends Servo1D {
         toggleGripper();
     }
     public void spinSpecimen(){
-        setPosition(GRIPPER_CLOSE-0.025);
+        setPosition(TeamConstants.GRIPPER_SPIN);
     }
     public void extraOpen(){
-        setPosition(GRIPPER_OPEN-0.1);
+        setPosition(TeamConstants.GRIPPER_EOPEN);
     }
 
     /* ************************* Actions * *************************/

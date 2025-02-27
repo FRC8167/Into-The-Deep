@@ -31,10 +31,19 @@ public interface TeamConstants {
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
+    double GRIPPER_Multiplier = 1; // 65.25262 original, 85.25262 extended
+//    double GRIPPER_Multiplier = 85.25262/65.25262; // 65.25262 original, 85.25262 extended
+
+
     double GRIPPER_MAX_POS = 0.54;
     double GRIPPER_MIN_POS = 0.40;
     double GRIPPER_CLOSE   = 0.53;
-    double GRIPPER_OPEN    = 0.42;
+    double GRIPPER_OPEN    = GRIPPER_CLOSE - 0.11/GRIPPER_Multiplier; //0.42
+
+    double GRIPPER_SPIN = GRIPPER_CLOSE-0.025/GRIPPER_Multiplier;
+    double GRIPPER_EOPEN = GRIPPER_OPEN-0.1/GRIPPER_Multiplier;
+
+
 
 
     /*~~~~~~~~~~~~~~~~~~~~~ Arm Rotate Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~*/

@@ -18,7 +18,7 @@ public class PidController {
     private double targetPosition;
     private double accumulatedError; // Integral
     private double previousError;
-    private final ElapsedTime timer;
+    private final Time timer;
     private double lastUpdateTime;
     private double maxIntegralAccumulation; // Added to limit integral windup
 
@@ -43,7 +43,7 @@ public class PidController {
         this.targetPosition = 0.0;
         this.accumulatedError = 0.0;
         this.previousError = 0.0;
-        this.timer = new ElapsedTime();
+        this.timer = new Time();
         this.lastUpdateTime = 0.0;
         this.maxIntegralAccumulation = maxOutput / integralGain; // Initialize based on max output and kI
     }

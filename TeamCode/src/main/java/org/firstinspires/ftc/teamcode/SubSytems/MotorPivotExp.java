@@ -45,7 +45,7 @@ public class MotorPivotExp implements TeamConstants {
         this.motorMain = motorMain;
         this.motorSecondary = motorSecondary;
 
-        double kP = 1, kI = 0, kD = 0;
+        double kP = 0.05, kI = 0, kD = 0;
 
         this.MotorController = new PidController(kP, kI, kD, tolerance, 1, -1);
 

@@ -35,7 +35,7 @@ public class TestAction {
                 previousTime = currentTime; // - (currentTime - previousTime) % 1000;
             }
 
-            return count > target;
+            return !(count > target);
         }
 
     }
