@@ -118,6 +118,17 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
                     switch (getAlliance()) {
                         case BLUE:
+                            if (autoDrive.pose.position.x > 24) {
+                                sampleTrajectorys = true;
+                                specimenTrajectorys = false;
+
+                            }
+                            else if (autoDrive.pose.position.x < -24) {
+                                sampleTrajectorys = false;
+                                specimenTrajectorys = true;
+
+                            }
+
                             if (sampleTrajectorys) {
                                 if (driver.x.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToBasketsBlue = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
@@ -165,18 +176,20 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
                                 }
                             }
-                            if (autoDrive.pose.position.x > 24) {
-                            sampleTrajectorys = true;
-                            specimenTrajectorys = false;
+
+                            break;
+                        case RED:
+                            if (autoDrive.pose.position.x < -24) {
+                                sampleTrajectorys = true;
+                                specimenTrajectorys = false;
 
                             }
-                            else if (autoDrive.pose.position.x < -24) {
+                            else if (autoDrive.pose.position.x > 24) {
                                 sampleTrajectorys = false;
                                 specimenTrajectorys = true;
 
                             }
-                            break;
-                        case RED:
+
                             if (sampleTrajectorys) {
                                 if (driver.x.pressed() && GoodPose) {
                                     TrajectoryActionBuilder driveToBasketsRed = autoDrive.actionBuilder(new Pose2d(autoDrive.pose.position.x, autoDrive.pose.position.y, autoDrive.pose.heading.toDouble()))
@@ -223,16 +236,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
                                 }
                             }
-                            if (autoDrive.pose.position.x < -24) {
-                                sampleTrajectorys = true;
-                                specimenTrajectorys = false;
 
-                            }
-                            else if (autoDrive.pose.position.x > 24) {
-                                sampleTrajectorys = false;
-                                specimenTrajectorys = true;
-
-                            }
                             break;
                     }
 
@@ -384,7 +388,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //                telemetry.addLine(String.format(Locale.ROOT,"%d, (%d, %d)", i, (int) bluSamps.getPoint()[i].x, (int) bluSamps.getPoint()[i].y));
 //            }
 
-            if(driver.a.whilePressed() && aprilTags.AprilTagUpdatePose()!=null)  {
+//            if(driver.a.whilePressed() && aprilTags.AprilTagUpdatePose()!=null)  {
 //                for (AprilTagDetection detection : aprilTags.allAprilTagsDetected()) {
 //                    if (detection.metadata != null) {
 //                        telemetry.addLine(String.format("\n==== (ID %d) %s", detection.id, detection.metadata.name));
@@ -409,7 +413,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //                telemetry.addData("X: ", atX);
 //                telemetry.addData("Y: ", atY);
 //                telemetry.addData("H: ", atH);
-            }
+//            }
 
             if(operator.rightBumper.pressed()) { //score high basket
                 wristX = 13;
