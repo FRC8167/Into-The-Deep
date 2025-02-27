@@ -58,6 +58,10 @@ public class PidController {
         reset(); // Reset all state variables when target changes
     }
 
+    public double getTargetPosition() {
+        return targetPosition;
+    }
+
     /**
      * Resets the integral term and other state variables of the PID controller.
      */
@@ -81,8 +85,8 @@ public class PidController {
         lastUpdateTime = currentTime;
 
         // Avoid division by zero if deltaTime is zero or very small
-        if (deltaTime <= 0.0001) {
-            deltaTime = 0.0001; // Use a small value to avoid division by zero and prevent large derivative spikes
+        if (deltaTime <= 0.04) {
+            deltaTime = 0.04; // Use a small value to avoid division by zero and prevent large derivative spikes
         }
 
         // Proportional term

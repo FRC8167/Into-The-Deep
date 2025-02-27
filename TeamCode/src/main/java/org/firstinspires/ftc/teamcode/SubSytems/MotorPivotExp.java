@@ -45,7 +45,7 @@ public class MotorPivotExp implements TeamConstants {
         this.motorMain = motorMain;
         this.motorSecondary = motorSecondary;
 
-        double kP = 0, kI = 0, kD = 0;
+        double kP = 1, kI = 0, kD = 0;
 
         this.MotorController = new PidController(kP, kI, kD, tolerance, 1, -1);
 
@@ -60,18 +60,28 @@ public class MotorPivotExp implements TeamConstants {
     }
 
     public double getMainPower() {
-        return (motorMain.getVelocity() >= 0) ? Range.clip(motorMain.getCurrent(CurrentUnit.AMPS)/6,0, 1): (motorMain.getVelocity() <= 20 && motorMain.getVelocity() >= -20) ? 0: -0.3;
+        return motorMain.getPower();
     }
 
     public double getSecondaryPower() {
         return motorSecondary.getPower();
     }
+
+    public void setPowers(double power){
+        motorMain.setPower(power);
+        motorSecondary.setPower(power);
+    }
+
     public String getMainDirection() {
         return String.valueOf(motorMain.getDirection());
     }
 
     public double getMainVelocity(){
         return motorMain.getVelocity();
+    }
+
+    public double getTarget(){
+        return MotorController.getTargetPosition();
     }
 
     public void triangulateTo(double x, double y) {
@@ -86,9 +96,14 @@ public class MotorPivotExp implements TeamConstants {
         setPositionCounts(newTarget);
     }
 
-
+    /** *********************** Periodic ********************* **/
     public void periodic() {
-        power = MotorController.update(motorMain.getCurrentPosition());
+        if (!MotorController.isAtTarget(motorMain.getCurrentPosition())) {
+            power = MotorController.update(motorMain.getCurrentPosition());
+        }
+        else{
+            power = 0;
+        }
         motorMain.setPower(power);
         motorSecondary.setPower(power);
 //        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
@@ -109,6 +124,7 @@ public class MotorPivotExp implements TeamConstants {
 //        motorMain.setVelocity(4000);
 //        motorSecondary.setPower(motorMain.getPower());
         MotorController.setTargetPosition(counts);
+        periodic();
         //while (!motor.isBusy()){}
 
     }

@@ -19,6 +19,7 @@ public class TestAction {
 
         public Counter(int countToSeconds) {
             target = countToSeconds;
+            count = 0;
             previousTime = System.currentTimeMillis();
         }
 
@@ -30,8 +31,8 @@ public class TestAction {
         public boolean run(@NonNull TelemetryPacket packet) {
             currentTime = System.currentTimeMillis();
             if (currentTime - previousTime >= 1000) {
-                count +=  (int) (currentTime - previousTime) / 1000;
-                previousTime = currentTime - (currentTime - previousTime) % 1000;
+                count += 1; // (int) (currentTime - previousTime) / 1000;
+                previousTime = currentTime; // - (currentTime - previousTime) % 1000;
             }
 
             return count > target;
