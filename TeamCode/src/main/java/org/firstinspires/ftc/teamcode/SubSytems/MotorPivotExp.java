@@ -45,17 +45,24 @@ public class MotorPivotExp implements TeamConstants {
         this.motorMain = motorMain;
         this.motorSecondary = motorSecondary;
 
+
+
+        this.motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+//        this.motorMain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.motorSecondary.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
         double kP = 0.05, kI = 0, kD = 0;
 
-        this.MotorController = new PidController(kP, kI, kD, tolerance, 1, -1);
+        this.MotorController = new PidController(kP, kI, kD, tolerance);
 
 //       resetEncoders();
 
 //        motorMain.setTargetPositionTolerance(tolerance);
 //        motorMain.setPositionPIDFCoefficients(8);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
     }
 
@@ -72,17 +79,17 @@ public class MotorPivotExp implements TeamConstants {
         motorSecondary.setPower(power);
     }
 
-    public String getMainDirection() {
-        return String.valueOf(motorMain.getDirection());
-    }
+//    public String getMainDirection() {
+//        return String.valueOf(motorMain.getDirection());
+//    }
+//
+//    public double getMainVelocity(){
+//        return motorMain.getVelocity();
+//    }
 
-    public double getMainVelocity(){
-        return motorMain.getVelocity();
-    }
-
-    public double getTarget(){
-        return MotorController.getTargetPosition();
-    }
+//    public double getTarget(){
+//        return MotorController.getTargetPosition();
+//    }
 
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
@@ -98,14 +105,14 @@ public class MotorPivotExp implements TeamConstants {
 
     /** *********************** Periodic ********************* **/
     public void periodic() {
-        if (!MotorController.isAtTarget(motorMain.getCurrentPosition())) {
-            power = MotorController.update(motorMain.getCurrentPosition());
+        power = MotorController.update(motorMain.getCurrentPosition());
+        if (!MotorController.isGood()) {
+            setPowers(power);
         }
         else{
-            power = 0;
+            setPowers(0);
         }
-        motorMain.setPower(power);
-        motorSecondary.setPower(power);
+
 //        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
 
     }
@@ -123,8 +130,7 @@ public class MotorPivotExp implements TeamConstants {
 //        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
 //        motorMain.setVelocity(4000);
 //        motorSecondary.setPower(motorMain.getPower());
-        MotorController.setTargetPosition(counts);
-        periodic();
+        MotorController.setTarget(counts);
         //while (!motor.isBusy()){}
 
     }

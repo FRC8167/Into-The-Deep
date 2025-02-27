@@ -5,8 +5,8 @@ public class Time {
     private double lastTime;
 
     public Time() {
-        this.time = 0.0;
-        this.lastTime = 0.0;
+        this.time = System.currentTimeMillis();
+        this.lastTime = System.currentTimeMillis();
     }
 
 
@@ -23,7 +23,7 @@ public class Time {
 
     public double minutes() {
         time = System.currentTimeMillis() / 1000.0;
-        return (time-lastTime) / 60;
+        return (time - lastTime) / 60;
     }
 
 
