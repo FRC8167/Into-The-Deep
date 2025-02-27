@@ -6,9 +6,7 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 import org.firstinspires.ftc.teamcode.Cogintilities.PidController;
 
@@ -28,7 +26,7 @@ public class MotorPivotExp implements TeamConstants {
     DcMotorEx motorSecondary;
 
 
-    int tolerance = 20;
+    int tolerance = 100;
     int minRotationCounts;
     double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
     double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
@@ -53,7 +51,7 @@ public class MotorPivotExp implements TeamConstants {
 //        this.motorMain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        this.motorSecondary.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        double kP = 0.05, kI = 0, kD = 0;
+        double kP = 0.02, kI = 0, kD = 0;
 
         this.MotorController = new PidController(kP, kI, kD, tolerance);
 
@@ -69,12 +67,22 @@ public class MotorPivotExp implements TeamConstants {
     public double getMainPower() {
         return motorMain.getPower();
     }
+    public DcMotor.RunMode getMainMode() {
+        return motorMain.getMode();
+    }
+
+    public DcMotor.RunMode getSecMode() {
+        return motorSecondary.getMode();
+    }
 
     public double getSecondaryPower() {
         return motorSecondary.getPower();
     }
 
     public void setPowers(double power){
+        this.motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         motorMain.setPower(power);
         motorSecondary.setPower(power);
     }
@@ -131,6 +139,7 @@ public class MotorPivotExp implements TeamConstants {
 //        motorMain.setVelocity(4000);
 //        motorSecondary.setPower(motorMain.getPower());
         MotorController.setTarget(counts);
+        periodic();
         //while (!motor.isBusy()){}
 
     }

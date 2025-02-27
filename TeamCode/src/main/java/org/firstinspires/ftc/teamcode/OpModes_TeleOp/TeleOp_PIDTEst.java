@@ -67,9 +67,11 @@ public class TeleOp_PIDTEst extends LinearOpMode {
 //            if (Math.abs(error) <= 20){
 //                target = TeamConstants.COUNTS_PER_DEGREE * 45;
 //            }
-            pid.setTarget(target);
-            power = pid.update(pivot.getPosition());
-            pivot.setPowers(power);
+//            pid.setTarget(target);
+//            power = pid.update(pivot.getPosition());
+//            pivot.setPowers(power);
+            pivot.setPositionDegrees(45);
+            pivot.periodic();
 
             telemetry.addData("Power: ", power);
             telemetry.addData("Pos: ", pivot.getPosition()*TeamConstants.DEGREES_PER_COUNT);

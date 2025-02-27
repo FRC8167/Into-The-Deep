@@ -10,6 +10,7 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Cogintilities.GamepadWrapper;
+import org.firstinspires.ftc.teamcode.Cogintilities.Time;
 import org.firstinspires.ftc.teamcode.Drawing;
 import org.firstinspires.ftc.teamcode.Robot.RobotConfiguration;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -88,6 +89,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double oldFdrive;
         double oldStrafe;
         double oldTurn;
+
+        Time time = new Time();
 
         telemetry.update();
 
@@ -398,16 +401,15 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //                        telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
 //                    }
 //                }
-                double atX = aprilTags.AprilTagUpdatePose()[0];
-                double atY = aprilTags.AprilTagUpdatePose()[1];
-                double atH = aprilTags.AprilTagUpdatePose()[2];
-                Pose2d atPose = new Pose2d(atX, atY, atH);
-                Pose2d initialPose = atPose;
-                telemetry.addData("X: ", atX);
-                telemetry.addData("Y: ", atY);
-                telemetry.addData("H: ", atH);
+//                double atX = aprilTags.AprilTagUpdatePose()[0];
+//                double atY = aprilTags.AprilTagUpdatePose()[1];
+//                double atH = aprilTags.AprilTagUpdatePose()[2];
+//                Pose2d atPose = new Pose2d(atX, atY, atH);
+//                Pose2d initialPose = atPose;
+//                telemetry.addData("X: ", atX);
+//                telemetry.addData("Y: ", atY);
+//                telemetry.addData("H: ", atH);
             }
-
 
             if(operator.rightBumper.pressed()) { //score high basket
                 wristX = 13;
@@ -417,7 +419,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 wristX = 20;
                 wristY = -3.5;
             }
-            
+
             if(armPivot.closeEnough() && slide.closeEnough() && !wristPivot.isEnabled()){
                 wristPivot.enable();
             }
@@ -517,47 +519,51 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             /* Output Telemtery Data to Driver Stations */
-            telemetry.addData("GoodPose: ", (GoodPose));
-            telemetry.addData("Blob Area", bluSamps.getArea());
-            telemetry.addData("GripServo: ", gripper.servoPos());
-            telemetry.addData("WristRotate: ", wristRotate.servoPos());
-            telemetry.addData("WristPivot: ", wristPivot.servoPos());
-            telemetry.addData("Pivot Encoder", armPivot.getPosition());
-            telemetry.addData("LX: ", operator.leftStick_X);
-            telemetry.addData("LY: ", operator.leftStick_Y);
-            telemetry.addData("RY: ", operator.rightStick_Y);
-            telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
-            telemetry.addData("TargetX: ", wristX);
-            telemetry.addData("TargetY: ", wristY);
-            telemetry.addData("Length: ", (Math.sqrt(wristX*wristX+wristY*wristY)));
-            telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
-            telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
-            telemetry.addData("ClassServoPos: ", (wristPivot.getServoPos()));
-            telemetry.addData("ClassServoPos: ", (bigMove));
-            telemetry.addData("retractDone: ", (retractIsDone));
-            telemetry.addData("pivotDone: ", (pivotIsDone));
-            telemetry.addData("extendDone: ", (extendIsDone));
-            telemetry.addData("bigMove: ", (bigMove));
-            telemetry.addData("Dist: ", (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY))));
-            telemetry.addData("armBusy: ", (armPivot.getBusy()));
-            telemetry.addData("slideBusy: ", (slide.getBusy()));
-            telemetry.addData("rotateAng: ", (wristRotate.getRotateAcuteAng()));
-            telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
-            telemetry.addData("SLideEncoders: ", (slide.getPosition()));
-            telemetry.addData("WristEnabled: ", (wristPivot.isEnabled()));
-            telemetry.addData("X: ", (autoDrive.pose.position.x));
-            telemetry.addData("Y: ", (autoDrive.pose.position.y));
-            telemetry.addData("H: ", (Math.toDegrees(autoDrive.pose.heading.toDouble())));
-            telemetry.addData("EndPose: ", (EndPos));
-            telemetry.addData("Samps: ", (sampleTrajectorys));
-            telemetry.addData("Spes: ", (specimenTrajectorys));
-            telemetry.addData("Spes: ", (specimenTrajectorys));
-            telemetry.addData("CalcX: ", (Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches())));
-            telemetry.addData("CalcY: ", (Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches())));
-            telemetry.addData("CalcAng: ", (armPivot.getPosDegrees()-45));
-            telemetry.addData("CalcLen: ", (slide.getInches()));
-            telemetry.addData("ArmMainPower: ", (armPivot.getMainPower()));
-            telemetry.addData("ArmSecondaryPower: ", (armPivot.getSecondaryPower()));
+//            telemetry.addData("GoodPose: ", (GoodPose));
+//            telemetry.addData("Blob Area", bluSamps.getArea());
+//            telemetry.addData("GripServo: ", gripper.servoPos());
+//            telemetry.addData("WristRotate: ", wristRotate.servoPos());
+//            telemetry.addData("WristPivot: ", wristPivot.servoPos());
+//            telemetry.addData("Pivot Encoder", armPivot.getPosition());
+//            telemetry.addData("LX: ", operator.leftStick_X);
+//            telemetry.addData("LY: ", operator.leftStick_Y);
+//            telemetry.addData("RY: ", operator.rightStick_Y);
+//            telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
+//            telemetry.addData("TargetX: ", wristX);
+//            telemetry.addData("TargetY: ", wristY);
+//            telemetry.addData("Length: ", (Math.sqrt(wristX*wristX+wristY*wristY)));
+//            telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
+//            telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
+//            telemetry.addData("ClassServoPos: ", (wristPivot.getServoPos()));
+//            telemetry.addData("ClassServoPos: ", (bigMove));
+//            telemetry.addData("retractDone: ", (retractIsDone));
+//            telemetry.addData("pivotDone: ", (pivotIsDone));
+//            telemetry.addData("extendDone: ", (extendIsDone));
+//            telemetry.addData("bigMove: ", (bigMove));
+//            telemetry.addData("Dist: ", (Math.sqrt((wristX-oldWristX)*(wristX-oldWristX)+(wristY-oldWristY)*(wristY-oldWristY))));
+//            telemetry.addData("armBusy: ", (armPivot.getBusy()));
+//            telemetry.addData("slideBusy: ", (slide.getBusy()));
+//            telemetry.addData("rotateAng: ", (wristRotate.getRotateAcuteAng()));
+//            telemetry.addData("PIvotEncoders: ", (armPivot.getPosition()));
+//            telemetry.addData("SLideEncoders: ", (slide.getPosition()));
+//            telemetry.addData("WristEnabled: ", (wristPivot.isEnabled()));
+//            telemetry.addData("X: ", (autoDrive.pose.position.x));
+//            telemetry.addData("Y: ", (autoDrive.pose.position.y));
+//            telemetry.addData("H: ", (Math.toDegrees(autoDrive.pose.heading.toDouble())));
+//            telemetry.addData("EndPose: ", (EndPos));
+//            telemetry.addData("Samps: ", (sampleTrajectorys));
+//            telemetry.addData("Spes: ", (specimenTrajectorys));
+//            telemetry.addData("Spes: ", (specimenTrajectorys));
+//            telemetry.addData("CalcX: ", (Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches())));
+//            telemetry.addData("CalcY: ", (Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches())));
+//            telemetry.addData("CalcAng: ", (armPivot.getPosDegrees()-45));
+//            telemetry.addData("CalcLen: ", (slide.getInches()));
+//            telemetry.addData("ArmMainPower: ", (armPivot.getMainPower()));
+//            telemetry.addData("ArmSecondaryPower: ", (armPivot.getSecondaryPower()));
+//            telemetry.addData("MainMOde: ", (armPivot.getMainMode()));
+//            telemetry.addData("SecMOde: ", (armPivot.getSecMode()));
+            telemetry.addData("Time: ", (time.milliseconds()));
+            time.reset();
 //            telemetry.addData("ArmMainDirection: ", (armPivot.getMainDirection()));
 //            telemetry.addData("ArmMainVelocity: ", (armPivot.getMainVelocity()));
 //            TelemetryPacket packet = new TelemetryPacket();
