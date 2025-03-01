@@ -55,6 +55,12 @@ public interface TeamConstants {
     int MIN_POSITION_COUNTS = 0;    // TODO: update when the arm install is complete
     int MAX_POSITION_COUNTS = 9000; // TODO: update when the arm install is complete
     int PIVOT_SCORE_HIGH = 1;
+    double m1 = 0.0027839;
+    double m2 = 0.173144;
+    double l = 14.17;
+
+    double SecTorque = 133.2; //kg*cm
+    double SecDownMultiplier = 0.5;
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

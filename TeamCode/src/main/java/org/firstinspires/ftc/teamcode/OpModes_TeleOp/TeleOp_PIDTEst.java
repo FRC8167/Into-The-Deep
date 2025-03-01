@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.PidController;
 import org.firstinspires.ftc.teamcode.Cogintilities.Time;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -34,7 +35,7 @@ public class TeleOp_PIDTEst extends LinearOpMode {
 
         DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "arm");
         DcMotorEx armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
-        MotorPivotExp pivot = new MotorPivotExp(armMotor, armMotor2);
+//        MotorPivotExp pivot = new MotorPivotExp(armMotor, armMotor2);
         time = new Time();
         pid = new PidController(0.03,0,0,20);
 
@@ -70,11 +71,13 @@ public class TeleOp_PIDTEst extends LinearOpMode {
 //            pid.setTarget(target);
 //            power = pid.update(pivot.getPosition());
 //            pivot.setPowers(power);
-            pivot.setPositionDegrees(45);
-            pivot.periodic();
+//            //pivot.setPositionDegrees(45);
+            armMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            armMotor2.setPower(0.5);
+//            pivot.periodic();
 
-            telemetry.addData("Power: ", power);
-            telemetry.addData("Pos: ", pivot.getPosition()*TeamConstants.DEGREES_PER_COUNT);
+            telemetry.addData("Curren: ", armMotor2.getCurrent(CurrentUnit.AMPS));
+//            telemetry.addData("Pos: ", pivot.getPosition()*TeamConstants.DEGREES_PER_COUNT);
             telemetry.update();
 
 

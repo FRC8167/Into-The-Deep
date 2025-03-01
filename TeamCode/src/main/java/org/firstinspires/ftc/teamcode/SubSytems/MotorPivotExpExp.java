@@ -6,9 +6,8 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.util.Range;
 
+import org.firstinspires.ftc.teamcode.Cogintilities.PidController;
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 /*
@@ -21,65 +20,84 @@ import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
  *  https://ftctechnh.github.io/ftc_app/doc/javadoc/com/qualcomm/robotcore/hardware/DcMotorEx.html
  */
 
-public class MotorPivotExp implements TeamConstants {
+public class MotorPivotExpExp implements TeamConstants {
 
     DcMotorEx motorMain;
     DcMotorEx motorSecondary;
 
-    int tolerance = 20;
+
+    int tolerance = 100;
     int minRotationCounts;
     double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
     double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
     //double lmin = 408 / 25.4;
     //initialize position = 45; degrees;
 
-    public MotorPivotExp(DcMotorEx motorMain, DcMotorEx motorSecondary) {
+    PidController MotorController;
+
+
+    double power = 0;
+
+    public MotorPivotExpExp(DcMotorEx motorMain, DcMotorEx motorSecondary) {
 
         this.motorMain = motorMain;
         this.motorSecondary = motorSecondary;
 
+
+
+        this.motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+//        this.motorMain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        this.motorSecondary.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        double kP = 0.02, kI = 0, kD = 0;
+
+        this.MotorController = new PidController(kP, kI, kD, tolerance);
+
 //       resetEncoders();
 
-        motorMain.setTargetPositionTolerance(tolerance);
-        motorMain.setPositionPIDFCoefficients(8);
-
-        this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        this.motorSecondary.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        motorMain.setTargetPositionTolerance(tolerance);
+//        motorMain.setPositionPIDFCoefficients(8);
 //        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
     }
 
-    public double getMotorPower() {
+    public double getMainPower() {
         return motorMain.getPower();
     }
-
-    public double angCalc(double x, double y){
-        return (Math.toDegrees(-Math.atan2(x, y))+135+45-90);
+    public DcMotor.RunMode getMainMode() {
+        return motorMain.getMode();
     }
 
-    public double secondaryForceCalcIntermediate(double angle, double x, double y){
-        return (Math.cos(Math.toRadians(angle))*(Math.hypot(x,y)/2)*m1)+(Math.cos(Math.toRadians(angle))*(l/2)*m2);
-    }
-    public double secondaryForceCalc(double x, double y){
-        double angle = angCalc(x,y);
-        return secondaryForceCalcIntermediate(angle,x,y)*Math.hypot(x,y)*2.54;
+    public DcMotor.RunMode getSecMode() {
+        return motorSecondary.getMode();
     }
 
-    public double secondaryPowerCalc(double x, double y){
-        return secondaryForceCalc(x,y)/SecTorque;
+    public double getSecondaryPower() {
+        return motorSecondary.getPower();
     }
 
+    public void setPowers(double power){
+        this.motorMain.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-    public void setMotorSecondaryPower(double power){
-        if (motorMain.getVelocity() >= 0) {
-            this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            motorSecondary.setPower(0);
-        }
-        else {
-//            motorSecondary.setPower(power*SecDownMultiplier);
-            motorSecondary.setPower(-0.2);
-        }
-
+        motorMain.setPower(power);
+        motorSecondary.setPower(power);
     }
+
+//    public String getMainDirection() {
+//        return String.valueOf(motorMain.getDirection());
+//    }
+//
+//    public double getMainVelocity(){
+//        return motorMain.getVelocity();
+//    }
+
+//    public double getTarget(){
+//        return MotorController.getTargetPosition();
+//    }
 
     public void triangulateTo(double x, double y) {
         int newTarget = (int)(((Math.toDegrees(-Math.atan2(x, y))+135)/TeamConstants.DEGREES_PER_COUNT));
@@ -93,9 +111,18 @@ public class MotorPivotExp implements TeamConstants {
         setPositionCounts(newTarget);
     }
 
+    /** *********************** Periodic ********************* **/
+    public void periodic() {
+        power = MotorController.update(motorMain.getCurrentPosition());
+        if (!MotorController.isGood()) {
+            setPowers(power);
+        }
+        else{
+            setPowers(0);
+        }
 
-    public void periodic(double x, double y) {
-        setMotorSecondaryPower(secondaryPowerCalc(x,y));
+//        minRotationCounts = degreesToCounts(Math.acos((h-y)/slideLength) * 180 / Math.PI);
+
     }
 
 
@@ -107,9 +134,12 @@ public class MotorPivotExp implements TeamConstants {
 
     public void setPositionCounts(int counts){
 //        motor.setTargetPosition(clamp(counts));
-        motorMain.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
-        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motorMain.setVelocity(4000);
+//        motorMain.setTargetPosition(Range.clip(counts, MIN_POSITION_COUNTS, MAX_POSITION_COUNTS));
+//        motorMain.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+//        motorMain.setVelocity(4000);
+//        motorSecondary.setPower(motorMain.getPower());
+        MotorController.setTarget(counts);
+        periodic();
         //while (!motor.isBusy()){}
 
     }
@@ -185,7 +215,7 @@ public class MotorPivotExp implements TeamConstants {
         public boolean run(@NonNull TelemetryPacket packet) {
             setPositionCounts(position);
 
-            return true;
+                return true;
 
         }
 

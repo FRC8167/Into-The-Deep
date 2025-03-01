@@ -532,9 +532,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            telemetry.addData("LX: ", operator.leftStick_X);
 //            telemetry.addData("LY: ", operator.leftStick_Y);
 //            telemetry.addData("RY: ", operator.rightStick_Y);
-//            telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
-//            telemetry.addData("TargetX: ", wristX);
-//            telemetry.addData("TargetY: ", wristY);
+            telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
+            telemetry.addData("ArmAng: ", (armPivot.angCalc(wristX,wristY)));
+            telemetry.addData("TargetX: ", wristX);
+            telemetry.addData("TargetY: ", wristY);
+            telemetry.addData("ForceInt: ", (armPivot.secondaryForceCalcIntermediate(armPivot.angCalc(wristX,wristY),wristX,wristY)));
+            telemetry.addData("Force: ", armPivot.secondaryForceCalc(wristX,wristY));
+            telemetry.addData("Power: ", armPivot.secondaryPowerCalc(wristX,wristY));
 //            telemetry.addData("Length: ", (Math.sqrt(wristX*wristX+wristY*wristY)));
 //            telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
 //            telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
@@ -586,6 +590,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             telemetry.update();
             periodicCalls();
+            armPivot.periodic(wristX,wristY);
         }
     }
 
@@ -593,7 +598,6 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
     private void periodicCalls() {
         driver.update();
         operator.update();
-        armPivot.periodic();
         autoDrive.updatePoseEstimate();
         if (autoDrive.pose.position.x > 72 || autoDrive.pose.position.x <-72 || autoDrive.pose.position.y > 72 || autoDrive.pose.position.y <-72){
             GoodPose = false;
