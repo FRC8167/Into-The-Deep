@@ -33,6 +33,7 @@ public interface TeamConstants {
     /*~~~~~~~~~~~~~~~~~~~~~~~ Gripper Subsystem Constants ~~~~~~~~~~~~~~~~~~~~~~~*/
     double GRIPPER_Multiplier = 1; // 65.25262 original, 85.25262 extended
 //    double GRIPPER_Multiplier = 85.25262/65.25262; // 65.25262 original, 85.25262 extended
+    double GRIPPER_LENGTH_OFFSET = 0;
 
 
     double GRIPPER_MAX_POS = 0.54;

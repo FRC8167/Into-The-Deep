@@ -416,12 +416,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            }
 
             if(operator.rightBumper.pressed()) { //score high basket
-                wristX = 13;
+                wristX = 13-TeamConstants.GRIPPER_LENGTH_OFFSET;
                 wristY = 31;
             }
             if(operator.leftBumper.pressed()) { //score in submersible
                 wristX = 20;
-                wristY = -3.5;
+                wristY = -3.5+TeamConstants.GRIPPER_LENGTH_OFFSET;
             }
 
             if(armPivot.closeEnough() && slide.closeEnough() && !wristPivot.isEnabled()){
@@ -441,7 +441,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             if (operator.dpadUp.pressed()){
-                wristX = 20;
+                wristX = 20-TeamConstants.GRIPPER_LENGTH_OFFSET;
                 wristY = 15;
             }
 
@@ -455,7 +455,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             if (operator.x.whilePressed()) {
                 wristX =17;
-                wristY = -3;
+                wristY = -3+TeamConstants.GRIPPER_LENGTH_OFFSET;
                 wrist0 = true;
                 gripper.spinSpecimen();
 
