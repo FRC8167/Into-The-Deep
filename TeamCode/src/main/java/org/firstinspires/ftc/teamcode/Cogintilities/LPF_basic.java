@@ -7,7 +7,9 @@ public class LPF_basic {
 
     /**
      *
-     * @param alphaValue Filter Gain. (0 < alpha < 1) Higher value increases filtering.
+     * @param alphaValue Filter Gain. (0 < alpha < 1) Higher value increases filtering. Alpha is
+     *                   a value that is calculated from the desired cutoff frequency and the time
+     *                   period between updates.
      */
     public LPF_basic(double alphaValue) {
         alpha = alphaValue;
