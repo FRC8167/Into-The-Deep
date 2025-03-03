@@ -6,7 +6,6 @@ import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -64,8 +63,12 @@ public class MotorPivotExp implements TeamConstants {
         return secondaryForceCalcIntermediate(angle,x,y)*Math.hypot(x,y)*2.54;
     }
 
+    public double velocityTorqueCalc(double currentRPM, double maxRPM, double maxTorque){
+        return (-maxTorque/maxRPM) * currentRPM + maxTorque;
+    }
+
     public double secondaryPowerCalc(double x, double y){
-        return secondaryForceCalc(x,y)/SecTorque;
+        return secondaryForceCalc(x,y)/ velocityTorqueCalc(countsToDegrees(motorMain.getVelocity())/60, SecMaxSpeed, SecMaxTorque);
     }
 
 

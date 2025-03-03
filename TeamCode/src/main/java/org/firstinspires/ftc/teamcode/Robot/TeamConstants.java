@@ -59,7 +59,8 @@ public interface TeamConstants {
     double m2 = 0.173144;
     double l = 14.17;
 
-    double SecTorque = 133.2; //kg*cm
+    double SecMaxTorque = 133.2; //kg*cm
+    double SecMaxSpeed = 60; //RPM
     double SecDownMultiplier = 0.5;
 
 
