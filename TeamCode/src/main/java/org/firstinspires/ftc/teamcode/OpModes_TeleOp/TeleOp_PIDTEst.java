@@ -72,8 +72,9 @@ public class TeleOp_PIDTEst extends LinearOpMode {
 //            power = pid.update(pivot.getPosition());
 //            pivot.setPowers(power);
 //            //pivot.setPositionDegrees(45);
+            armMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             armMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            armMotor2.setPower(0.5);
+            armMotor2.setPower(0);
 //            pivot.periodic();
 
             telemetry.addData("Curren: ", armMotor2.getCurrent(CurrentUnit.AMPS));

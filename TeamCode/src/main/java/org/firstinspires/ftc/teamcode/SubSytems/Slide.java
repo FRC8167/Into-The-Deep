@@ -61,7 +61,7 @@ public class Slide implements TeamConstants {
     public void setPositionCounts(int counts){
         motor.setTargetPosition(Range.clip(counts, SLIDE_MIN, SLIDE_MAX));
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        motor.setVelocity(3000);
+        motor.setVelocity(2000);
         //while (!motor.isBusy()){}
     }
 
@@ -81,6 +81,9 @@ public class Slide implements TeamConstants {
     }
     public int getPosition(){
         return(motor.getCurrentPosition());
+    }
+    public double getVelocity(){
+        return(motor.getVelocity());
     }
 
     public double countsToInches(double counts) {

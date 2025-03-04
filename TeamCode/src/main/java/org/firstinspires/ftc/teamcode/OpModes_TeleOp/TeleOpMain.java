@@ -534,6 +534,8 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            telemetry.addData("RY: ", operator.rightStick_Y);
             telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
             telemetry.addData("ArmAng: ", (armPivot.angCalc(wristX,wristY)));
+            telemetry.addData("SlideVelocity: ", (slide.getVelocity()));
+            telemetry.addData("ArmVelocity: ", (armPivot.getVelocity()));
             telemetry.addData("TargetX: ", wristX);
             telemetry.addData("TargetY: ", wristY);
             telemetry.addData("ForceInt: ", (armPivot.secondaryForceCalcIntermediate(armPivot.angCalc(wristX,wristY),wristX,wristY)));
