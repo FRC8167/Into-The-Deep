@@ -33,21 +33,20 @@ public class TeleOp_PIDTEst extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        DcMotorEx armMotor = hardwareMap.get(DcMotorEx.class, "arm");
-        DcMotorEx armMotor2 = hardwareMap.get(DcMotorEx.class, "arm2");
+        DcMotorEx test = hardwareMap.get(DcMotorEx.class, "test");
 //        MotorPivotExp pivot = new MotorPivotExp(armMotor, armMotor2);
-        time = new Time();
-        pid = new PidController(0.03,0,0,20);
-
-        target = TeamConstants.COUNTS_PER_DEGREE * 90;
-        previousTime = System.currentTimeMillis();
-        currentTime = System.currentTimeMillis();
-
-        error = 0;
-        lastError = 0;
-
-        kP = 0.03;
-        kD = 0;
+//        time = new Time();
+//        pid = new PidController(0.03,0,0,20);
+//
+//        target = TeamConstants.COUNTS_PER_DEGREE * 90;
+//        previousTime = System.currentTimeMillis();
+//        currentTime = System.currentTimeMillis();
+//
+//        error = 0;
+//        lastError = 0;
+//
+//        kP = 0.03;
+//        kD = 0;
 
 //        MotorController = new PidController(0.05,0,0,1.5,-1,1);
 
@@ -72,12 +71,13 @@ public class TeleOp_PIDTEst extends LinearOpMode {
 //            power = pid.update(pivot.getPosition());
 //            pivot.setPowers(power);
 //            //pivot.setPositionDegrees(45);
-            armMotor2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            armMotor2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            armMotor2.setPower(0);
+            test.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            test.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            test.setPower(1);
 //            pivot.periodic();
 
-            telemetry.addData("Curren: ", armMotor2.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Current: ", test.getCurrent(CurrentUnit.AMPS));
+            telemetry.addData("Velocity: ", test.getVelocity());
 //            telemetry.addData("Pos: ", pivot.getPosition()*TeamConstants.DEGREES_PER_COUNT);
             telemetry.update();
 

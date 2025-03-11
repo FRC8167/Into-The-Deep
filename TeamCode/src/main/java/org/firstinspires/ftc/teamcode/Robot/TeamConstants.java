@@ -98,6 +98,10 @@ public interface TeamConstants {
     double Wrist_X_MIN = 3; // required for extension constraint rule
     double Wrist_Y_MIN = -8.6; // required for not hit ground TODO: Fine Tune Value
 
+    /*~~~~~~~~~~~~~~~~~~~~ Vision ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+    int FRAME_WIDTH = 640;
+    int FRAME_HEIGHT = 480;
+    double DRIVE_KP = 0.1;
 
     /*~~~~~~~~~~~~~~~~~~~~ Other ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
     double bigMoveTolerance = 1;

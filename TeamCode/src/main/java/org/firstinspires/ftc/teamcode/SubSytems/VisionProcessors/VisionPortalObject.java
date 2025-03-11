@@ -5,16 +5,11 @@ import android.util.Size;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
-import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class VisionPortalObject {
@@ -87,6 +82,7 @@ public class VisionPortalObject {
         while (visionPortal.getCameraState() != VisionPortal.CameraState.STREAMING) {
         }
         setManualExposure(CAMERA_EXPOSURE, CAMERA_GAIN);
+
     }
 
     /**
@@ -122,5 +118,16 @@ public class VisionPortalObject {
      * to update anything on a periodic basis, typically once per loop in runOpMode.
      */
     public void periodic() { }
+
+    public void disableVision() {
+        visionPortal.setProcessorEnabled(processors.get(0), false);
+
+        }
+
+
+
+    public void enableVision() {
+        visionPortal.setProcessorEnabled(processors.get(0), true);
+    }
 
 }

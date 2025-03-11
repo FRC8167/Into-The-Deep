@@ -20,10 +20,10 @@ import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
 import org.firstinspires.ftc.teamcode.SubSytems.Slide;
 import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.AprilTagProcessorObject;
-import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
-import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.teamcode.SubSytems.MecanumDriveBasic;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
+import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.ColorProcessor;
+import org.firstinspires.ftc.teamcode.SubSytems.VisionProcessors.VisionPortalObject;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.opencv.ColorRange;
 
@@ -82,8 +82,8 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*----------- Define all Module Classes (SubSystems) ------------*/
     static protected MecanumDriveBasic  drive;
     static protected MecanumDrive       autoDrive;
-    protected VisionPortalObject        atVision;
-    protected VisionPortalObject        colorVision;
+    static protected VisionPortalObject atVision;
+    static protected VisionPortalObject colorVision;
     static protected ServoRotate        wristRotate;
     static protected ServoPivot         wristPivot;
     static protected ServoToggle        gripper;
@@ -143,19 +143,19 @@ public abstract class RobotConfiguration extends LinearOpMode {
         slide       = new Slide(slideMotor);
         Functions   = new Func();
 
-//        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
-//        aTPortalID = myPortalIDs[1];
-//        colorPortalID = myPortalIDs[0];
-//
-//        atVision    = new VisionPortalObject.Builder(webCam2, aTPortalID)
-//                .addProcessor(aprilTags.getProcessor())
-//                .build();
-//
-//        colorVision =  new VisionPortalObject.Builder(webCam1, colorPortalID)
-//                .addProcessor(bluSamps.colorProcessor())
-//                .addProcessor(redSamps.colorProcessor())
-//                .addProcessor((yelSamps.colorProcessor()))
-//                .build();
+        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+        aTPortalID = myPortalIDs[1];
+        colorPortalID = myPortalIDs[0];
+
+        atVision = new VisionPortalObject.Builder(webCam2, aTPortalID)
+                .addProcessor(aprilTags.getProcessor())
+                .build();
+
+        colorVision = new VisionPortalObject.Builder(webCam1, colorPortalID)
+                .addProcessor(bluSamps.colorProcessor())
+                .addProcessor(redSamps.colorProcessor())
+                .addProcessor((yelSamps.colorProcessor()))
+                .build();
     }
 
 

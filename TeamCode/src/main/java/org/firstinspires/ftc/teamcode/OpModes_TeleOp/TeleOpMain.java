@@ -73,6 +73,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double trigMoveMultiplier = 1;
         boolean debugMode = false; //runs default commands for debugging purposes
 
+        atVision.disableVision();
+
+        double centerOffsetX = 0;
+        double centerOffsetY = 0;
+        boolean blobFound = false;
+
+        double WristYFromGnd = 13;
+
         boolean sampleTrajectorys = true;
         boolean specimenTrajectorys = false;
         // true: back+a false: back+b
@@ -89,6 +97,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double oldFdrive;
         double oldStrafe;
         double oldTurn;
+        double time2 = System.currentTimeMillis();
 
         Time time = new Time();
 
@@ -307,6 +316,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 drive.setDegradedDrive(false, 0.8);
             }
             if (runningActions.isEmpty()) {
+                if (blobFound){
+                    strafe = centerOffsetX * DRIVE_KP;
+                }
+
                 drive.mecanumDrive(fdrive, strafe, turn);
             }
             //Robot Pose to Score Baskets x = 58, y = 61, theta = 45
@@ -360,21 +373,55 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             }
 
             if (operator.y.whilePressed()) { //yellow sample camera
-                wristRotate.moveAng(yelSamps.CalcWristAngleDegrees());
+                blobFound = (redSamps.getClosestBlobToCenter() != null);
+                if (blobFound) {
+                    wristRotate.moveAng(yelSamps.GetAvgWristAngle());
+                    centerOffsetX = yelSamps.getCenterOffsetInchesX(yelSamps.calcInchPerPixelHorizontal(WristYFromGnd));
+                    centerOffsetY = yelSamps.getCenterOffsetInchesY(yelSamps.calcInchPerPixelVertical(13));
+                }
+                else {
+                    centerOffsetX = 0;
+                    centerOffsetY = 0;
+                }
             }
 
-//            else if(operator.x.whilePressed()) {
-//                switch (getAlliance()) {
-//                    case RED:
-//                        wristRotate.moveAng(redSamps.CalcWristAngleDegrees());
-//                        break;
-//                    case BLUE:
-//                        wristRotate.moveAng(bluSamps.CalcWristAngleDegrees());
-//                        break;
-//                }
-//            }
+            else if(operator.x.whilePressed()) {
+                switch (getAlliance()) {
+                    case RED:
+                        blobFound = (redSamps.getClosestBlobToCenter() != null);
+                        if (blobFound) {
+                            wristRotate.moveAng(redSamps.GetAvgWristAngle());
+                            centerOffsetX = redSamps.getCenterOffsetInchesX(redSamps.calcInchPerPixelHorizontal(WristYFromGnd));
+                            centerOffsetY = redSamps.getCenterOffsetInchesY(redSamps.calcInchPerPixelVertical(WristYFromGnd));
+                        }
+                        else {
+                            centerOffsetX = 0;
+                            centerOffsetY = 0;
+                        }
+                        break;
+                    case BLUE:
+                        blobFound = (bluSamps.getClosestBlobToCenter() != null);
+                        if (blobFound) {
+                            centerOffsetX = bluSamps.getCenterOffsetInchesX(bluSamps.calcInchPerPixelHorizontal(WristYFromGnd));
+                            centerOffsetY = bluSamps.getCenterOffsetInchesY(bluSamps.calcInchPerPixelVertical(WristYFromGnd));
+                        }
+                        else {
+                        centerOffsetX = 0;
+                        centerOffsetY = 0;
+                        bluSamps.clearAngles();
+                    }
+                        break;
+                }
+            }
+
             else {
                     wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
+                    blobFound = false;
+                    yelSamps.clearAngles();
+                    redSamps.clearAngles();
+                    bluSamps.clearAngles();
+                    centerOffsetX = 0;
+                    centerOffsetY = 0;
                 }
 
 
@@ -453,7 +500,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             }
 
-            if (operator.x.whilePressed()) {
+            if (operator.x.whilePressed() && false) {
                 wristX =17;
                 wristY = -3+TeamConstants.GRIPPER_LENGTH_OFFSET;
                 wrist0 = true;
@@ -541,6 +588,12 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("ForceInt: ", (armPivot.secondaryForceCalcIntermediate(armPivot.angCalc(wristX,wristY),wristX,wristY)));
             telemetry.addData("Force: ", armPivot.secondaryForceCalc(wristX,wristY));
             telemetry.addData("Power: ", armPivot.secondaryPowerCalc(wristX,wristY));
+            telemetry.addData("Millis: ", System.currentTimeMillis()-time2);
+            telemetry.addData("SlidePos: ", slide.getPosition());
+            telemetry.addData("ArmPos: ", armPivot.getPosition());
+            telemetry.addData("OffX: ", centerOffsetX);
+            telemetry.addData("OffY: ", centerOffsetY);
+            telemetry.addData("Blob: ", blobFound);
 //            telemetry.addData("Length: ", (Math.sqrt(wristX*wristX+wristY*wristY)));
 //            telemetry.addData("Test: ", (Math.sqrt(wristX*wristX+wristY*wristY)/(TeamConstants.SLIDE_MAX*TeamConstants.INCHES_PER_COUNT+(408/25.4))));
 //            telemetry.addData("ClassAngle: ", (wristPivot.getAngle()));
