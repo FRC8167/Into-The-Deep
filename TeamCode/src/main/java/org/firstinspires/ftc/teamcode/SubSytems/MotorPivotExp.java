@@ -27,6 +27,8 @@ public class MotorPivotExp implements TeamConstants {
 
     int tolerance = 20;
     int minRotationCounts;
+    double wristX;
+    double wristY;
     double y = 161.7 / 25.4;        // Distance from wrist pivot joint to the floor
     double h = (336 + 48) / 25.4;   // Distance from arm pivot axis to the floor
     //double lmin = 408 / 25.4;
@@ -51,6 +53,10 @@ public class MotorPivotExp implements TeamConstants {
         return motorMain.getPower();
     }
 
+    public double getMotorSecPower() {
+        return motorSecondary.getPower();
+    }
+
     public double angCalc(double x, double y){
         return (Math.toDegrees(-Math.atan2(x, y))+135+45-90);
     }
@@ -73,13 +79,18 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void setMotorSecondaryPower(double power){
-        if (motorMain.getVelocity() >= 0) {
-            this.motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        if (motorMain.getTargetPosition() == motorMain.getCurrentPosition() || wristY <= 25) {
+            motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             motorSecondary.setPower(0);
         }
+
+        else if (motorMain.getTargetPosition() > motorMain.getCurrentPosition()) {
+            motorSecondary.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motorSecondary.setPower(power*SecUpMultiplier);
+        }
         else {
-//            motorSecondary.setPower(power*SecDownMultiplier);
-            motorSecondary.setPower(-0.2);
+            motorSecondary.setPower(power*SecDownMultiplier);
+//            motorSecondary.setPower(0);
         }
 
     }
@@ -98,6 +109,8 @@ public class MotorPivotExp implements TeamConstants {
 
 
     public void periodic(double x, double y) {
+        wristX = x;
+        wristY = y;
         setMotorSecondaryPower(secondaryPowerCalc(x,y));
     }
 
@@ -164,6 +177,8 @@ public class MotorPivotExp implements TeamConstants {
     }
 
     public int getmotorPos() { return motorMain.getCurrentPosition(); }
+
+    public int getmotorTar() { return motorMain.getTargetPosition(); }
 
 
     public boolean getBusy(){

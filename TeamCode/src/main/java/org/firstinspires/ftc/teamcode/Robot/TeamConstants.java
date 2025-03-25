@@ -65,7 +65,8 @@ public interface TeamConstants {
 
     double SecMaxTorque = 133.2; //kg*cm
     double SecMaxSpeed = 60; //RPM
-    double SecDownMultiplier = 0.5;
+    double SecUpMultiplier = 0.9;
+    double SecDownMultiplier = 0;
 
 
     /*~~~~~~~~~~~~~~~~~~~~~~~~~~~ Slide Constants ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

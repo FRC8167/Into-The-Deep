@@ -385,7 +385,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 }
             }
 
-            else if(operator.x.whilePressed()) {
+            else if(operator.x.whilePressed() && false) {
                 switch (getAlliance()) {
                     case RED:
                         blobFound = (redSamps.getClosestBlobToCenter() != null);
@@ -500,7 +500,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
             }
 
-            if (operator.x.whilePressed() && false) {
+            if (operator.x.whilePressed()) {
                 wristX =17;
                 wristY = -3+TeamConstants.GRIPPER_LENGTH_OFFSET;
                 wrist0 = true;
@@ -586,8 +586,14 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             telemetry.addData("TargetX: ", wristX);
             telemetry.addData("TargetY: ", wristY);
             telemetry.addData("ForceInt: ", (armPivot.secondaryForceCalcIntermediate(armPivot.angCalc(wristX,wristY),wristX,wristY)));
+            telemetry.addData("VelCalc: ", armPivot.velocityTorqueCalc(armPivot.getVelocity()*TeamConstants.DEGREES_PER_COUNT, TeamConstants.SecMaxSpeed, TeamConstants.SecMaxTorque));
             telemetry.addData("Force: ", armPivot.secondaryForceCalc(wristX,wristY));
             telemetry.addData("Power: ", armPivot.secondaryPowerCalc(wristX,wristY));
+            telemetry.addData("SecSetPower: ", armPivot.getMotorSecPower());
+
+            telemetry.addData("CPos: ", armPivot.getmotorPos());
+            telemetry.addData("TPos: ", armPivot.getmotorTar());
+
             telemetry.addData("Millis: ", System.currentTimeMillis()-time2);
             telemetry.addData("SlidePos: ", slide.getPosition());
             telemetry.addData("ArmPos: ", armPivot.getPosition());
