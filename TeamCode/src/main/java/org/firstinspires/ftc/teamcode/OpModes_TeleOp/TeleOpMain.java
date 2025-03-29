@@ -266,19 +266,24 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             oldFdrive = fdrive;
             oldStrafe = strafe;
             oldTurn = turn;
-            if (driver.leftStick_Y != 0) {
+
+            telemetry.addData("TestF", oldFdrive*-driver.leftStick_Y > 0);
+            telemetry.addData("TestS", oldStrafe*driver.leftStick_X > 0);
+            telemetry.addData("TestT", oldTurn*driver.rightStick_X > 0);
+
+            if (driver.leftStick_Y != 0 && oldFdrive*-driver.leftStick_Y > 0) {
                 fdrive = Functions.clamp(oldFdrive - TeamConstants.Accel_Limit, -driver.leftStick_Y, oldFdrive + TeamConstants.Accel_Limit);
             }
             else{
                 fdrive = Functions.clamp(oldFdrive - TeamConstants.Accel_Stop_Limit, -driver.leftStick_Y, oldFdrive + TeamConstants.Accel_Stop_Limit);
             }
-            if (driver.leftStick_X != 0 || operator.rightStick_X != 0) {
+            if ((driver.leftStick_X != 0 || operator.rightStick_X != 0) && oldStrafe*driver.leftStick_X > 0) {
                 strafe = Functions.clamp(oldStrafe - TeamConstants.Accel_Limit, (driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X)), oldStrafe + TeamConstants.Accel_Limit);
             }
             else {
                 strafe = Functions.clamp(oldStrafe - TeamConstants.Accel_Stop_Limit, (driver.leftStick_X + (trigMoveMultiplier * 0.5 * operator.rightStick_X)), oldStrafe + TeamConstants.Accel_Stop_Limit);
             }
-            if (driver.rightStick_X != 0) {
+            if (driver.rightStick_X != 0 && oldTurn*driver.rightStick_X > 0) {
                 turn = Functions.clamp(oldTurn - TeamConstants.Accel_Limit, driver.rightStick_X, oldTurn + TeamConstants.Accel_Limit);
             }
             else {
