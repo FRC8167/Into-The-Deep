@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.Cogintilities.Func;
 import org.firstinspires.ftc.teamcode.SubSytems.MotorPivotExp;
+import org.firstinspires.ftc.teamcode.SubSytems.ServoLight;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoPivot;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoRotate;
 import org.firstinspires.ftc.teamcode.SubSytems.ServoToggle;
@@ -82,21 +83,22 @@ public abstract class RobotConfiguration extends LinearOpMode {
     /*----------- Define all Module Classes (SubSystems) ------------*/
     static protected MecanumDriveBasic  drive;
     static protected MecanumDrive       autoDrive;
-    static protected VisionPortalObject atVision;
-    static protected VisionPortalObject colorVision;
+//    static protected VisionPortalObject atVision;
+//    static protected VisionPortalObject colorVision;
     static protected ServoRotate        wristRotate;
     static protected ServoPivot         wristPivot;
     static protected ServoToggle        gripper;
     static protected MotorPivotExp      armPivot;
     static protected Slide              slide;
     static protected Func               Functions;
+    static protected ServoLight         light;
 
 
     /*---------------------- Vision Objects -------------------------*/
-    protected ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
-    protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
-    protected ColorProcessor yelSamps = new ColorProcessor(ColorRange.YELLOW);
-    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
+//    protected ColorProcessor bluSamps = new ColorProcessor(ColorRange.BLUE);
+//    protected ColorProcessor redSamps = new ColorProcessor(ColorRange.RED);
+//    protected ColorProcessor yelSamps = new ColorProcessor(ColorRange.YELLOW);
+//    protected AprilTagProcessorObject aprilTags = new AprilTagProcessorObject();
 
 
     /**
@@ -129,6 +131,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
         Servo wristPivotServo = hardwareMap.get(Servo.class, "servo1");
         Servo wristRotateServo = hardwareMap.get(Servo.class, "servo2");
         Servo gripperServo = hardwareMap.get(Servo.class, "servo0");
+        Servo lightServo = hardwareMap.get(Servo.class, "servo3");
 
         WebcamName webCam1      = hardwareMap.get(WebcamName.class, "Webcam1");
         WebcamName webCam2      = hardwareMap.get(WebcamName.class, "Webcam2");
@@ -142,20 +145,21 @@ public abstract class RobotConfiguration extends LinearOpMode {
         armPivot    = new MotorPivotExp(armMotor, armMotor2);
         slide       = new Slide(slideMotor);
         Functions   = new Func();
+        light       = new ServoLight(lightServo, 0, 0, 1);
 
-        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
-        aTPortalID = myPortalIDs[1];
-        colorPortalID = myPortalIDs[0];
-
-        atVision = new VisionPortalObject.Builder(webCam2, aTPortalID)
-                .addProcessor(aprilTags.getProcessor())
-                .build();
-
-        colorVision = new VisionPortalObject.Builder(webCam1, colorPortalID)
-                .addProcessor(bluSamps.colorProcessor())
-                .addProcessor(redSamps.colorProcessor())
-                .addProcessor((yelSamps.colorProcessor()))
-                .build();
+//        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
+//        aTPortalID = myPortalIDs[1];
+//        colorPortalID = myPortalIDs[0];
+//
+//        atVision = new VisionPortalObject.Builder(webCam2, aTPortalID)
+//                .addProcessor(aprilTags.getProcessor())
+//                .build();
+//
+//        colorVision = new VisionPortalObject.Builder(webCam1, colorPortalID)
+//                .addProcessor(bluSamps.colorProcessor())
+//                .addProcessor(redSamps.colorProcessor())
+//                .addProcessor((yelSamps.colorProcessor()))
+//                .build();
     }
 
 

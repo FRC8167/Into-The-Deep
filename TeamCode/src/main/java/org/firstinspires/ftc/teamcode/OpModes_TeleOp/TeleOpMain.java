@@ -73,7 +73,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double trigMoveMultiplier = 1;
         boolean debugMode = false; //runs default commands for debugging purposes
 
-        atVision.disableVision();
+//        atVision.disableVision();
 
         double centerOffsetX = 0;
         double centerOffsetY = 0;
@@ -315,6 +315,17 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
                 drive.setDegradedDrive(true, 0.45);
+            } else if ((autoDrive.pose.position.x > 36 && autoDrive.pose.position.y < -36 || autoDrive.pose.position.x < -36 && autoDrive.pose.position.y > 36) && GoodPose) {
+                if ((180 - (Math.toDegrees(Math.atan2(wristX, wristY)))) >= 90) {
+                    if ((autoDrive.pose.position.x > 36 && autoDrive.pose.position.y < -54 || autoDrive.pose.position.x < -36 && autoDrive.pose.position.y > 53)){
+                        drive.setDegradedDrive(true, 0.3);
+                    }
+                    else {
+                        drive.setDegradedDrive(true, 0.45);
+                    }
+                } else {
+                    drive.setDegradedDrive(true, 0.6);
+                }
             } else if (wristY > 25) {
                 drive.setDegradedDrive(true, 0.6);
             } else {
@@ -377,57 +388,57 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
                 debugMode = false;
             }
 
-            if (operator.y.whilePressed()) { //yellow sample camera
-                blobFound = (redSamps.getClosestBlobToCenter() != null);
-                if (blobFound) {
-                    wristRotate.moveAng(yelSamps.GetAvgWristAngle());
-                    centerOffsetX = yelSamps.getCenterOffsetInchesX(yelSamps.calcInchPerPixelHorizontal(WristYFromGnd));
-                    centerOffsetY = yelSamps.getCenterOffsetInchesY(yelSamps.calcInchPerPixelVertical(13));
-                }
-                else {
-                    centerOffsetX = 0;
-                    centerOffsetY = 0;
-                }
-            }
+//            if (operator.y.whilePressed()) { //yellow sample camera
+//                blobFound = (redSamps.getClosestBlobToCenter() != null);
+//                if (blobFound) {
+//                    wristRotate.moveAng(yelSamps.GetAvgWristAngle());
+//                    centerOffsetX = yelSamps.getCenterOffsetInchesX(yelSamps.calcInchPerPixelHorizontal(WristYFromGnd));
+//                    centerOffsetY = yelSamps.getCenterOffsetInchesY(yelSamps.calcInchPerPixelVertical(13));
+//                }
+//                else {
+//                    centerOffsetX = 0;
+//                    centerOffsetY = 0;
+//                }
+//            }
 
-            else if(operator.x.whilePressed() && false) {
-                switch (getAlliance()) {
-                    case RED:
-                        blobFound = (redSamps.getClosestBlobToCenter() != null);
-                        if (blobFound) {
-                            wristRotate.moveAng(redSamps.GetAvgWristAngle());
-                            centerOffsetX = redSamps.getCenterOffsetInchesX(redSamps.calcInchPerPixelHorizontal(WristYFromGnd));
-                            centerOffsetY = redSamps.getCenterOffsetInchesY(redSamps.calcInchPerPixelVertical(WristYFromGnd));
-                        }
-                        else {
-                            centerOffsetX = 0;
-                            centerOffsetY = 0;
-                        }
-                        break;
-                    case BLUE:
-                        blobFound = (bluSamps.getClosestBlobToCenter() != null);
-                        if (blobFound) {
-                            centerOffsetX = bluSamps.getCenterOffsetInchesX(bluSamps.calcInchPerPixelHorizontal(WristYFromGnd));
-                            centerOffsetY = bluSamps.getCenterOffsetInchesY(bluSamps.calcInchPerPixelVertical(WristYFromGnd));
-                        }
-                        else {
-                        centerOffsetX = 0;
-                        centerOffsetY = 0;
-                        bluSamps.clearAngles();
-                    }
-                        break;
-                }
-            }
+//            else if(operator.x.whilePressed() && false) {
+//                switch (getAlliance()) {
+//                    case RED:
+//                        blobFound = (redSamps.getClosestBlobToCenter() != null);
+//                        if (blobFound) {
+//                            wristRotate.moveAng(redSamps.GetAvgWristAngle());
+//                            centerOffsetX = redSamps.getCenterOffsetInchesX(redSamps.calcInchPerPixelHorizontal(WristYFromGnd));
+//                            centerOffsetY = redSamps.getCenterOffsetInchesY(redSamps.calcInchPerPixelVertical(WristYFromGnd));
+//                        }
+//                        else {
+//                            centerOffsetX = 0;
+//                            centerOffsetY = 0;
+//                        }
+//                        break;
+//                    case BLUE:
+//                        blobFound = (bluSamps.getClosestBlobToCenter() != null);
+//                        if (blobFound) {
+//                            centerOffsetX = bluSamps.getCenterOffsetInchesX(bluSamps.calcInchPerPixelHorizontal(WristYFromGnd));
+//                            centerOffsetY = bluSamps.getCenterOffsetInchesY(bluSamps.calcInchPerPixelVertical(WristYFromGnd));
+//                        }
+//                        else {
+//                        centerOffsetX = 0;
+//                        centerOffsetY = 0;
+//                        bluSamps.clearAngles();
+//                    }
+//                        break;
+//                }
+//            }
 
-            else {
+//            else {
                     wristRotate.moveTrig(operator.leftStick_X, operator.leftStick_Y);
                     blobFound = false;
-                    yelSamps.clearAngles();
-                    redSamps.clearAngles();
-                    bluSamps.clearAngles();
+//                    yelSamps.clearAngles();
+//                    redSamps.clearAngles();
+//                    bluSamps.clearAngles();
                     centerOffsetX = 0;
                     centerOffsetY = 0;
-                }
+//                }
 
 
 
@@ -584,7 +595,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            telemetry.addData("LX: ", operator.leftStick_X);
 //            telemetry.addData("LY: ", operator.leftStick_Y);
 //            telemetry.addData("RY: ", operator.rightStick_Y);
-            telemetry.addData("Ang: ", (Math.toDegrees(-Math.atan2(wristX, wristY))+135));
+            telemetry.addData("Ang: ", (180 - (Math.toDegrees(Math.atan2(wristX, wristY)))));
             telemetry.addData("ArmAng: ", (armPivot.angCalc(wristX,wristY)));
             telemetry.addData("SlideVelocity: ", (slide.getVelocity()));
             telemetry.addData("ArmVelocity: ", (armPivot.getVelocity()));
@@ -667,6 +678,13 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         autoDrive.updatePoseEstimate();
         if (autoDrive.pose.position.x > 72 || autoDrive.pose.position.x <-72 || autoDrive.pose.position.y > 72 || autoDrive.pose.position.y <-72){
             GoodPose = false;
+        }
+
+        if (GoodPose) {
+            light.setBrightness(0.1);
+        }
+        else {
+            light.setBrightness(0);
         }
 //        armPivot.periodic(18);
 //        drive.periodic(getSlidePosition(), getPivotPosition());
