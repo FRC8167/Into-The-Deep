@@ -105,12 +105,12 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
         Actions.runBlocking(
                 new SequentialAction(
                         new ParallelAction(
-                                armPivot.armTrig(20,13),//15
+                                armPivot.armTrig(20,14),//15
                                 new SequentialAction(
                                         new SleepAction(1),
                                         new ParallelAction(
-                                                slide.slideTrig(20,13),
-                                                wristPivot.wristTrig(20,13, true),
+                                                slide.slideTrig(20,14),
+                                                wristPivot.wristTrig(20,14, true),
                                                 goCenterX
                                         )
                                 )
@@ -198,10 +198,10 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                                         gripper.toggle(),
                                         gripper.toggle(),
 
-                                        armPivot.armTrig(20,13),
+                                        armPivot.armTrig(20,14),
                                         new ParallelAction(
-                                                slide.slideTrig(20,13),
-                                                wristPivot.wristTrig(20,13, true)
+                                                slide.slideTrig(20,14),
+                                                wristPivot.wristTrig(20,14, true)
 
                                         )
 
@@ -294,10 +294,10 @@ public class AutoBlueObs extends RobotConfiguration implements TeamConstants {
                                 gripper.toggle(),
                                 gripper.toggle(),
 
-                                armPivot.armTrig(20,13),
+                                armPivot.armTrig(20,14),
                                 new ParallelAction(
-                                        slide.slideTrig(20,13),
-                                        wristPivot.wristTrig(20,13, true)
+                                        slide.slideTrig(20,14),
+                                        wristPivot.wristTrig(20,14, true)
 
                                 )
 

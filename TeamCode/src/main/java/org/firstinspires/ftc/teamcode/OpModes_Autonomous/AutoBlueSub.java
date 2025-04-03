@@ -3,8 +3,6 @@ package org.firstinspires.ftc.teamcode.OpModes_Autonomous;
 import android.annotation.SuppressLint;
 
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.InstantAction;
-import com.acmerobotics.roadrunner.InstantFunction;
 import com.acmerobotics.roadrunner.ParallelAction;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.SequentialAction;
@@ -32,7 +30,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         InitAuto = true;
         InitTele = false;
         GoodPose = false;
-        HeadingAprox = Math.toRadians(-180);
+        HeadingAprox = Math.toRadians(180);
         setAlliance(AllianceColor.BLUE);
 
         armPivot.resetEncoders();
@@ -40,18 +38,18 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 
        // ************************TRAJECTORIES****************************
         TrajectoryActionBuilder centerX = autoDrive.actionBuilder(initialPose)
-                .strafeTo(new Vector2d(8,33.5+15-1+TeamConstants.GRIPPER_LENGTH_OFFSET));
+                .strafeTo(new Vector2d(8,(33.5+15-1)));
 
         TrajectoryActionBuilder sample1 = centerX.endTrajectory().fresh()
                 .setTangent(Math.toRadians(45))
                 .splineToLinearHeading(new Pose2d(48,46.5, Math.toRadians(-90)), Math.toRadians(-100));
 
         TrajectoryActionBuilder drop1 = sample1.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58-(TeamConstants.GRIPPER_LENGTH_OFFSET/Math.sqrt(2)), 61-(TeamConstants.GRIPPER_LENGTH_OFFSET/Math.sqrt(2))), Math.toRadians(45));
+                .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder sample2 = drop1.endTrajectory().fresh()
                 .strafeToSplineHeading(new Vector2d(58, 46.5), Math.toRadians(270));
         TrajectoryActionBuilder drop2 = sample2.endTrajectory().fresh()
-                .strafeToSplineHeading(new Vector2d(58-(TeamConstants.GRIPPER_LENGTH_OFFSET/Math.sqrt(2)), 61-(TeamConstants.GRIPPER_LENGTH_OFFSET/Math.sqrt(2))), Math.toRadians(45));
+                .strafeToSplineHeading(new Vector2d(58, 61), Math.toRadians(45));
         TrajectoryActionBuilder sample3 = drop2.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-135))
                 .splineToLinearHeading(new Pose2d(50, 28, Math.toRadians(0)), Math.toRadians(0));
@@ -60,13 +58,11 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                 .splineToLinearHeading(new Pose2d(58, 61, Math.toRadians(45)), Math.toRadians(45));
         TrajectoryActionBuilder touch = drop3.endTrajectory().fresh()
                 .setTangent(Math.toRadians(-135))
-                .splineToLinearHeading(new Pose2d(58-(TeamConstants.GRIPPER_LENGTH_OFFSET/Math.sqrt(2)), 61-(TeamConstants.GRIPPER_LENGTH_OFFSET/Math.sqrt(2)), Math.toRadians(180)), Math.toRadians(180));
+                .splineToLinearHeading(new Pose2d(24, 12, Math.toRadians(180)), Math.toRadians(180));
 
 
 
         //**************************TRAJECTORIES -> ACTIONS  *********************
-
-
 
         Action goCenterX = update(centerX.build());
         Action goSample1 = update(sample1.build());
@@ -76,8 +72,6 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
         Action goSample3 = update(sample3.build());
         Action goDrop3 = update(drop3.build());
         Action goTouch = update(touch.build());
-
-
 
 
 
@@ -131,9 +125,9 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
 //                        new SleepAction(0.25),
                         slide.slideTrig(28,0),
                         new ParallelAction(
-                                slide.slideTrig(24,-7.2+TeamConstants.GRIPPER_LENGTH_OFFSET),
-                                armPivot.armTrig(24,-7.2+TeamConstants.GRIPPER_LENGTH_OFFSET),
-                                wristPivot.wristTrig(24,-7.2+TeamConstants.GRIPPER_LENGTH_OFFSET, true)
+                                slide.slideTrig(24,-7.2),
+                                armPivot.armTrig(24,-7.2),
+                                wristPivot.wristTrig(24,-7.2, true)
                         ),
                         new SleepAction(0.25), // 1
                         gripper.toggle(),
@@ -168,9 +162,9 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         new SleepAction(0.125),
                         slide.slideTrig(28,0),
                         new ParallelAction(
-                                slide.slideTrig(24,-7.2+TeamConstants.GRIPPER_LENGTH_OFFSET),
-                                armPivot.armTrig(24,-7.2+TeamConstants.GRIPPER_LENGTH_OFFSET),
-                                wristPivot.wristTrig(24,-7.2+TeamConstants.GRIPPER_LENGTH_OFFSET, true)
+                                slide.slideTrig(24,-7.2),
+                                armPivot.armTrig(24,-7.2),
+                                wristPivot.wristTrig(24,-7.2, true)
                         ),
                         new SleepAction(0.25), // 1
                         gripper.toggle(),
@@ -205,10 +199,10 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                         slide.slideTrig(28,0),
                         wristRotate.rotateTrig(0),
 //                        new SleepAction(0.25),
-                                slide.slideTrig(24,-6.8+TeamConstants.GRIPPER_LENGTH_OFFSET),
+                                slide.slideTrig(24,-6.8),
                         new SleepAction(0.25),
-                                armPivot.armTrig(24,-6.8+TeamConstants.GRIPPER_LENGTH_OFFSET),
-                                wristPivot.wristTrig(24,-6.8+TeamConstants.GRIPPER_LENGTH_OFFSET, true),
+                                armPivot.armTrig(24,-6.8),
+                                wristPivot.wristTrig(24,-6.8, true),
                         new SleepAction(0.25), // 1
                         gripper.toggle(),
                         new SleepAction(0.25),
