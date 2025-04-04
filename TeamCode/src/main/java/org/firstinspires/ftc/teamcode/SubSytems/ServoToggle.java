@@ -6,14 +6,15 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
 
 public class ServoToggle extends Servo1D {
 
 
-    public ServoToggle(Servo servo, double initPos, double min, double max) {
-        super(servo, initPos, min, max);
+    public ServoToggle(Servo servo, double initPos, double min, double max, boolean moveOnInit) {
+        super(servo, initPos, min, max, moveOnInit);
     }
 
 
@@ -42,6 +43,12 @@ public class ServoToggle extends Servo1D {
         setPosition(TeamConstants.GRIPPER_EOPEN);
     }
 
+    public void disable(){
+        ((ServoImplEx)servo).setPwmDisable();
+    }
+    public void enable(){
+        ((ServoImplEx)servo).setPwmEnable();
+    }
     /* ************************* Actions * *************************/
     public class Toggle implements Action {
 

@@ -64,6 +64,50 @@ public class Func implements TeamConstants {
         else return val;
     }
 
+    public double getServoAngToGround(double targetAng, double armAng){
+        double servoPos= (90 - armAng + targetAng) / 270;
+        if (servoPos >= 0){
+            return (servoPos);
+        }
+        else {
+            return(0);
+        }
+    }
+
+
+    public double getMoveByPos(double x,double y){
+        boolean forward = true;
+        double angle = ((180-(Math.toDegrees(Math.atan2(x, y)))));
+        double distFromGround = 380.09193/25.4 + y - 3.37;
+        if (angle <= 65){
+            return TeamConstants.WRIST_PIVOT_MAX;
+        } else if (angle <= 90) {
+            return getServoAngToGround(0, angle);
+
+        } else if (y<= 17) {
+            return getServoAngToGround(90, angle);
+        } else if (angle < 170) {
+            return getServoAngToGround(90, angle);
+
+        } else if (170 <= angle && angle <= 190) {
+            if (forward){
+                return getServoAngToGround(90, angle);
+
+            }
+            else{
+                return getServoAngToGround(180, angle);
+            }
+
+
+        } else if (angle <270) {
+            return getServoAngToGround(180, angle);
+        } else {
+            return getServoAngToGround(270, angle);
+        }
+
+    }
+
+
     public double TriClampY(double x, double y) {
         double wristX = x;
         double wristY = y;

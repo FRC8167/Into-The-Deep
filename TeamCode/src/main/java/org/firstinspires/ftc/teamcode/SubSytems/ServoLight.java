@@ -14,7 +14,7 @@ public class ServoLight extends Servo1D {
     double rotateAcuteAng;
 
     public ServoLight(Servo servo, double initPos, double min, double max) {
-        super(servo, initPos, min, max);
+        super(servo, initPos, min, max , true);
     }
 
     public void setBrightness(double value) {

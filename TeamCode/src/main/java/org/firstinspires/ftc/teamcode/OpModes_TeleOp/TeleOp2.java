@@ -26,7 +26,7 @@ public class TeleOp2 extends RobotConfiguration implements TeamConstants {
         autoDriveInProgress = false;
         armMotionInProgress = false;
 
-        initializeRobot(new Pose2d(0,0,0));
+        initializeRobot(new Pose2d(0,0,0), false);
 
         waitForStart();
 

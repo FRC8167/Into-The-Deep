@@ -17,8 +17,8 @@ public class ServoPivot extends Servo1D {
     double servoPos = 0;
 
 
-    public ServoPivot(Servo servo, double initPos, double min, double max) {
-        super(servo, initPos, min, max);
+    public ServoPivot(Servo servo, double init, double min, double max, boolean moveOnInit) {
+        super(servo, init , min, max, moveOnInit);
     }
 
 
@@ -31,6 +31,8 @@ public class ServoPivot extends Servo1D {
             servo.setPosition(0);
         }
     }
+
+
     public boolean moveByPosFlat(double x,double y, boolean forward) {
         angle = ((180 - (Math.toDegrees(Math.atan2(x, y)))));
         distFromGround = 380.09193 / 25.4 + y - 3.37;
@@ -152,4 +154,6 @@ public class ServoPivot extends Servo1D {
     public Action wristTrig90(double x, double y, boolean forward) {
         return new WristTrig90(x,y,forward);
     }
+
+
 }

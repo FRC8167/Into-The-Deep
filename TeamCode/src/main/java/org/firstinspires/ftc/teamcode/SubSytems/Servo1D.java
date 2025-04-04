@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Robot.TeamConstants;
@@ -18,12 +19,15 @@ public class Servo1D implements TeamConstants {
     double max;
 
 
-    public Servo1D(Servo servo, double initPos, double min, double max) {
+    public Servo1D(Servo servo, double initPos, double min, double max, boolean moveOnInit) {
         this.servo = servo;
         state = State.CLOSE;
         this.min = min;
         this.max = max;
         setPosition(initPos);
+        if (!moveOnInit) {
+            ((ServoImplEx) servo).setPwmDisable();
+        }
     }
 
 

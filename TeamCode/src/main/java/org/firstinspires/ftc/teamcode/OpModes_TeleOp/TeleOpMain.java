@@ -33,10 +33,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
         double wristY;
         if (InitAuto && !InitTele) {
             if (EndPos != null) {
-                initializeRobot(EndPos);
+                initializeRobot(EndPos, false);
             }
             else {
-                initializeRobot(new Pose2d(0,0, HeadingAprox));
+                initializeRobot(new Pose2d(0,0, HeadingAprox), false);
             }
 //            wristX = AutoWristX; //288.500/25.4;// ~11.358in
 //            wristY = AutoWristY; //-288.500/25.4;
@@ -44,7 +44,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             InitTele = true;
         } else if (!InitTele) {
-            initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
+            initializeRobot(new Pose2d(24,12,Math.toRadians(180)), false);
             armPivot.resetEncoders();
             slide.resetEncoders();
             InitTele = true;
@@ -53,7 +53,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
             setAlliance(AllianceColor.BLUE);
             GoodPose = false;
         } else{
-            initializeRobot(new Pose2d(24,12,Math.toRadians(180)));
+            initializeRobot(new Pose2d(24,12,Math.toRadians(180)), false);
             wristX = Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches());
             wristY = Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches());
             GoodPose = false;
@@ -111,6 +111,10 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 
 
         waitForStart();
+
+        wristPivot.enable();
+        wristRotate.enable();
+        gripper.enable();
 
         while (opModeIsActive()) {
             bigMSkip = false;
@@ -315,7 +319,7 @@ public class TeleOpMain extends RobotConfiguration implements TeamConstants {
 //            drive.setDegradedDrive(driver.rightBumper.whilePressed());
             if (driver.rightBumper.whilePressed()) { // || wristY > 25
                 drive.setDegradedDrive(true, 0.45);
-            } else if ((autoDrive.pose.position.x > 36 && autoDrive.pose.position.y < -36 || autoDrive.pose.position.x < -36 && autoDrive.pose.position.y > 36) && GoodPose) {
+            } else if ((autoDrive.pose.position.x > 36 && autoDrive.pose.position.y < -36 && Math.toDegrees(autoDrive.pose.heading.toDouble()) >= -100 && Math.toDegrees(autoDrive.pose.heading.toDouble()) <= -80) || (autoDrive.pose.position.x < -36 && autoDrive.pose.position.y > 36 && Math.toDegrees(autoDrive.pose.heading.toDouble()) >= 80 && Math.toDegrees(autoDrive.pose.heading.toDouble()) <= 100) && GoodPose) {
                 if ((180 - (Math.toDegrees(Math.atan2(wristX, wristY)))) >= 90) {
                     if ((autoDrive.pose.position.x > 36 && autoDrive.pose.position.y < -54 || autoDrive.pose.position.x < -36 && autoDrive.pose.position.y > 53)){
                         drive.setDegradedDrive(true, 0.3);

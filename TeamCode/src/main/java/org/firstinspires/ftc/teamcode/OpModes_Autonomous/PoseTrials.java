@@ -33,7 +33,7 @@ public class PoseTrials extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
 
         Pose2d initialPose = new Pose2d(-14,60, -Math.PI/2);
-        initializeRobot(initialPose);
+        initializeRobot(initialPose, true);
         setAlliance(AllianceColor.RED);
         TrajectoryActionBuilder forward1 = autoDrive.actionBuilder(initialPose)
                 .lineToY(36);

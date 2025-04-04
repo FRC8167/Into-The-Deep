@@ -24,7 +24,7 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
     public void runOpMode() throws InterruptedException {
 
         Pose2d initialPose = new Pose2d(12,63.5, -Math.PI/2);
-        initializeRobot(initialPose);
+        initializeRobot(initialPose, true);
         AutoWristX = 288.500/25.4;
         AutoWristY = -288.500/25.4;
         InitAuto = true;
@@ -237,8 +237,8 @@ public class AutoBlueSub extends RobotConfiguration implements TeamConstants {
                                         ),
                                         new SleepAction(0.3),
                                         new ParallelAction(
-                                                armPivot.armTrig(26,1),
-                                                slide.slideTrig(26,1)
+                                                armPivot.armTrig(26,2),
+                                                slide.slideTrig(26,2)
                                                 //                                goTouch
                                         )
 

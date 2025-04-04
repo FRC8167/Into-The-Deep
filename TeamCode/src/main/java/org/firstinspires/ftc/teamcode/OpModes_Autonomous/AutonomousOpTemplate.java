@@ -16,7 +16,7 @@ public class AutonomousOpTemplate extends RobotConfiguration implements TeamCons
 
         Pose2d startPose = new Pose2d(0,0,0);
 
-        initializeRobot(startPose);
+        initializeRobot(startPose, true);
         /* First line of code after initializing the robot should be to set the alliance color.
            This is needed for April Tags, TFOD object files or any other game element that is unique
            to the Red or Blue Alliance. */

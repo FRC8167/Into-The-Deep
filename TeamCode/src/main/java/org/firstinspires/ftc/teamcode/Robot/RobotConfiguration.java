@@ -110,7 +110,7 @@ public abstract class RobotConfiguration extends LinearOpMode {
      *
      * @throws InterruptedException
      */
-    public void initializeRobot(Pose2d startPose) throws InterruptedException {
+    public void initializeRobot(Pose2d startPose, boolean moveServos) throws InterruptedException {
 
         /* Find all Control Hubs and Set Sensor Bulk Read Mode to AUTO */
         ctrlHubs = hardwareMap.getAll(LynxModule.class);
@@ -139,13 +139,15 @@ public abstract class RobotConfiguration extends LinearOpMode {
         /* Create an object of every module/subsystem needed for both autonomous and teleOp modes. */
         drive       = new MecanumDriveBasic(driveMotorLF, driveMotorLR, driveMotorRF, driveMotorRR);
         autoDrive   = new MecanumDrive(hardwareMap, startPose);
-        wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX);
-        wristPivot  = new ServoPivot(wristPivotServo, TeamConstants.WRIST_PIVOT_MAX, TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX);
-        gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS);
+        wristRotate = new ServoRotate(wristRotateServo, TeamConstants.WRIST_ROTATE_CENTER, TeamConstants.WRIST_ROTATE_MIN, TeamConstants.WRIST_ROTATE_MAX, moveServos);
+
+        gripper     = new ServoToggle(gripperServo, TeamConstants.GRIPPER_CLOSE, TeamConstants.GRIPPER_MIN_POS, TeamConstants.GRIPPER_MAX_POS, moveServos);
         armPivot    = new MotorPivotExp(armMotor, armMotor2);
         slide       = new Slide(slideMotor);
         Functions   = new Func();
         light       = new ServoLight(lightServo, 0, 0, 1);
+
+        wristPivot  = new ServoPivot(wristPivotServo, Functions.getMoveByPos(Functions.reverseTrigX(armPivot.getPosDegrees(), slide.getInches()), Functions.reverseTrigY(armPivot.getPosDegrees(), slide.getInches())), TeamConstants.WRIST_PIVOT_MIN, TeamConstants.WRIST_PIVOT_MAX, moveServos);
 
 //        int[] myPortalIDs = VisionPortal.makeMultiPortalView(2, VisionPortal.MultiPortalLayout.HORIZONTAL);
 //        aTPortalID = myPortalIDs[1];
